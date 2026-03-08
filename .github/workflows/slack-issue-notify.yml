@@ -4,6 +4,9 @@ on:
     types:
       - opened
 
+env:
+  js-sdk-channel-id: C0958RN2ZTR
+
 defaults:
   run:
     shell: bash
@@ -61,7 +64,7 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             {
-              "channel": "C0958RN2ZTR",
+              "channel": "${{ env.js-sdk-channel-id }}",
               "text": "New issue opened: <${{ github.event.issue.html_url }}|${{ github.event.issue.title }}>",
               "blocks": [
                 {

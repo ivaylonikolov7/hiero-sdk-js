@@ -4,6 +4,9 @@ on:
     types:
       - opened
 
+env:
+  js-sdk-channel-id: C0958RN2ZTR
+
 defaults:
   run:
     shell: bash
@@ -30,7 +33,7 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             {
-              "channel": "C0958RN2ZTR",
+              "channel": "${{ env.js-sdk-channel-id }}",
               "text": ":robot_face: New Dependabot PR: <${{ github.event.pull_request.html_url }}|${{ github.event.pull_request.title }}>"
             }
 
@@ -70,7 +73,7 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             {
-              "channel": "C0958RN2ZTR",
+              "channel": "${{ env.js-sdk-channel-id }}",
               "text": "New PR opened: <${{ github.event.pull_request.html_url }}|${{ github.event.pull_request.title }}>",
               "blocks": [
                 {
