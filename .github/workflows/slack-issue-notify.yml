@@ -68,7 +68,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*New Issue Opened*\n*<${{ github.event.issue.html_url }}|${{ github.event.issue.title }}>*"
+                    "text": ":alert: *New GitHub Issue*\n*<${{ github.event.issue.html_url }}|${{ github.event.issue.title }}>*"
                   }
                 },
                 {
