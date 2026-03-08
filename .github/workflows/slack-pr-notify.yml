@@ -22,6 +22,25 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Prepare PR description
+        id: desc
+        run: |
+          DESC=$(cat <<'EOFBODY'
+          ${{ github.event.pull_request.body }}
+          EOFBODY
+          )
+          DESC=$(echo "$DESC" | sed 's/^[[:space:]]*//')
+          if [ -z "$DESC" ]; then
+            DESC="_No description provided._"
+          elif [ ${#DESC} -gt 300 ]; then
+            DESC="${DESC:0:300}..."
+          fi
+          {
+            echo "body<<EOFMULTI"
+            echo "$DESC"
+            echo "EOFMULTI"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Send Slack Notification
         uses: slackapi/slack-github-action@b0fa283ad8fea605de13dc3f449259339835fc52 # v2.1.0
         with:
@@ -59,6 +78,13 @@ jobs:
                       "text": "*Head Branch:*\n${{ github.event.pull_request.head.ref }}"
                     }
                   ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Description:*\n${{ steps.desc.outputs.body }}"
+                  }
                 }
               ]
             }
