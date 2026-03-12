@@ -22,7 +22,6 @@ import {
 import * as rlp from "@ethersproject/rlp";
 import IntegrationTestEnv from "./client/NodeIntegrationTestEnv.js";
 import * as hex from "../../src/encoding/hex.js";
-import { keccak256 } from "../../src/cryptography/keccak.js";
 
 /**
  * @summary E2E-HIP-844
@@ -453,10 +452,7 @@ describe("EthereumTransactionIntegrationTest", function () {
         );
         authPreimage.set(EIP_7702_MAGIC, 0);
         authPreimage.set(authRlpBytes, EIP_7702_MAGIC.length);
-        const authMessage = hex.decode(
-            keccak256(`0x${hex.encode(authPreimage)}`),
-        );
-        const authSignedBytes = privateKey.sign(authMessage);
+        const authSignedBytes = privateKey.sign(authPreimage);
         const authMiddleOfSignedBytes = authSignedBytes.length / 2;
         const authR = authSignedBytes.slice(0, authMiddleOfSignedBytes);
         const authS = authSignedBytes.slice(
@@ -466,7 +462,7 @@ describe("EthereumTransactionIntegrationTest", function () {
         const authRecoveryId = privateKey.getRecoveryId(
             authR,
             authS,
-            authMessage,
+            authPreimage,
         );
 
         const authYParity = new Uint8Array(
