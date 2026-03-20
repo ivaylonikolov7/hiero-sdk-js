@@ -19,6 +19,9 @@ const compat = new FlatCompat({
 
 module.exports = defineConfig([
     {
+        ignores: ["packages/**"],
+    },
+    {
         languageOptions: {
             globals: {
                 ...globals.browser,
