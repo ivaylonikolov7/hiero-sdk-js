@@ -146,9 +146,9 @@ export default class PrivateKey extends Key {
             return new PrivateKey(Ed25519PrivateKey.fromBytes(data));
         } catch (error) {
             message =
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                 
                 error != null && /** @type {Error} */ (error).message != null
-                    ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                    ?  
                       /** @type {Error} */ (error).message
                     : "";
         }
@@ -157,9 +157,9 @@ export default class PrivateKey extends Key {
             return new PrivateKey(EcdsaPrivateKey.fromBytes(data));
         } catch (error) {
             message =
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                 
                 error != null && /** @type {Error} */ (error).message != null
-                    ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                    ?  
                       /** @type {Error} */ (error).message
                     : "";
         }
@@ -352,7 +352,7 @@ export default class PrivateKey extends Key {
         /** @type {new (bytes: Uint8Array) => Ed25519PrivateKey | EcdsaPrivateKey} */
         const constructor = /** @type {any} */ (this._key.constructor);
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+         
         return new PrivateKey(new constructor(keyBytes));
     }
 

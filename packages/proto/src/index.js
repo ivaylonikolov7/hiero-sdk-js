@@ -7,17 +7,17 @@ import * as $proto from "./proto.js";
  * Patch protobuf race condition between loading protobuf and Long.js libraries.
  */
 (() => {
-    var $util = $protobuf.util;
+  var $util = $protobuf.util;
 
-    if ($util.Long == null) {
-        console.log(`Patching Protobuf Long.js instance...`);
-        $util.Long = Long;
+  if ($util.Long == null) {
+    console.log(`Patching Protobuf Long.js instance...`);
+    $util.Long = Long;
 
-        if ($protobuf.Reader._configure != null) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-            $protobuf.Reader._configure($protobuf.BufferReader);
-        }
+    if ($protobuf.Reader._configure != null) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      $protobuf.Reader._configure($protobuf.BufferReader);
     }
+  }
 })();
 
 export const Reader = $protobuf.Reader;

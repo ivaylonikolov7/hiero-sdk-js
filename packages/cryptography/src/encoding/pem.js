@@ -32,9 +32,9 @@ export async function readPemED25519(pem, passphrase) {
             encrypted = EncryptedPrivateKeyInfo.parse(key);
         } catch (error) {
             const message =
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                 
                 error != null && /** @type {Error} */ (error).message != null
-                    ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                    ?  
                       /** @type {Error} */ (error).message
                     : "";
 
