@@ -173,6 +173,15 @@ if (fs.existsSync(hookPrimitivesFile) && fs.existsSync(basicTypesFile)) {
     removeFile(hookPrimitivesFile, 'all messages already defined in services_basic_types.proto');
 }
 
+// Remove services_lambda_sstore.proto if it references a missing LambdaStorageUpdate type
+const lambdaSStoreFile = path.join(ROOT, 'services_lambda_sstore.proto');
+if (fs.existsSync(lambdaSStoreFile)) {
+    const content = fs.readFileSync(lambdaSStoreFile, 'utf8');
+    if (content.includes('LambdaStorageUpdate') && grepFiles(ROOT, 'message\\s+LambdaStorageUpdate\\b').length === 0) {
+        removeFile(lambdaSStoreFile, 'references missing LambdaStorageUpdate type');
+    }
+}
+
 // Show remaining definitions for sanity
 console.log('');
 console.log('Remaining definitions of EventCore:');
