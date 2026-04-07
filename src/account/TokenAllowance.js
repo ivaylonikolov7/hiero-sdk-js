@@ -3,17 +3,21 @@
 import TokenId from "../token/TokenId.js";
 import AccountId from "./AccountId.js";
 import Long from "long";
+import { convertAmountToLong } from "../util.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.IGrantedTokenAllowance} HieroProto.proto.IGrantedTokenAllowance
- * @typedef {import("@hashgraph/proto").proto.ITokenAllowance} HieroProto.proto.ITokenAllowance
- * @typedef {import("@hashgraph/proto").proto.ITokenID} HieroProto.proto.ITokenID
- * @typedef {import("@hashgraph/proto").proto.IAccountID} HieroProto.proto.IAccountID
+ * @typedef {import("@hiero-ledger/proto").proto.IGrantedTokenAllowance} HieroProto.proto.IGrantedTokenAllowance
+ * @typedef {import("@hiero-ledger/proto").proto.ITokenAllowance} HieroProto.proto.ITokenAllowance
+ * @typedef {import("@hiero-ledger/proto").proto.ITokenID} HieroProto.proto.ITokenID
+ * @typedef {import("@hiero-ledger/proto").proto.IAccountID} HieroProto.proto.IAccountID
  */
 
 /**
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/Channel.js").default} Channel
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
+ * @typedef {import("bignumber.js").default} BigNumber
  */
 
 /**
@@ -30,7 +34,7 @@ export default class TokenAllowance {
      * @param {TokenId} props.tokenId
      * @param {AccountId | null} props.spenderAccountId
      * @param {AccountId | null} props.ownerAccountId
-     * @param {Long | null} props.amount
+     * @param {Long | number | BigNumber | bigint | null} props.amount
      */
     constructor(props) {
         /**
@@ -61,7 +65,8 @@ export default class TokenAllowance {
          *
          * @readonly
          */
-        this.amount = props.amount;
+        this.amount =
+            props.amount != null ? convertAmountToLong(props.amount) : null;
 
         Object.freeze(this);
     }

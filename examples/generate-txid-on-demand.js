@@ -7,7 +7,7 @@ import {
     TransactionId,
     AccountCreateTransaction,
     TransferTransaction,
-} from "@hashgraph/sdk";
+} from "@hiero-ledger/sdk";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -49,7 +49,7 @@ async function main() {
         );
     }
     const operatorId = AccountId.fromString(process.env.OPERATOR_ID);
-    const operatorKey = PrivateKey.fromStringDer(process.env.OPERATOR_KEY);
+    const operatorKey = PrivateKey.fromStringECDSA(process.env.OPERATOR_KEY);
 
     let client;
 

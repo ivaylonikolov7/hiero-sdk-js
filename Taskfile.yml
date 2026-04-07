@@ -1,6 +1,6 @@
 version: "3"
 
-silent: true
+silent: false
 
 includes:
     examples:
@@ -28,6 +28,44 @@ tasks:
         deps:
             - build
 
+    "solo:setup":
+        desc: "Set up and start Solo services (cluster, network, mirror node, account, port forwarding)"
+        cmds:
+            - node ./scripts/solo-setup.js {{.CLI_ARGS}}
+
+    "solo:resume":
+        desc: "Resume Solo services (start nodes, add mirror node, re-enable port forwarding)"
+        cmds:
+            - node ./scripts/solo-resume.js {{.CLI_ARGS}}
+
+    "solo:pause":
+        desc: "Pause Solo services (destroy mirror node, stop consensus nodes, remove port forwarding)"
+        cmds:
+            - node ./scripts/solo-pause.js {{.CLI_ARGS}}
+
+    "solo:teardown":
+        desc: "Complete teardown (removes cluster and Solo config)"
+        cmds:
+            - node ./scripts/solo-teardown.js {{.CLI_ARGS}}
+
+    "solo:status":
+        desc: "Check Solo cluster status"
+        cmds:
+            - |
+                echo "Checking Solo cluster status..."
+                if kind get clusters 2>/dev/null | grep -q "^solo-cluster$"; then
+                  echo "✓ Kind cluster 'solo-cluster' is running"
+                  kubectl get pods -n solo 2>/dev/null || echo "✗ Namespace 'solo' not found"
+                else
+                  echo "✗ Kind cluster 'solo-cluster' not found"
+                  echo "Run 'task solo:setup' to create and start it"
+                fi
+
+    "solo:logs":
+        desc: "View logs from Solo services"
+        cmds:
+            - kubectl logs -n solo -l app=network-node --tail=100 -f
+
     "run:examples":
         cmds:
             - task: "examples:run-examples"
@@ -42,33 +80,25 @@ tasks:
               --validation.invalidLink
               --entryPoints src/index.js src/browser.js src/native.js
 
-    "yalc:install":
-        cmds:
-            - npm install -g yalc > /dev/null
-
-    "yalc:add":
-        cmds:
-            - npx yalc add @hashgraph/proto > /dev/null
-            - npx yalc add @hashgraph/cryptography > /dev/null
-
-    "yalc:remove":
-        cmds:
-            - npx yalc remove @hashgraph/proto > /dev/null
-            - npx yalc remove @hashgraph/cryptography > /dev/null
-
     install:
-        deps:
-            - "yalc:install"
-            - "proto:build"
-            - "cryptography:build"
+        desc: "Install deps then build proto and cryptography (pnpm i first so protobufjs-cli is available)"
         cmds:
-            - task: "yalc:add"
-            - pnpm i --no-frozen-lockfile > /dev/null
+            - pnpm i
+            - task proto:build
+            - task cryptography:build
 
     build:
         cmds:
             - task: build:prep
             - task: build:compile
+
+    "build:dev":
+        desc: "Build and globally link @hiero-ledger/sdk (and subpackages) for local dev"
+        cmds:
+            - task: "proto:build:dev"
+            - task: "cryptography:build:dev"
+            - task: build
+            - ./scripts/link-sdk-global.sh
 
     "build:prep":
         cmds:
@@ -79,23 +109,25 @@ tasks:
 
     "build:compile":
         cmds:
-            - npx babel src -d lib --out-file-extension .cjs > /dev/null
-            - npx rollup -c > /dev/null
-            - npx yalc publish > /dev/null
+            - npx babel src -d lib --out-file-extension .cjs
+            - npx rollup -c
 
     clean:
         deps:
             - "examples:clean"
-            - "cryptography:clean"
-            - "proto:clean"
             - "simple_rest_signature_provider:clean"
             - "common_js_test:clean"
         cmds:
-            - rm -rf node_modules .yalc
+            # Remove in reverse dependency order to avoid re-linking
+            - |
+                pnpm list --global --depth 0 2>/dev/null | grep -q "@hiero-ledger/sdk" && pnpm remove --global @hiero-ledger/sdk 2>/dev/null || true
+            - task: "cryptography:clean"
+            - task: "proto:clean"
+            - rm -rf node_modules
 
     format:
         cmds:
-            - npx prettier src "test/unit/*.js" "test/integration/*.js" "*.json" "src/*.js" "scripts/*.js" --write > /dev/null
+            - npx prettier src "test/unit/*.js" "test/integration/*.js" "*.json" "src/*.js" "scripts/*.js" --write
 
     lint:
         deps:
@@ -115,7 +147,7 @@ tasks:
 
     "lint:format":
         cmds:
-            - npx prettier src "test/unit/*.js" "test/integration/*.js" "*.json" "src/*.js" --check > /dev/null
+            - npx prettier src "test/unit/*.js" "test/integration/*.js" "*.json" "src/*.js" --check
 
     "lint:js":
         cmds:
@@ -142,10 +174,16 @@ tasks:
     "test:unit:node":
         cmds:
             - npx vitest --config=test/vitest-node.config.ts
-
-    "test:unit:codecov":
+    "test:unit:node:codecov":
         cmds:
             - npx vitest --coverage --config=test/vitest-node.config.ts
+    "test:unit:browser:codecov":
+        cmds:
+            - npx vitest --coverage --config=test/vitest-browser.config.ts
+    "test:unit:codecov":
+        deps:
+            - test:unit:node:codecov
+            - test:unit:browser:codecov
 
     "test:unit:browser":
         cmds:
@@ -153,42 +191,65 @@ tasks:
 
     "test:integration":
         deps:
+            - "test:integration:browser"
             - "test:integration:node"
 
     "test:integration:node":
         cmds:
             - npx vitest --config=test/vitest-node-integration.config.ts
 
-    "test:integration:codecov":
+    "test:integration:browser":
+        cmds:
+            - npx vitest --config=test/vitest-browser-integration.config.ts
+    "test:integration:node:codecov":
         cmds:
             - npx vitest --coverage --config=test/vitest-node-integration.config.ts
+    "test:integration:browser:codecov":
+        cmds:
+            - npx vitest --coverage --config=test/vitest-browser-integration.config.ts
+
+    "test:integration:codecov":
+        deps:
+            - test:integration:node:codecov
+            - test:integration:browser:codecov
+
+    "test:integration:dual-mode":
+        cmds:
+            - npx vitest --maxWorkers=1 --config=test/vitest-node-integration-dual-mode.config.ts
+            - npx vitest --maxWorkers=1 --config=test/vitest-browser-integration-dual-mode.config.ts
+            
+    "test:integration:dual-mode:codecov":
+        cmds:
+            - npx vitest --coverage --maxWorkers=1 --config=test/vitest-node-integration-dual-mode.config.ts
+            - npx vitest --coverage --maxWorkers=1 --config=test/vitest-browser-integration-dual-mode.config.ts
+
     "update:proto":
+        desc: "Fetch protos from submodule at tag, regenerate JS (run only when bumping proto version)"
         deps:
             - "proto:update"
         cmds:
-            - npx yalc add @hashgraph/proto
-            # Remove proto so on `task build` we fix the link
-            - rm -rf ./node_modules/@hashgraph/proto
+            - pnpm install
 
     "update:addressbooks":
         cmds:
             - node ./scripts/update-address-books.js
 
     update:
+        desc: "Update address books and build (does not update protos; use task update:proto when needed)"
         cmds:
             - task: update:addressbooks
             - task: update:proto
             - task: build
 
-    publish:
+    pack:
+        preconditions:
+            - "! grep '\".*\": \"\\(link\\|file\\):.*\"' package.json"
         deps:
             - "build"
         cmds:
-            - task: "yalc:remove"
-            - task: "publish:release"
+            - pnpm pack --out {{.CLI_ARGS}}
+            - ls -lh {{.CLI_ARGS}}
 
-    "publish:release":
-        preconditions:
-            - "! grep '\".*\": \"\\(link\\|file\\):.*\"' package.json > /dev/null"
+    "publish":
         cmds:
-            - pnpm publish {{.CLI_ARGS}}
+            - npm publish {{.TARBALL}} {{.CLI_ARGS}}

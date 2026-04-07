@@ -1,6 +1,6 @@
 // This example is for HIP-564 described here: https://hips.hedera.com/hip/hip-564
 
-import * as hashgraph from "@hashgraph/sdk";
+import * as hashgraph from "@hiero-ledger/sdk";
 import ContractHelper from "./ContractHelper.js";
 import contract from "./precompile-example/ZeroTokenOperations.json" with { type: "json" };
 import dotenv from "dotenv";
@@ -11,7 +11,7 @@ dotenv.config();
 //Step 6 is executed through the SDK
 
 async function main() {
-    // Keys should be ED25519
+    // Keys should be ECDSA
     // TODO: Fix the wallet to work with ECDSA
     if (
         process.env.OPERATOR_ID == null ||
@@ -33,7 +33,7 @@ async function main() {
         provider,
     );
 
-    const operatorPrivateKey = hashgraph.PrivateKey.fromStringDer(
+    const operatorPrivateKey = hashgraph.PrivateKey.fromStringECDSA(
         process.env.OPERATOR_KEY,
     );
     const operatorPublicKey = operatorPrivateKey.publicKey;
@@ -42,7 +42,7 @@ async function main() {
         process.env.OPERATOR_ID,
     );
 
-    const alicePrivateKey = hashgraph.PrivateKey.generateED25519();
+    const alicePrivateKey = hashgraph.PrivateKey.generateECDSA();
     const alicePublicKey = alicePrivateKey.publicKey;
 
     try {

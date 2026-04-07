@@ -15,88 +15,77 @@ import {
     TransactionReceiptQuery,
     TopicInfoQuery,
 } from "../../src/index.js";
+import { wait } from "../../src/util.js";
 import IntegrationTestEnv from "./client/NodeIntegrationTestEnv.js";
-import { setTimeout } from "timers/promises";
 
 const retryCountMap = new Map();
 
 // eslint-disable-next-line vitest/no-disabled-tests
-describe.skip("BatchTransaction", function () {
+describe("BatchTransaction", function () {
     let env;
 
     beforeEach(async function () {
         env = await IntegrationTestEnv.new();
         const testName = expect.getState().currentTestName;
         const backoffMs = getBackoffBasedOnAttempt(testName);
-        await setTimeout(backoffMs);
+        await wait(backoffMs);
+    });
+
+    it("can create batch transaction", { retry: 20 }, async function () {
+        const key = PrivateKey.generateECDSA();
+        const tx = await new AccountCreateTransaction()
+            .setKeyWithoutAlias(key)
+            .setInitialBalance(new Hbar(1))
+            .batchify(env.client, env.operatorKey);
+
+        const batchTransaction = new BatchTransaction().addInnerTransaction(tx);
+        await (
+            await batchTransaction.execute(env.client)
+        ).getReceipt(env.client);
+
+        const accountIdInnerTransaction =
+            batchTransaction.innerTransactionIds[0].accountId;
+
+        const accountInfo = await new AccountInfoQuery()
+            .setAccountId(accountIdInnerTransaction)
+            .execute(env.client);
+
+        expect(accountIdInnerTransaction.toString()).to.equal(
+            accountInfo.accountId.toString(),
+        );
+    });
+
+    it("can execute from/toBytes", { retry: 20 }, async function () {
+        const key = PrivateKey.generateECDSA();
+        const tx = await new AccountCreateTransaction()
+            .setKeyWithoutAlias(key)
+            .setInitialBalance(new Hbar(1))
+            .batchify(env.client, env.operatorKey);
+
+        const batchTransaction = new BatchTransaction().addInnerTransaction(tx);
+        const batchTransactionBytes = batchTransaction.toBytes();
+        const batchTransactionFromBytes = BatchTransaction.fromBytes(
+            batchTransactionBytes,
+        );
+        await (
+            await batchTransactionFromBytes.execute(env.client)
+        ).getReceipt(env.client);
+
+        const accountIdInnerTransaction =
+            batchTransaction.innerTransactionIds[0].accountId;
+
+        const accountInfo = await new AccountInfoQuery()
+            .setAccountId(accountIdInnerTransaction)
+            .execute(env.client);
+
+        expect(accountIdInnerTransaction.toString()).to.equal(
+            accountInfo.accountId.toString(),
+        );
     });
 
     it(
-        "can create batch transaction",
-        async function () {
-            const key = PrivateKey.generateECDSA();
-            const tx = await new AccountCreateTransaction()
-                .setKeyWithoutAlias(key)
-                .setInitialBalance(new Hbar(1))
-                .batchify(env.client, env.operatorKey);
-
-            const batchTransaction = new BatchTransaction().addInnerTransaction(
-                tx,
-            );
-            await (
-                await batchTransaction.execute(env.client)
-            ).getReceipt(env.client);
-
-            const accountIdInnerTransaction =
-                batchTransaction.innerTransactionIds[0].accountId;
-
-            const accountInfo = await new AccountInfoQuery()
-                .setAccountId(accountIdInnerTransaction)
-                .execute(env.client);
-
-            expect(accountIdInnerTransaction.toString()).to.equal(
-                accountInfo.accountId.toString(),
-            );
-        },
-        { retry: 20 },
-    );
-
-    it(
-        "can execute from/toBytes",
-        async function () {
-            const key = PrivateKey.generateECDSA();
-            const tx = await new AccountCreateTransaction()
-                .setKeyWithoutAlias(key)
-                .setInitialBalance(new Hbar(1))
-                .batchify(env.client, env.operatorKey);
-
-            const batchTransaction = new BatchTransaction().addInnerTransaction(
-                tx,
-            );
-            const batchTransactionBytes = batchTransaction.toBytes();
-            const batchTransactionFromBytes = BatchTransaction.fromBytes(
-                batchTransactionBytes,
-            );
-            await (
-                await batchTransactionFromBytes.execute(env.client)
-            ).getReceipt(env.client);
-
-            const accountIdInnerTransaction =
-                batchTransaction.innerTransactionIds[0].accountId;
-
-            const accountInfo = await new AccountInfoQuery()
-                .setAccountId(accountIdInnerTransaction)
-                .execute(env.client);
-
-            expect(accountIdInnerTransaction.toString()).to.equal(
-                accountInfo.accountId.toString(),
-            );
-        },
-        { retry: 20 },
-    );
-
-    it(
         "can execute a large batch transaction up to maximum request size",
+        { retry: 20 },
         async function () {
             const batchTransaction = new BatchTransaction();
 
@@ -121,11 +110,11 @@ describe.skip("BatchTransaction", function () {
                 expect(receipt.status).to.equal(Status.Success);
             }
         },
-        { retry: 20 },
     );
 
     it(
         "batch transaction with empty inner transaction's list should throw an error",
+        { retry: 20 },
         async function () {
             try {
                 await (
@@ -138,15 +127,21 @@ describe.skip("BatchTransaction", function () {
                 );
             }
         },
-        { retry: 20 },
     );
 
     it(
         "blacklisted inner transaction should throw an error",
+        { retry: 20 },
         async function () {
+            const fileHashBytes = new Uint8Array(
+                "1723904587120938954702349857"
+                    .match(/.{1,2}/g)
+                    .map((byte) => parseInt(byte, 16)),
+            );
+
             const freezeTransaction = await new FreezeTransaction()
                 .setFileId(FileId.fromString("4.5.6"))
-                .setFileHash(Buffer.from("1723904587120938954702349857", "hex"))
+                .setFileHash(fileHashBytes)
                 .setStartTime(new Date())
                 .setFreezeType(FreezeType.FreezeOnly)
                 .batchify(env.client, env.operatorKey);
@@ -179,11 +174,11 @@ describe.skip("BatchTransaction", function () {
                 );
             }
         },
-        { retry: 20 },
     );
 
     it(
         "invalid batch key set to inner transaction should throw an error",
+        { retry: 20 },
         async function () {
             const batchTransaction = new BatchTransaction();
 
@@ -208,11 +203,11 @@ describe.skip("BatchTransaction", function () {
                 );
             }
         },
-        { retry: 20 },
     );
 
     it(
         "chunked inner transactions should be executed successfully",
+        { retry: 20 },
         async function () {
             const response = await new TopicCreateTransaction()
                 .setAdminKey(env.operatorKey)
@@ -240,11 +235,11 @@ describe.skip("BatchTransaction", function () {
 
             expect(info.sequenceNumber.toInt()).to.equal(1);
         },
-        { retry: 20 },
     );
 
     it(
         "can execute with different batch keys",
+        { retry: 20 },
         async function () {
             const batchKey1 = PrivateKey.generateED25519();
             const batchKey2 = PrivateKey.generateED25519();
@@ -322,11 +317,11 @@ describe.skip("BatchTransaction", function () {
 
             expect(receipt.status).to.equal(Status.Success);
         },
-        { retry: 20 },
     );
 
     it(
         "successful inner transactions should incur fees even though one failed",
+        { retry: 20 },
         async function () {
             const initialBalance = (
                 await new AccountInfoQuery()
@@ -378,11 +373,11 @@ describe.skip("BatchTransaction", function () {
                 initialBalance.toTinybars().toNumber(),
             );
         },
-        { retry: 20 },
     );
 
     it(
         "transaction should fail when batchified but not part of a batch",
+        { retry: 20 },
         async function () {
             const key = PrivateKey.generateED25519();
             try {
@@ -401,7 +396,6 @@ describe.skip("BatchTransaction", function () {
                 );
             }
         },
-        { retry: 20 },
     );
 
     afterEach(async function () {

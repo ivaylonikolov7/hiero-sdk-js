@@ -7,6 +7,8 @@ import {
     Hbar,
     HbarUnit,
     PrivateKey,
+    TopicId,
+    TopicMessageSubmitTransaction,
     Timestamp,
     Transaction,
     TransactionId,
@@ -14,11 +16,14 @@ import {
 } from "../../src/index.js";
 import * as hex from "../../src/encoding/hex.js";
 import Client from "../../src/client/NodeClient.js";
-import * as HieroProto from "@hashgraph/proto";
+import * as HieroProto from "@hiero-ledger/proto";
 import Long from "long";
 import BigNumber from "bignumber.js";
 import SignatureMap from "../../src/transaction/SignatureMap.js";
 import SignableNodeTransactionBodyBytes from "../../src/transaction/SignableNodeTransactionBodyBytes.js";
+
+const HEX_BYTES_VALID_START_YEAR_2125 =
+    "0acc012ac9010a5f0a0d0a0608808fb19c12120318d209120218031880c2d72f2202087832235472616e73616374696f6e20776974682076616c6964537461727420696e2032313235721c0a1a0a0b0a0318d20910ffa7d6b9070a0b0a0318ae2c1080a8d6b90712660a640a205afd59dfc4401b63272c050535457495841ba2d414891cb8609549d3f08ef6671a40a82b1257b5476a98c65fe73e802150e9526eed77c11b377da642893e0004db096c258636a47327d986084a5044409220d68dde2ea34b1b1b097b39129d83d302";
 
 describe("Transaction", function () {
     it("toBytes", async function () {
@@ -84,6 +89,34 @@ describe("Transaction", function () {
                 .toTinybars()
                 .toString(),
         ).to.be.equal(new Hbar(1).toTinybars().toString());
+    });
+
+    describe("fromBytes with 64-bit validStart (e.g. year 2125 in seconds)", function () {
+        it("decodes hex bytes without throwing", function () {
+            const bytes = hex.decode(HEX_BYTES_VALID_START_YEAR_2125);
+            expect(() => Transaction.fromBytes(bytes)).to.not.throw();
+        });
+
+        it("decoded transaction has transactionId and validStart", function () {
+            const bytes = hex.decode(HEX_BYTES_VALID_START_YEAR_2125);
+            const tx = Transaction.fromBytes(bytes);
+            expect(tx.transactionId).to.not.be.undefined;
+            expect(tx.transactionId.validStart).to.not.be.undefined;
+        });
+
+        it("validStart toDate() decodes to year 2125 (seconds > 2^31-1)", function () {
+            const bytes = hex.decode(HEX_BYTES_VALID_START_YEAR_2125);
+            const tx = Transaction.fromBytes(bytes);
+            const d = tx.transactionId.validStart.toDate();
+            expect(d.getUTCFullYear()).to.equal(2125);
+        });
+
+        it("round-trip toBytes has consistent length", function () {
+            const bytes = hex.decode(HEX_BYTES_VALID_START_YEAR_2125);
+            const tx = Transaction.fromBytes(bytes);
+            const reencoded = tx.toBytes();
+            expect(reencoded.length).to.be.greaterThan(0);
+        });
     });
 
     it("sign", async function () {
@@ -207,6 +240,437 @@ describe("Transaction", function () {
                 "transaction successfully built from invalid bytes",
             );
         }
+    });
+
+    it("fromBytes succeeds for a valid multi-node transaction list", function () {
+        const nodeAccountId1 = new AccountId(3);
+        const nodeAccountId2 = new AccountId(4);
+        const sender = new AccountId(10);
+        const receiver = new AccountId(11);
+
+        const transaction = new TransferTransaction()
+            .setNodeAccountIds([nodeAccountId1, nodeAccountId2])
+            .setTransactionId(
+                TransactionId.withValidStart(
+                    sender,
+                    new Timestamp(1700002000, 123),
+                ),
+            )
+            .addHbarTransfer(sender, new Hbar(-1))
+            .addHbarTransfer(receiver, new Hbar(1))
+            .freeze();
+
+        const bytes = transaction.toBytes();
+
+        expect(() => Transaction.fromBytes(bytes)).to.not.throw();
+
+        const decoded = Transaction.fromBytes(bytes);
+        expect(decoded.nodeAccountIds.length).to.be.equal(2);
+        expect(decoded.nodeAccountIds[0].toString()).to.be.equal(
+            nodeAccountId1.toString(),
+        );
+        expect(decoded.nodeAccountIds[1].toString()).to.be.equal(
+            nodeAccountId2.toString(),
+        );
+    });
+
+    it("fromBytes fails for non-chunked TransactionList with multiple transaction IDs and one node", function () {
+        const nodeAccountId = new AccountId(3);
+        const payerAccountId = new AccountId(201);
+        const receiverA = new AccountId(202);
+        const receiverB = new AccountId(9999);
+
+        const transactionA = new TransferTransaction()
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(
+                TransactionId.fromString("0.0.201@1700000010.000000001"),
+            )
+            .addHbarTransfer(payerAccountId, new Hbar(-1))
+            .addHbarTransfer(receiverA, new Hbar(1))
+            .freeze();
+
+        const transactionB = new TransferTransaction()
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(
+                TransactionId.fromString("0.0.201@1700000011.000000001"),
+            )
+            .addHbarTransfer(payerAccountId, new Hbar(-2))
+            .addHbarTransfer(receiverB, new Hbar(2))
+            .freeze();
+
+        const listA = HieroProto.proto.TransactionList.decode(
+            transactionA.toBytes(),
+        ).transactionList;
+        const listB = HieroProto.proto.TransactionList.decode(
+            transactionB.toBytes(),
+        ).transactionList;
+
+        const mixedBytes = HieroProto.proto.TransactionList.encode({
+            transactionList: [listA[0], listB[0]],
+        }).finish();
+
+        expect(() => Transaction.fromBytes(mixedBytes)).to.throw(
+            "failed to validate transaction bodies",
+        );
+    });
+
+    it("fromBytes fails for non-chunked TransactionList with duplicate txID-node pair and mismatched body", function () {
+        const nodeAccountId = new AccountId(3);
+        const payerAccountId = new AccountId(201);
+        const receiverA = new AccountId(202);
+        const receiverB = new AccountId(9999);
+        const sharedTxId = TransactionId.fromString(
+            "0.0.201@1700000010.000000001",
+        );
+
+        const transactionA = new TransferTransaction()
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(sharedTxId)
+            .addHbarTransfer(payerAccountId, new Hbar(-1))
+            .addHbarTransfer(receiverA, new Hbar(1))
+            .freeze();
+
+        const transactionB = new TransferTransaction()
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(sharedTxId)
+            .addHbarTransfer(payerAccountId, new Hbar(-2))
+            .addHbarTransfer(receiverB, new Hbar(2))
+            .freeze();
+
+        const listA = HieroProto.proto.TransactionList.decode(
+            transactionA.toBytes(),
+        ).transactionList;
+        const listB = HieroProto.proto.TransactionList.decode(
+            transactionB.toBytes(),
+        ).transactionList;
+
+        const mixedBytes = HieroProto.proto.TransactionList.encode({
+            transactionList: [listA[0], listB[0]],
+        }).finish();
+
+        expect(() => Transaction.fromBytes(mixedBytes)).to.throw(
+            "failed to validate transaction bodies",
+        );
+    });
+
+    it("sign fails when signed transaction list is inconsistent", async function () {
+        const nodeAccountId = new AccountId(3);
+        const payerAccountId = new AccountId(201);
+        const receiverA = new AccountId(202);
+        const receiverB = new AccountId(9999);
+        const sharedTxId = TransactionId.fromString(
+            "0.0.201@1700000010.000000001",
+        );
+
+        const transactionA = new TransferTransaction()
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(sharedTxId)
+            .addHbarTransfer(payerAccountId, new Hbar(-1))
+            .addHbarTransfer(receiverA, new Hbar(1))
+            .freeze();
+
+        const transactionB = new TransferTransaction()
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(sharedTxId)
+            .addHbarTransfer(payerAccountId, new Hbar(-2))
+            .addHbarTransfer(receiverB, new Hbar(2))
+            .freeze();
+
+        const parsed = Transaction.fromBytes(transactionA.toBytes());
+        const parsedList = HieroProto.proto.TransactionList.decode(
+            parsed.toBytes(),
+        ).transactionList;
+        const hiddenList = HieroProto.proto.TransactionList.decode(
+            transactionB.toBytes(),
+        ).transactionList;
+
+        parsed._signedTransactions.setList([
+            HieroProto.proto.SignedTransaction.decode(
+                parsedList[0].signedTransactionBytes,
+            ),
+            HieroProto.proto.SignedTransaction.decode(
+                hiddenList[0].signedTransactionBytes,
+            ),
+        ]);
+
+        let err = false;
+
+        try {
+            await parsed.sign(PrivateKey.generateED25519());
+        } catch (error) {
+            err =
+                error.toString() ===
+                "Error: failed to validate transaction bodies";
+        }
+
+        if (!err) {
+            throw new Error(
+                "transaction was signed from invalid signed transaction list",
+            );
+        }
+    });
+
+    it("fromBytes succeeds for chunked file append with one node and multiple transaction IDs", function () {
+        const nodeAccountId = new AccountId(3);
+        const contents = Array(30).fill("chunk").join("");
+
+        const transaction = new FileAppendTransaction()
+            .setFileId(new FileId(1, 2, 3))
+            .setChunkSize(16)
+            .setContents(contents)
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(
+                TransactionId.withValidStart(
+                    new AccountId(9),
+                    new Timestamp(10, 11),
+                ),
+            )
+            .freeze();
+
+        const bytes = transaction.toBytes();
+        const rawList = HieroProto.proto.TransactionList.decode(
+            bytes,
+        ).transactionList;
+        expect(rawList.length).to.be.greaterThan(1);
+
+        expect(() => Transaction.fromBytes(bytes)).to.not.throw();
+        const decoded = Transaction.fromBytes(bytes);
+        expect(decoded).to.be.instanceOf(FileAppendTransaction);
+        expect(decoded.nodeAccountIds.length).to.be.equal(1);
+        expect(decoded._transactionIds.length).to.be.greaterThan(1);
+    });
+
+    it("fromBytes and sign succeed for valid chunked file append with multiple nodes and transaction groups", async function () {
+        const nodeAccountIds = [new AccountId(3), new AccountId(4)];
+        const key = PrivateKey.generateED25519();
+        const contents = Array(40).fill("chunk").join("");
+
+        const transaction = new FileAppendTransaction()
+            .setFileId(new FileId(1, 2, 3))
+            .setChunkSize(16)
+            .setContents(contents)
+            .setNodeAccountIds(nodeAccountIds)
+            .setTransactionId(
+                TransactionId.withValidStart(
+                    new AccountId(9),
+                    new Timestamp(10, 11),
+                ),
+            )
+            .freeze();
+
+        const bytes = transaction.toBytes();
+        const rawList =
+            HieroProto.proto.TransactionList.decode(bytes).transactionList;
+        expect(rawList.length).to.be.greaterThan(nodeAccountIds.length);
+
+        const decoded = Transaction.fromBytes(bytes);
+        expect(decoded).to.be.instanceOf(FileAppendTransaction);
+        expect(decoded.nodeAccountIds.length).to.be.equal(
+            nodeAccountIds.length,
+        );
+        expect(decoded._transactionIds.length).to.be.greaterThan(1);
+
+        await decoded.sign(key);
+
+        const signedList = HieroProto.proto.TransactionList.decode(
+            decoded.toBytes(),
+        ).transactionList;
+        const publicKeyPrefix = hex.encode(key.publicKey.toBytesRaw());
+
+        expect(signedList.length).to.be.equal(rawList.length);
+
+        for (const signedTransactionBytes of signedList) {
+            const signedTransaction = HieroProto.proto.SignedTransaction.decode(
+                signedTransactionBytes.signedTransactionBytes,
+            );
+            const signedByKey =
+                signedTransaction.sigMap?.sigPair?.some(
+                    (pair) => hex.encode(pair.pubKeyPrefix) === publicKeyPrefix,
+                ) ?? false;
+
+            expect(signedByKey).to.be.true;
+        }
+    });
+
+    it("fromBytes succeeds for incomplete chunked file append with transaction IDs and no node IDs", function () {
+        const contents = new Uint8Array(5000).fill(1);
+        const transactionId = TransactionId.withValidStart(
+            new AccountId(9),
+            new Timestamp(10, 11),
+        );
+
+        const transaction = new FileAppendTransaction()
+            .setTransactionId(transactionId)
+            .setChunkSize(1024)
+            .setContents(contents);
+
+        const bytes = transaction.toBytes();
+
+        expect(() => FileAppendTransaction.fromBytes(bytes)).to.not.throw();
+        const decoded = FileAppendTransaction.fromBytes(bytes);
+
+        expect(decoded.transactionId.toString()).to.be.equal(
+            transactionId.toString(),
+        );
+        expect(decoded.nodeAccountIds).to.be.null;
+        expect(decoded._transactionIds.length).to.be.greaterThan(1);
+    });
+
+    it("fromBytes fails for chunked file append with mismatched file IDs across transaction groups", function () {
+        const nodeAccountId = new AccountId(3);
+
+        const chunkedTransaction = new FileAppendTransaction()
+            .setFileId(new FileId(1, 2, 3))
+            .setChunkSize(4)
+            .setContents("abcdefgh")
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(
+                TransactionId.fromString("0.0.9@1700000010.000000001"),
+            )
+            .freeze();
+
+        const mismatchedTransaction = new FileAppendTransaction()
+            .setFileId(new FileId(9, 8, 7))
+            .setContents("wxyz")
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(
+                TransactionId.fromString("0.0.9@1700000011.000000001"),
+            )
+            .freeze();
+
+        const chunkedList = HieroProto.proto.TransactionList.decode(
+            chunkedTransaction.toBytes(),
+        ).transactionList;
+        const mismatchedList = HieroProto.proto.TransactionList.decode(
+            mismatchedTransaction.toBytes(),
+        ).transactionList;
+
+        const mixedBytes = HieroProto.proto.TransactionList.encode({
+            transactionList: [chunkedList[0], mismatchedList[0]],
+        }).finish();
+
+        expect(() => Transaction.fromBytes(mixedBytes)).to.throw(
+            "failed to validate transaction bodies",
+        );
+    });
+
+    it("fromBytes succeeds for chunked submit message with one node and multiple transaction IDs", function () {
+        const nodeAccountId = new AccountId(3);
+        const message = Array(50).fill("message").join("");
+
+        const transaction = new TopicMessageSubmitTransaction()
+            .setTopicId(new TopicId(1, 2, 3))
+            .setChunkSize(32)
+            .setMessage(message)
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(
+                TransactionId.withValidStart(
+                    new AccountId(9),
+                    new Timestamp(10, 11),
+                ),
+            )
+            .freeze();
+
+        const bytes = transaction.toBytes();
+        const rawList = HieroProto.proto.TransactionList.decode(
+            bytes,
+        ).transactionList;
+        expect(rawList.length).to.be.greaterThan(1);
+
+        expect(() => Transaction.fromBytes(bytes)).to.not.throw();
+        const decoded = Transaction.fromBytes(bytes);
+        expect(decoded).to.be.instanceOf(TopicMessageSubmitTransaction);
+        expect(decoded.nodeAccountIds.length).to.be.equal(1);
+        expect(decoded._transactionIds.length).to.be.greaterThan(1);
+    });
+
+    it("fromBytes and sign succeed for valid chunked submit message with multiple nodes and transaction groups", async function () {
+        const nodeAccountIds = [new AccountId(3), new AccountId(4)];
+        const key = PrivateKey.generateED25519();
+        const message = Array(80).fill("message").join("");
+
+        const transaction = new TopicMessageSubmitTransaction()
+            .setTopicId(new TopicId(1, 2, 3))
+            .setChunkSize(32)
+            .setMessage(message)
+            .setNodeAccountIds(nodeAccountIds)
+            .setTransactionId(
+                TransactionId.withValidStart(
+                    new AccountId(9),
+                    new Timestamp(10, 11),
+                ),
+            )
+            .freeze();
+
+        const bytes = transaction.toBytes();
+        const rawList =
+            HieroProto.proto.TransactionList.decode(bytes).transactionList;
+        expect(rawList.length).to.be.greaterThan(nodeAccountIds.length);
+
+        const decoded = Transaction.fromBytes(bytes);
+        expect(decoded).to.be.instanceOf(TopicMessageSubmitTransaction);
+        expect(decoded.nodeAccountIds.length).to.be.equal(
+            nodeAccountIds.length,
+        );
+        expect(decoded._transactionIds.length).to.be.greaterThan(1);
+
+        await decoded.sign(key);
+
+        const signedList = HieroProto.proto.TransactionList.decode(
+            decoded.toBytes(),
+        ).transactionList;
+        const publicKeyPrefix = hex.encode(key.publicKey.toBytesRaw());
+
+        expect(signedList.length).to.be.equal(rawList.length);
+
+        for (const signedTransactionBytes of signedList) {
+            const signedTransaction = HieroProto.proto.SignedTransaction.decode(
+                signedTransactionBytes.signedTransactionBytes,
+            );
+            const signedByKey =
+                signedTransaction.sigMap?.sigPair?.some(
+                    (pair) => hex.encode(pair.pubKeyPrefix) === publicKeyPrefix,
+                ) ?? false;
+
+            expect(signedByKey).to.be.true;
+        }
+    });
+
+    it("fromBytes fails for chunked submit message with a different transaction type in another group", function () {
+        const nodeAccountId = new AccountId(3);
+        const topicTransaction = new TopicMessageSubmitTransaction()
+            .setTopicId(new TopicId(1, 2, 3))
+            .setChunkSize(4)
+            .setMessage("abcdefgh")
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(
+                TransactionId.fromString("0.0.9@1700000010.000000001"),
+            )
+            .freeze();
+
+        const transferTransaction = new TransferTransaction()
+            .setNodeAccountIds([nodeAccountId])
+            .setTransactionId(
+                TransactionId.fromString("0.0.9@1700000011.000000001"),
+            )
+            .addHbarTransfer(new AccountId(9), new Hbar(-1))
+            .addHbarTransfer(new AccountId(10), new Hbar(1))
+            .freeze();
+
+        const topicList = HieroProto.proto.TransactionList.decode(
+            topicTransaction.toBytes(),
+        ).transactionList;
+        const transferList = HieroProto.proto.TransactionList.decode(
+            transferTransaction.toBytes(),
+        ).transactionList;
+
+        const mixedBytes = HieroProto.proto.TransactionList.encode({
+            transactionList: [topicList[0], transferList[0]],
+        }).finish();
+
+        expect(() => Transaction.fromBytes(mixedBytes)).to.throw(
+            "failed to validate transaction bodies",
+        );
     });
 
     describe("balance must be the same before and after serialization/deserialization", function () {
@@ -1148,5 +1612,1391 @@ describe("Transaction", function () {
                 "transaction successfully built from invalid bytes",
             );
         }
+    });
+
+    describe("Transaction node management", function () {
+        /** @type {Client} */
+        let client;
+
+        beforeEach(function () {
+            client = Client.forTestnet({
+                scheduleNetworkUpdate: false,
+            });
+        });
+
+        describe("With explicit setNodeAccountIds (freeze())", function () {
+            it("should have correct counts for transactions, _signedTransactions, nodeIds and transactionIds when _beforeExecute is called", async function () {
+                const key = PrivateKey.generateED25519();
+                const nodeAccountIds = [
+                    new AccountId(3),
+                    new AccountId(4),
+                    new AccountId(5),
+                    new AccountId(6),
+                ];
+
+                // Create transaction with explicit node IDs
+                const transaction = new AccountCreateTransaction()
+                    .setKey(key.publicKey)
+                    .setNodeAccountIds(nodeAccountIds)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freeze();
+
+                // Sign the transaction
+                await transaction.sign(key);
+
+                // Verify initial state before _beforeExecute
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(transaction._transactionIds.length).to.equal(1); // Single transaction ID for non-chunked
+                expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                // Call _beforeExecute
+                await transaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should remain unchanged since no maxNodesPerTransaction is set
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(transaction._transactionIds.length).to.equal(1);
+                expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                // Verify node IDs are correct and in the same order
+                for (let i = 0; i < nodeAccountIds.length; i++) {
+                    expect(
+                        transaction._nodeAccountIds.list[i].toString(),
+                    ).to.equal(nodeAccountIds[i].toString());
+                }
+
+                // Verify transaction ID is preserved
+                expect(transaction._transactionIds.list[0]).to.not.be.null;
+                expect(
+                    transaction._transactionIds.list[0].accountId.toString(),
+                ).to.equal("0.0.2");
+
+                // Verify signature is still valid
+                expect(key.publicKey.verifyTransaction(transaction)).to.be.true;
+            });
+
+            it("should have correct counts for chunked transactions, _signedTransactions, nodeIds and transactionIds when _beforeExecute is called", async function () {
+                const key = PrivateKey.generateED25519();
+                const nodeAccountIds = [
+                    new AccountId(3),
+                    new AccountId(4),
+                    new AccountId(5),
+                    new AccountId(6),
+                ];
+
+                // Create chunked transaction with large content
+                const largeContent = new Uint8Array(8192).fill(65); // 8KB content to ensure chunking
+                const transaction = new FileAppendTransaction()
+                    .setFileId(new FileId(123))
+                    .setContents(largeContent)
+                    .setNodeAccountIds(nodeAccountIds)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freeze();
+
+                // Sign the transaction
+                await transaction.sign(key);
+
+                // Get expected chunk count
+                const expectedChunkCount = transaction.getRequiredChunks();
+                expect(expectedChunkCount).to.be.greaterThan(1); // Ensure it's actually chunked
+
+                // Verify initial state before _beforeExecute
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    nodeAccountIds.length * expectedChunkCount,
+                );
+                expect(transaction._transactionIds.length).to.equal(
+                    expectedChunkCount,
+                );
+                expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                // Call _beforeExecute
+                await transaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should remain unchanged since no maxNodesPerTransaction is set
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    nodeAccountIds.length * expectedChunkCount,
+                );
+                expect(transaction._transactionIds.length).to.equal(
+                    expectedChunkCount,
+                );
+                expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                // Verify node IDs are correct and in the same order
+                for (let i = 0; i < nodeAccountIds.length; i++) {
+                    expect(
+                        transaction._nodeAccountIds.list[i].toString(),
+                    ).to.equal(nodeAccountIds[i].toString());
+                }
+
+                // Verify all transaction IDs are preserved
+                for (let i = 0; i < expectedChunkCount; i++) {
+                    expect(transaction._transactionIds.list[i]).to.not.be.null;
+                    expect(
+                        transaction._transactionIds.list[
+                            i
+                        ].accountId.toString(),
+                    ).to.equal("0.0.2");
+                }
+
+                // Verify signature is still valid
+                expect(key.publicKey.verifyTransaction(transaction)).to.be.true;
+            });
+
+            it("should have correct counts for transactions without signatures when _beforeExecute is called", async function () {
+                const key = PrivateKey.generateED25519();
+                const nodeAccountIds = [
+                    new AccountId(3),
+                    new AccountId(4),
+                    new AccountId(5),
+                    new AccountId(6),
+                ];
+
+                // Create transaction with explicit node IDs (NO signing)
+                const transaction = new AccountCreateTransaction()
+                    .setKey(key.publicKey)
+                    .setNodeAccountIds(nodeAccountIds)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freeze();
+
+                // DO NOT sign the transaction - test unsigned transaction behavior
+
+                // Verify initial state before _beforeExecute
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(transaction._transactionIds.length).to.equal(1); // Single transaction ID for non-chunked
+                expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                // Call _beforeExecute
+                await transaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should remain unchanged since no maxNodesPerTransaction is set
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(transaction._transactionIds.length).to.equal(1);
+                expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                // Verify node IDs are correct and in the same order
+                for (let i = 0; i < nodeAccountIds.length; i++) {
+                    expect(
+                        transaction._nodeAccountIds.list[i].toString(),
+                    ).to.equal(nodeAccountIds[i].toString());
+                }
+
+                // Verify transaction ID is preserved
+                expect(transaction._transactionIds.list[0]).to.not.be.null;
+                expect(
+                    transaction._transactionIds.list[0].accountId.toString(),
+                ).to.equal("0.0.2");
+
+                // Verify no signatures exist (transaction was not signed)
+                const signatures = transaction.getSignatures();
+                let totalSignatures = 0;
+                for (const [, nodeSignatures] of signatures) {
+                    for (const [, transactionSignatures] of nodeSignatures) {
+                        totalSignatures += transactionSignatures.size;
+                    }
+                }
+                expect(totalSignatures).to.equal(0);
+            });
+        });
+
+        describe("With client set nodes (testnet) (freezeWith(client))", function () {
+            it("should have correct counts for transactions, _signedTransactions, nodeIds and transactionIds when _beforeExecute is called", async function () {
+                const key = PrivateKey.generateED25519();
+
+                // Create transaction with client-selected nodes (testnet)
+                const transaction = new AccountCreateTransaction()
+                    .setKey(key.publicKey)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freezeWith(client);
+
+                // Sign the transaction
+                await transaction.sign(key);
+
+                // Get the client-selected node count
+                const clientSelectedNodeCount =
+                    transaction._nodeAccountIds.length;
+                expect(clientSelectedNodeCount).to.be.greaterThan(0); // Should have nodes from testnet
+
+                // Verify initial state before _beforeExecute
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    clientSelectedNodeCount,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    clientSelectedNodeCount,
+                );
+                expect(transaction._transactionIds.length).to.equal(1); // Single transaction ID for non-chunked
+                expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                // Call _beforeExecute
+                await transaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should remain unchanged since no maxNodesPerTransaction is set
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    clientSelectedNodeCount,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    clientSelectedNodeCount,
+                );
+                expect(transaction._transactionIds.length).to.equal(1);
+                expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                // Verify transaction ID is preserved
+                expect(transaction._transactionIds.list[0]).to.not.be.null;
+                expect(
+                    transaction._transactionIds.list[0].accountId.toString(),
+                ).to.equal("0.0.2");
+
+                // Verify signature is still valid
+                expect(key.publicKey.verifyTransaction(transaction)).to.be.true;
+            });
+
+            it("should have correct counts for chunked transactions, _signedTransactions, nodeIds and transactionIds when _beforeExecute is called", async function () {
+                const key = PrivateKey.generateED25519();
+
+                // Create chunked transaction with client-selected nodes (testnet)
+                const largeContent = new Uint8Array(8192).fill(65); // 8KB content to ensure chunking
+                const transaction = new FileAppendTransaction()
+                    .setFileId(new FileId(123))
+                    .setContents(largeContent)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freezeWith(client);
+
+                // Sign the transaction
+                await transaction.sign(key);
+
+                // Get the client-selected node count and expected chunk count
+                const clientSelectedNodeCount =
+                    transaction._nodeAccountIds.length;
+                const expectedChunkCount = transaction.getRequiredChunks();
+                expect(clientSelectedNodeCount).to.be.greaterThan(0); // Should have nodes from testnet
+                expect(expectedChunkCount).to.be.greaterThan(1); // Ensure it's actually chunked
+
+                // Verify initial state before _beforeExecute
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    clientSelectedNodeCount,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    clientSelectedNodeCount * expectedChunkCount,
+                );
+                expect(transaction._transactionIds.length).to.equal(
+                    expectedChunkCount,
+                );
+                expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                // Call _beforeExecute
+                await transaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should remain unchanged since no maxNodesPerTransaction is set
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    clientSelectedNodeCount,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    clientSelectedNodeCount * expectedChunkCount,
+                );
+                expect(transaction._transactionIds.length).to.equal(
+                    expectedChunkCount,
+                );
+                expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                // Verify all transaction IDs are preserved
+                for (let i = 0; i < expectedChunkCount; i++) {
+                    expect(transaction._transactionIds.list[i]).to.not.be.null;
+                    expect(
+                        transaction._transactionIds.list[
+                            i
+                        ].accountId.toString(),
+                    ).to.equal("0.0.2");
+                }
+
+                // Verify signature is still valid
+                expect(key.publicKey.verifyTransaction(transaction)).to.be.true;
+            });
+
+            it("should have correct counts for transactions without signatures when _beforeExecute is called", async function () {
+                const key = PrivateKey.generateED25519();
+
+                // Create transaction with client-selected nodes (testnet) (NO signing)
+                const transaction = new AccountCreateTransaction()
+                    .setKey(key.publicKey)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freezeWith(client);
+
+                // DO NOT sign the transaction - test unsigned transaction behavior
+
+                // Get the client-selected node count
+                const clientSelectedNodeCount =
+                    transaction._nodeAccountIds.length;
+                expect(clientSelectedNodeCount).to.be.greaterThan(0); // Should have nodes from testnet
+
+                // Verify initial state before _beforeExecute
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    clientSelectedNodeCount,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    clientSelectedNodeCount,
+                );
+                expect(transaction._transactionIds.length).to.equal(1); // Single transaction ID for non-chunked
+                expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                // Call _beforeExecute
+                await transaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should remain unchanged since no maxNodesPerTransaction is set
+                expect(transaction._nodeAccountIds.length).to.equal(
+                    clientSelectedNodeCount,
+                );
+                expect(transaction._signedTransactions.length).to.equal(
+                    clientSelectedNodeCount,
+                );
+                expect(transaction._transactionIds.length).to.equal(1);
+                expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                // Verify transaction ID is preserved
+                expect(transaction._transactionIds.list[0]).to.not.be.null;
+                expect(
+                    transaction._transactionIds.list[0].accountId.toString(),
+                ).to.equal("0.0.2");
+
+                // Verify no signatures exist (transaction was not signed)
+                const signatures = transaction.getSignatures();
+                let totalSignatures = 0;
+                for (const [, nodeSignatures] of signatures) {
+                    for (const [, transactionSignatures] of nodeSignatures) {
+                        totalSignatures += transactionSignatures.size;
+                    }
+                }
+                expect(totalSignatures).to.equal(0);
+            });
+        });
+
+        describe("With (client.setMaxNodesPerTransaction) set before transaction frozen and signed", function () {
+            describe("With explicit setNodeAccountIds (freeze())", function () {
+                it("should have correct counts for transactions, _signedTransactions, nodeIds and transactionIds when _beforeExecute is called", async function () {
+                    const key = PrivateKey.generateED25519();
+                    const nodeAccountIds = [
+                        new AccountId(3),
+                        new AccountId(4),
+                        new AccountId(5),
+                        new AccountId(6),
+                    ];
+
+                    // Set maxNodesPerTransaction BEFORE freezing
+                    client.setMaxNodesPerTransaction(2);
+
+                    // Create transaction with explicit node IDs
+                    const transaction = new AccountCreateTransaction()
+                        .setKey(key.publicKey)
+                        .setNodeAccountIds(nodeAccountIds)
+                        .setTransactionId(
+                            TransactionId.generate(new AccountId(2)),
+                        )
+                        .freeze();
+
+                    // Verify initial state before _beforeExecute - should still have all original nodes
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(1); // Single transaction ID for non-chunked
+                    expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                    // Call _beforeExecute (this applies maxNodesPerTransaction trimming)
+                    await transaction._beforeExecute(client);
+
+                    // Sign the transaction AFTER trimming has been applied
+                    await transaction.sign(key);
+
+                    // Verify state after _beforeExecute - should be trimmed to maxNodesPerTransaction
+                    const expectedNodeCount = 2; // client.setMaxNodesPerTransaction(2)
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        expectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        expectedNodeCount,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(1);
+                    expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                    // Verify node IDs are correct and in the same order (first N nodes)
+                    for (let i = 0; i < expectedNodeCount; i++) {
+                        expect(
+                            transaction._nodeAccountIds.list[i].toString(),
+                        ).to.equal(nodeAccountIds[i].toString());
+                    }
+
+                    // Verify transaction ID is preserved
+                    expect(transaction._transactionIds.list[0]).to.not.be.null;
+                    expect(
+                        transaction._transactionIds.list[0].accountId.toString(),
+                    ).to.equal("0.0.2");
+
+                    // Verify signature is still valid
+                    expect(key.publicKey.verifyTransaction(transaction)).to.be
+                        .true;
+                });
+
+                it("should have correct counts for chunked transactions, _signedTransactions, nodeIds and transactionIds when _beforeExecute is called", async function () {
+                    const key = PrivateKey.generateED25519();
+                    const nodeAccountIds = [
+                        new AccountId(3),
+                        new AccountId(4),
+                        new AccountId(5),
+                        new AccountId(6),
+                    ];
+
+                    // Set maxNodesPerTransaction BEFORE freezing
+                    client.setMaxNodesPerTransaction(2);
+
+                    // Create chunked transaction with large content
+                    const largeContent = new Uint8Array(8192).fill(65); // 8KB content to ensure chunking
+                    const transaction = new FileAppendTransaction()
+                        .setFileId(new FileId(123))
+                        .setContents(largeContent)
+                        .setNodeAccountIds(nodeAccountIds)
+                        .setTransactionId(
+                            TransactionId.generate(new AccountId(2)),
+                        )
+                        .freeze();
+
+                    // Get expected chunk count
+                    const expectedChunkCount = transaction.getRequiredChunks();
+                    expect(expectedChunkCount).to.be.greaterThan(1); // Ensure it's actually chunked
+
+                    // Verify initial state before _beforeExecute - should still have all original nodes
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        nodeAccountIds.length * expectedChunkCount,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(
+                        expectedChunkCount,
+                    );
+                    expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                    // Call _beforeExecute (this applies maxNodesPerTransaction trimming)
+                    await transaction._beforeExecute(client);
+
+                    // Sign the transaction AFTER trimming has been applied
+                    await transaction.sign(key);
+
+                    // Verify state after _beforeExecute - should be trimmed to maxNodesPerTransaction
+                    const expectedNodeCount = 2; // client.setMaxNodesPerTransaction(2)
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        expectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        expectedNodeCount * expectedChunkCount,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(
+                        expectedChunkCount,
+                    );
+                    expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                    // Verify node IDs are correct and in the same order (first N nodes)
+                    for (let i = 0; i < expectedNodeCount; i++) {
+                        expect(
+                            transaction._nodeAccountIds.list[i].toString(),
+                        ).to.equal(nodeAccountIds[i].toString());
+                    }
+
+                    // Verify all transaction IDs are preserved
+                    for (let i = 0; i < expectedChunkCount; i++) {
+                        expect(transaction._transactionIds.list[i]).to.not.be
+                            .null;
+                        expect(
+                            transaction._transactionIds.list[
+                                i
+                            ].accountId.toString(),
+                        ).to.equal("0.0.2");
+                    }
+
+                    // Verify signature is still valid
+                    expect(key.publicKey.verifyTransaction(transaction)).to.be
+                        .true;
+                });
+
+                it("should not modify when setMaxNodesPerTransaction is explicitly set to 0", async function () {
+                    const key = PrivateKey.generateED25519();
+                    const nodeAccountIds = [
+                        new AccountId(3),
+                        new AccountId(4),
+                        new AccountId(5),
+                        new AccountId(6),
+                    ];
+
+                    // Set maxNodesPerTransaction to 0 BEFORE freezing (should disable limiting)
+                    client.setMaxNodesPerTransaction(0);
+
+                    // Create transaction with explicit node IDs
+                    const transaction = new AccountCreateTransaction()
+                        .setKey(key.publicKey)
+                        .setNodeAccountIds(nodeAccountIds)
+                        .setTransactionId(
+                            TransactionId.generate(new AccountId(2)),
+                        )
+                        .freeze();
+
+                    // Verify initial state before _beforeExecute
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+
+                    // Call _beforeExecute (this applies maxNodesPerTransaction trimming)
+                    await transaction._beforeExecute(client);
+
+                    // Sign the transaction AFTER trimming has been applied
+                    await transaction.sign(key);
+
+                    // Verify state after _beforeExecute - should remain unchanged (0 disables limiting)
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+
+                    // Verify all node IDs are preserved
+                    for (let i = 0; i < nodeAccountIds.length; i++) {
+                        expect(
+                            transaction._nodeAccountIds.list[i].toString(),
+                        ).to.equal(nodeAccountIds[i].toString());
+                    }
+
+                    // Verify signature is still valid
+                    expect(key.publicKey.verifyTransaction(transaction)).to.be
+                        .true;
+                });
+
+                it("should not modify when setMaxNodesPerTransaction is greater than the number of nodeIds in the transaction", async function () {
+                    const key = PrivateKey.generateED25519();
+                    const nodeAccountIds = [
+                        new AccountId(3),
+                        new AccountId(4),
+                        new AccountId(5),
+                        new AccountId(6),
+                    ];
+
+                    // Set maxNodesPerTransaction greater than nodeAccountIds.length BEFORE freezing
+                    client.setMaxNodesPerTransaction(10); // Greater than 4 nodes
+
+                    // Create transaction with explicit node IDs
+                    const transaction = new AccountCreateTransaction()
+                        .setKey(key.publicKey)
+                        .setNodeAccountIds(nodeAccountIds)
+                        .setTransactionId(
+                            TransactionId.generate(new AccountId(2)),
+                        )
+                        .freeze();
+
+                    // Verify initial state before _beforeExecute
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+
+                    // Call _beforeExecute (this applies maxNodesPerTransaction trimming)
+                    await transaction._beforeExecute(client);
+
+                    // Sign the transaction AFTER trimming has been applied
+                    await transaction.sign(key);
+
+                    // Verify state after _beforeExecute - should remain unchanged (limit > actual nodes)
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+
+                    // Verify all node IDs are preserved
+                    for (let i = 0; i < nodeAccountIds.length; i++) {
+                        expect(
+                            transaction._nodeAccountIds.list[i].toString(),
+                        ).to.equal(nodeAccountIds[i].toString());
+                    }
+
+                    // Verify signature is still valid
+                    expect(key.publicKey.verifyTransaction(transaction)).to.be
+                        .true;
+                });
+
+                it("should have correct counts for transactions without signatures when _beforeExecute is called", async function () {
+                    const key = PrivateKey.generateED25519();
+                    const nodeAccountIds = [
+                        new AccountId(3),
+                        new AccountId(4),
+                        new AccountId(5),
+                        new AccountId(6),
+                    ];
+
+                    // Set maxNodesPerTransaction BEFORE freezing
+                    client.setMaxNodesPerTransaction(2);
+
+                    // Create transaction with explicit node IDs (NO signing)
+                    const transaction = new AccountCreateTransaction()
+                        .setKey(key.publicKey)
+                        .setNodeAccountIds(nodeAccountIds)
+                        .setTransactionId(
+                            TransactionId.generate(new AccountId(2)),
+                        )
+                        .freeze();
+
+                    // DO NOT sign the transaction - test unsigned transaction behavior
+
+                    // Verify initial state before _beforeExecute - should still have all original nodes
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        nodeAccountIds.length,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(1); // Single transaction ID for non-chunked
+                    expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                    // Call _beforeExecute
+                    await transaction._beforeExecute(client);
+
+                    // Verify state after _beforeExecute - should be trimmed to maxNodesPerTransaction
+                    const expectedNodeCount = 2; // client.setMaxNodesPerTransaction(2)
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        expectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        expectedNodeCount,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(1);
+                    expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                    // Verify node IDs are correct and in the same order (first N nodes)
+                    for (let i = 0; i < expectedNodeCount; i++) {
+                        expect(
+                            transaction._nodeAccountIds.list[i].toString(),
+                        ).to.equal(nodeAccountIds[i].toString());
+                    }
+
+                    // Verify transaction ID is preserved
+                    expect(transaction._transactionIds.list[0]).to.not.be.null;
+                    expect(
+                        transaction._transactionIds.list[0].accountId.toString(),
+                    ).to.equal("0.0.2");
+
+                    // Verify no signatures exist (transaction was not signed)
+                    const signatures = transaction.getSignatures();
+                    let totalSignatures = 0;
+                    for (const [, nodeSignatures] of signatures) {
+                        for (const [
+                            ,
+                            transactionSignatures,
+                        ] of nodeSignatures) {
+                            totalSignatures += transactionSignatures.size;
+                        }
+                    }
+                    expect(totalSignatures).to.equal(0);
+                });
+            });
+
+            describe("With client set nodes (testnet) (freezeWith(client))", function () {
+                it("should have correct counts for transactions, _signedTransactions, nodeIds and transactionIds when _beforeExecute is called", async function () {
+                    const key = PrivateKey.generateED25519();
+
+                    // Set maxNodesPerTransaction BEFORE freezing
+                    client.setMaxNodesPerTransaction(2);
+
+                    // Create transaction with client-selected nodes (testnet)
+                    const transaction = new AccountCreateTransaction()
+                        .setKey(key.publicKey)
+                        .setTransactionId(
+                            TransactionId.generate(new AccountId(2)),
+                        )
+                        .freezeWith(client);
+
+                    // Get the client-selected node count
+                    const clientSelectedNodeCount =
+                        transaction._nodeAccountIds.length;
+                    expect(clientSelectedNodeCount).to.be.greaterThan(0); // Should have nodes from testnet
+
+                    // Verify initial state before _beforeExecute - should still have all client-selected nodes
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(1); // Single transaction ID for non-chunked
+                    expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                    // Call _beforeExecute (this applies maxNodesPerTransaction trimming)
+                    await transaction._beforeExecute(client);
+
+                    // Sign the transaction AFTER trimming has been applied
+                    await transaction.sign(key);
+
+                    // Verify state after _beforeExecute - should be trimmed to maxNodesPerTransaction
+                    const expectedNodeCount = Math.min(
+                        2,
+                        clientSelectedNodeCount,
+                    ); // min(maxNodes, actualNodes)
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        expectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        expectedNodeCount,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(1);
+                    expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                    // Verify transaction ID is preserved
+                    expect(transaction._transactionIds.list[0]).to.not.be.null;
+                    expect(
+                        transaction._transactionIds.list[0].accountId.toString(),
+                    ).to.equal("0.0.2");
+
+                    // Verify signature is still valid
+                    expect(key.publicKey.verifyTransaction(transaction)).to.be
+                        .true;
+                });
+
+                it("should have correct counts for chunked transactions, _signedTransactions, nodeIds and transactionIds when _beforeExecute is called", async function () {
+                    const key = PrivateKey.generateED25519();
+
+                    // Set maxNodesPerTransaction BEFORE freezing
+                    client.setMaxNodesPerTransaction(2);
+
+                    // Create chunked transaction with client-selected nodes (testnet)
+                    const largeContent = new Uint8Array(8192).fill(65); // 8KB content to ensure chunking
+                    const transaction = new FileAppendTransaction()
+                        .setFileId(new FileId(123))
+                        .setContents(largeContent)
+                        .setTransactionId(
+                            TransactionId.generate(new AccountId(2)),
+                        )
+                        .freezeWith(client);
+
+                    // Get the client-selected node count and expected chunk count
+                    const clientSelectedNodeCount =
+                        transaction._nodeAccountIds.length;
+                    const expectedChunkCount = transaction.getRequiredChunks();
+                    expect(clientSelectedNodeCount).to.be.greaterThan(0); // Should have nodes from testnet
+                    expect(expectedChunkCount).to.be.greaterThan(1); // Ensure it's actually chunked
+
+                    // Verify initial state before _beforeExecute - should still have all client-selected nodes
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        clientSelectedNodeCount * expectedChunkCount,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(
+                        expectedChunkCount,
+                    );
+                    expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                    // Call _beforeExecute (this applies maxNodesPerTransaction trimming)
+                    await transaction._beforeExecute(client);
+
+                    // Sign the transaction AFTER trimming has been applied
+                    await transaction.sign(key);
+
+                    // Verify state after _beforeExecute - should be trimmed to maxNodesPerTransaction
+                    const expectedNodeCount = Math.min(
+                        2,
+                        clientSelectedNodeCount,
+                    ); // min(maxNodes, actualNodes)
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        expectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        expectedNodeCount * expectedChunkCount,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(
+                        expectedChunkCount,
+                    );
+                    expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                    // Verify all transaction IDs are preserved
+                    for (let i = 0; i < expectedChunkCount; i++) {
+                        expect(transaction._transactionIds.list[i]).to.not.be
+                            .null;
+                        expect(
+                            transaction._transactionIds.list[
+                                i
+                            ].accountId.toString(),
+                        ).to.equal("0.0.2");
+                    }
+
+                    // Verify signature is still valid
+                    expect(key.publicKey.verifyTransaction(transaction)).to.be
+                        .true;
+                });
+
+                it("should not modify when setMaxNodesPerTransaction is explicitly set to 0", async function () {
+                    const key = PrivateKey.generateED25519();
+
+                    // Set maxNodesPerTransaction to 0 BEFORE freezing (should disable limiting)
+                    client.setMaxNodesPerTransaction(0);
+
+                    // Create transaction with client-selected nodes (testnet)
+                    const transaction = new AccountCreateTransaction()
+                        .setKey(key.publicKey)
+                        .setTransactionId(
+                            TransactionId.generate(new AccountId(2)),
+                        )
+                        .freezeWith(client);
+
+                    // Get the client-selected node count
+                    const clientSelectedNodeCount =
+                        transaction._nodeAccountIds.length;
+                    expect(clientSelectedNodeCount).to.be.greaterThan(0); // Should have nodes from testnet
+
+                    // Verify initial state before _beforeExecute
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+
+                    // Call _beforeExecute (this applies maxNodesPerTransaction trimming)
+                    await transaction._beforeExecute(client);
+
+                    // Sign the transaction AFTER trimming has been applied
+                    await transaction.sign(key);
+
+                    // Verify state after _beforeExecute - should remain unchanged (0 disables limiting)
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+
+                    // Verify signature is still valid
+                    expect(key.publicKey.verifyTransaction(transaction)).to.be
+                        .true;
+                });
+
+                it("should not modify when setMaxNodesPerTransaction is greater than the number of nodeIds in the transaction", async function () {
+                    const key = PrivateKey.generateED25519();
+
+                    // Set maxNodesPerTransaction greater than expected client nodes BEFORE freezing
+                    client.setMaxNodesPerTransaction(100); // Much greater than typical testnet node count
+
+                    // Create transaction with client-selected nodes (testnet)
+                    const transaction = new AccountCreateTransaction()
+                        .setKey(key.publicKey)
+                        .setTransactionId(
+                            TransactionId.generate(new AccountId(2)),
+                        )
+                        .freezeWith(client);
+
+                    // Get the client-selected node count
+                    const clientSelectedNodeCount =
+                        transaction._nodeAccountIds.length;
+                    expect(clientSelectedNodeCount).to.be.greaterThan(0); // Should have nodes from testnet
+
+                    // Verify initial state before _beforeExecute
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+
+                    // Call _beforeExecute (this applies maxNodesPerTransaction trimming)
+                    await transaction._beforeExecute(client);
+
+                    // Sign the transaction AFTER trimming has been applied
+                    await transaction.sign(key);
+
+                    // Verify state after _beforeExecute - should remain unchanged (limit > actual nodes)
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+
+                    // Verify signature is still valid
+                    expect(key.publicKey.verifyTransaction(transaction)).to.be
+                        .true;
+                });
+
+                it("should have correct counts for transactions without signatures when _beforeExecute is called", async function () {
+                    const key = PrivateKey.generateED25519();
+
+                    // Set maxNodesPerTransaction BEFORE freezing
+                    client.setMaxNodesPerTransaction(2);
+
+                    // Create transaction with client-selected nodes (testnet) (NO signing)
+                    const transaction = new AccountCreateTransaction()
+                        .setKey(key.publicKey)
+                        .setTransactionId(
+                            TransactionId.generate(new AccountId(2)),
+                        )
+                        .freezeWith(client);
+
+                    // DO NOT sign the transaction - test unsigned transaction behavior
+
+                    // Get the client-selected node count
+                    const clientSelectedNodeCount =
+                        transaction._nodeAccountIds.length;
+                    expect(clientSelectedNodeCount).to.be.greaterThan(0); // Should have nodes from testnet
+
+                    // Verify initial state before _beforeExecute - should still have all client-selected nodes
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        clientSelectedNodeCount,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(1); // Single transaction ID for non-chunked
+                    expect(transaction._transactions.length).to.equal(0); // Should be empty initially
+
+                    // Call _beforeExecute
+                    await transaction._beforeExecute(client);
+
+                    // Verify state after _beforeExecute - should be trimmed to maxNodesPerTransaction
+                    const expectedNodeCount = Math.min(
+                        2,
+                        clientSelectedNodeCount,
+                    ); // min(maxNodes, actualNodes)
+                    expect(transaction._nodeAccountIds.length).to.equal(
+                        expectedNodeCount,
+                    );
+                    expect(transaction._signedTransactions.length).to.equal(
+                        expectedNodeCount,
+                    );
+                    expect(transaction._transactionIds.length).to.equal(1);
+                    expect(transaction._transactions.length).to.equal(0); // Still empty as no _buildAllTransactions called
+
+                    // Verify transaction ID is preserved
+                    expect(transaction._transactionIds.list[0]).to.not.be.null;
+                    expect(
+                        transaction._transactionIds.list[0].accountId.toString(),
+                    ).to.equal("0.0.2");
+
+                    // Verify no signatures exist (transaction was not signed)
+                    const signatures = transaction.getSignatures();
+                    let totalSignatures = 0;
+                    for (const [, nodeSignatures] of signatures) {
+                        for (const [
+                            ,
+                            transactionSignatures,
+                        ] of nodeSignatures) {
+                            totalSignatures += transactionSignatures.size;
+                        }
+                    }
+                    expect(totalSignatures).to.equal(0);
+                });
+            });
+        });
+
+        describe("With (client.setMaxNodesPerTransaction) set after transaction frozen, signed, serialised and deserialised", function () {
+            it("should have correct counts for transactions, _signedTransactions, nodeIds and transactionIds when _beforeExecute is called", async function () {
+                const key = PrivateKey.generateED25519();
+                const nodeAccountIds = [
+                    new AccountId(3),
+                    new AccountId(4),
+                    new AccountId(5),
+                    new AccountId(6),
+                ];
+
+                // Create transaction with explicit node IDs (NO maxNodes set initially)
+                const transaction = new AccountCreateTransaction()
+                    .setKey(key.publicKey)
+                    .setNodeAccountIds(nodeAccountIds)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freeze();
+
+                // Sign the transaction
+                await transaction.sign(key);
+
+                // Serialize and deserialize the transaction
+                const transactionBytes = transaction.toBytes();
+                const deserializedTransaction =
+                    Transaction.fromBytes(transactionBytes);
+
+                // Set maxNodesPerTransaction AFTER serialization/deserialization
+                client.setMaxNodesPerTransaction(2);
+
+                // Verify initial state before _beforeExecute - should have all original nodes
+                expect(deserializedTransaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(
+                    deserializedTransaction._signedTransactions.length,
+                ).to.equal(nodeAccountIds.length);
+                expect(deserializedTransaction._transactionIds.length).to.equal(
+                    1,
+                ); // Single transaction ID for non-chunked
+                expect(deserializedTransaction._transactions.length).to.equal(
+                    nodeAccountIds.length,
+                );
+
+                // Call _beforeExecute
+                await deserializedTransaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should be trimmed to maxNodesPerTransaction
+                const expectedNodeCount = 2; // client.setMaxNodesPerTransaction(2)
+                expect(deserializedTransaction._nodeAccountIds.length).to.equal(
+                    expectedNodeCount,
+                );
+                expect(
+                    deserializedTransaction._signedTransactions.length,
+                ).to.equal(expectedNodeCount);
+                expect(deserializedTransaction._transactionIds.length).to.equal(
+                    1,
+                );
+                expect(deserializedTransaction._transactions.length).to.equal(
+                    0,
+                ); // Still empty as no _buildAllTransactions called
+
+                // Verify node IDs are correct and in the same order (first N nodes)
+                for (let i = 0; i < expectedNodeCount; i++) {
+                    expect(
+                        deserializedTransaction._nodeAccountIds.list[
+                            i
+                        ].toString(),
+                    ).to.equal(nodeAccountIds[i].toString());
+                }
+
+                // Verify transaction ID is preserved
+                expect(deserializedTransaction._transactionIds.list[0]).to.not
+                    .be.null;
+                expect(
+                    deserializedTransaction._transactionIds.list[0].accountId.toString(),
+                ).to.equal("0.0.2");
+
+                // Verify signature is still valid after serialization/deserialization and trimming
+                expect(key.publicKey.verifyTransaction(deserializedTransaction))
+                    .to.be.true;
+            });
+
+            it("should have correct counts for chunked transactions, _signedTransactions, nodeIds and transactionIds when _beforeExecute is called", async function () {
+                const key = PrivateKey.generateED25519();
+                const nodeAccountIds = [
+                    new AccountId(3),
+                    new AccountId(4),
+                    new AccountId(5),
+                    new AccountId(6),
+                ];
+
+                // Create chunked transaction with large content (NO maxNodes set initially)
+                const largeContent = new Uint8Array(8192).fill(65); // 8KB content to ensure chunking
+                const transaction = new FileAppendTransaction()
+                    .setFileId(new FileId(123))
+                    .setContents(largeContent)
+                    .setNodeAccountIds(nodeAccountIds)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freeze();
+
+                // Sign the transaction
+                await transaction.sign(key);
+
+                // Get expected chunk count
+                const expectedChunkCount = transaction.getRequiredChunks();
+                expect(expectedChunkCount).to.be.greaterThan(1); // Ensure it's actually chunked
+
+                // Serialize and deserialize the transaction
+                const transactionBytes = transaction.toBytes();
+                const deserializedTransaction =
+                    Transaction.fromBytes(transactionBytes);
+
+                // Set maxNodesPerTransaction AFTER serialization/deserialization
+                client.setMaxNodesPerTransaction(2);
+
+                // Verify initial state before _beforeExecute - should have all original nodes
+                expect(deserializedTransaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(
+                    deserializedTransaction._signedTransactions.length,
+                ).to.equal(nodeAccountIds.length * expectedChunkCount);
+                expect(deserializedTransaction._transactionIds.length).to.equal(
+                    expectedChunkCount,
+                );
+                expect(deserializedTransaction._transactions.length).to.equal(
+                    nodeAccountIds.length * expectedChunkCount,
+                );
+                // Call _beforeExecute
+                await deserializedTransaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should be trimmed to maxNodesPerTransaction
+                const expectedNodeCount = 2; // client.setMaxNodesPerTransaction(2)
+                expect(deserializedTransaction._nodeAccountIds.length).to.equal(
+                    expectedNodeCount,
+                );
+                expect(
+                    deserializedTransaction._signedTransactions.length,
+                ).to.equal(expectedNodeCount * expectedChunkCount);
+                expect(deserializedTransaction._transactionIds.length).to.equal(
+                    expectedChunkCount,
+                );
+                expect(deserializedTransaction._transactions.length).to.equal(
+                    0,
+                ); // Still empty as no _buildAllTransactions called
+
+                // Verify node IDs are correct and in the same order (first N nodes)
+                for (let i = 0; i < expectedNodeCount; i++) {
+                    expect(
+                        deserializedTransaction._nodeAccountIds.list[
+                            i
+                        ].toString(),
+                    ).to.equal(nodeAccountIds[i].toString());
+                }
+
+                // Verify all transaction IDs are preserved
+                for (let i = 0; i < expectedChunkCount; i++) {
+                    expect(deserializedTransaction._transactionIds.list[i]).to
+                        .not.be.null;
+                    expect(
+                        deserializedTransaction._transactionIds.list[
+                            i
+                        ].accountId.toString(),
+                    ).to.equal("0.0.2");
+                }
+
+                // Verify signature is still valid after serialization/deserialization and trimming
+                expect(key.publicKey.verifyTransaction(deserializedTransaction))
+                    .to.be.true;
+            });
+
+            it("should not modify when setMaxNodesPerTransaction is explicitly set to 0", async function () {
+                const key = PrivateKey.generateED25519();
+                const nodeAccountIds = [
+                    new AccountId(3),
+                    new AccountId(4),
+                    new AccountId(5),
+                    new AccountId(6),
+                ];
+
+                // Create transaction with explicit node IDs (NO maxNodes set initially)
+                const transaction = new AccountCreateTransaction()
+                    .setKey(key.publicKey)
+                    .setNodeAccountIds(nodeAccountIds)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freeze();
+
+                // Sign the transaction
+                await transaction.sign(key);
+
+                // Serialize and deserialize the transaction
+                const transactionBytes = transaction.toBytes();
+                const deserializedTransaction =
+                    Transaction.fromBytes(transactionBytes);
+
+                // Set maxNodesPerTransaction to 0 AFTER serialization/deserialization (should disable limiting)
+                client.setMaxNodesPerTransaction(0);
+
+                // Verify initial state before _beforeExecute
+                expect(deserializedTransaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(
+                    deserializedTransaction._signedTransactions.length,
+                ).to.equal(nodeAccountIds.length);
+
+                // Call _beforeExecute
+                await deserializedTransaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should remain unchanged (0 disables limiting)
+                expect(deserializedTransaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(
+                    deserializedTransaction._signedTransactions.length,
+                ).to.equal(nodeAccountIds.length);
+
+                // Verify all node IDs are preserved
+                for (let i = 0; i < nodeAccountIds.length; i++) {
+                    expect(
+                        deserializedTransaction._nodeAccountIds.list[
+                            i
+                        ].toString(),
+                    ).to.equal(nodeAccountIds[i].toString());
+                }
+
+                // Verify signature is still valid after serialization/deserialization
+                expect(key.publicKey.verifyTransaction(deserializedTransaction))
+                    .to.be.true;
+            });
+
+            it("should not modify when setMaxNodesPerTransaction is greater than the number of nodeIds in the transaction", async function () {
+                const key = PrivateKey.generateED25519();
+                const nodeAccountIds = [
+                    new AccountId(3),
+                    new AccountId(4),
+                    new AccountId(5),
+                    new AccountId(6),
+                ];
+
+                // Create transaction with explicit node IDs (NO maxNodes set initially)
+                const transaction = new AccountCreateTransaction()
+                    .setKey(key.publicKey)
+                    .setNodeAccountIds(nodeAccountIds)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freeze();
+
+                // Sign the transaction
+                await transaction.sign(key);
+
+                // Serialize and deserialize the transaction
+                const transactionBytes = transaction.toBytes();
+                const deserializedTransaction =
+                    Transaction.fromBytes(transactionBytes);
+
+                // Set maxNodesPerTransaction greater than nodeAccountIds.length AFTER serialization/deserialization
+                client.setMaxNodesPerTransaction(10); // Greater than 4 nodes
+
+                // Verify initial state before _beforeExecute
+                expect(deserializedTransaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(
+                    deserializedTransaction._signedTransactions.length,
+                ).to.equal(nodeAccountIds.length);
+
+                // Call _beforeExecute
+                await deserializedTransaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should remain unchanged (limit > actual nodes)
+                expect(deserializedTransaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(
+                    deserializedTransaction._signedTransactions.length,
+                ).to.equal(nodeAccountIds.length);
+
+                // Verify all node IDs are preserved
+                for (let i = 0; i < nodeAccountIds.length; i++) {
+                    expect(
+                        deserializedTransaction._nodeAccountIds.list[
+                            i
+                        ].toString(),
+                    ).to.equal(nodeAccountIds[i].toString());
+                }
+
+                // Verify signature is still valid after serialization/deserialization
+                expect(key.publicKey.verifyTransaction(deserializedTransaction))
+                    .to.be.true;
+            });
+
+            it("should have correct counts for transactions without signatures when _beforeExecute is called", async function () {
+                const key = PrivateKey.generateED25519();
+                const nodeAccountIds = [
+                    new AccountId(3),
+                    new AccountId(4),
+                    new AccountId(5),
+                    new AccountId(6),
+                ];
+
+                // Create transaction with explicit node IDs (NO maxNodes set initially, NO signing)
+                const transaction = new AccountCreateTransaction()
+                    .setKey(key.publicKey)
+                    .setNodeAccountIds(nodeAccountIds)
+                    .setTransactionId(TransactionId.generate(new AccountId(2)))
+                    .freeze();
+
+                // DO NOT sign the transaction - test unsigned transaction behavior
+
+                // Serialize and deserialize the transaction
+                const transactionBytes = transaction.toBytes();
+                const deserializedTransaction =
+                    Transaction.fromBytes(transactionBytes);
+
+                // Set maxNodesPerTransaction AFTER serialization/deserialization
+                client.setMaxNodesPerTransaction(2);
+
+                // Verify initial state before _beforeExecute - should have all original nodes
+                expect(deserializedTransaction._nodeAccountIds.length).to.equal(
+                    nodeAccountIds.length,
+                );
+                expect(
+                    deserializedTransaction._signedTransactions.length,
+                ).to.equal(nodeAccountIds.length);
+                expect(deserializedTransaction._transactionIds.length).to.equal(
+                    1,
+                ); // Single transaction ID for non-chunked
+                expect(deserializedTransaction._transactions.length).to.equal(
+                    nodeAccountIds.length,
+                );
+
+                // Call _beforeExecute
+                await deserializedTransaction._beforeExecute(client);
+
+                // Verify state after _beforeExecute - should be trimmed to maxNodesPerTransaction
+                const expectedNodeCount = 2; // client.setMaxNodesPerTransaction(2)
+                expect(deserializedTransaction._nodeAccountIds.length).to.equal(
+                    expectedNodeCount,
+                );
+                expect(
+                    deserializedTransaction._signedTransactions.length,
+                ).to.equal(expectedNodeCount);
+                expect(deserializedTransaction._transactionIds.length).to.equal(
+                    1,
+                );
+                expect(deserializedTransaction._transactions.length).to.equal(
+                    0,
+                ); // Still empty as no _buildAllTransactions called
+
+                // Verify node IDs are correct and in the same order (first N nodes)
+                for (let i = 0; i < expectedNodeCount; i++) {
+                    expect(
+                        deserializedTransaction._nodeAccountIds.list[
+                            i
+                        ].toString(),
+                    ).to.equal(nodeAccountIds[i].toString());
+                }
+
+                // Verify transaction ID is preserved
+                expect(deserializedTransaction._transactionIds.list[0]).to.not
+                    .be.null;
+                expect(
+                    deserializedTransaction._transactionIds.list[0].accountId.toString(),
+                ).to.equal("0.0.2");
+
+                // Verify no signatures exist (transaction was not signed)
+                const signatures = deserializedTransaction.getSignatures();
+                let totalSignatures = 0;
+                for (const [, nodeSignatures] of signatures) {
+                    for (const [, transactionSignatures] of nodeSignatures) {
+                        totalSignatures += transactionSignatures.size;
+                    }
+                }
+                expect(totalSignatures).to.equal(0);
+            });
+        });
     });
 });

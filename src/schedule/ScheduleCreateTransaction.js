@@ -8,12 +8,13 @@ import Transaction, {
 } from "../transaction/Transaction.js";
 import Key from "../Key.js";
 import Hbar from "../Hbar.js";
-import * as HieroProto from "@hashgraph/proto";
+import * as HieroProto from "@hiero-ledger/proto";
 
 /**
  * @typedef {import("bignumber.js").default} BigNumber
  * @typedef {import("../channel/Channel.js").default} Channel
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  * @typedef {import("../transaction/TransactionId.js").default} TransactionId
  * @typedef {import("../PublicKey.js").default} PublicKey
  * @typedef {import("../PrivateKey.js").default} PrivateKey

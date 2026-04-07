@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "packages": {
+    "@hashgraph/proto": {
+      "signature": "aa10f436476b569417a088cc4ef4229f",
+      "file": true
+    },
+    "@hashgraph/cryptography": {
+      "signature": "c8e7af818acd9428a8c1b06b8e47ef77",
+      "file": true
+    }
+  }
+}

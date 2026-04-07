@@ -5,7 +5,7 @@ import {
     TopicCreateTransaction,
     TopicMessageSubmitTransaction,
     TransactionReceiptQuery,
-} from "@hashgraph/sdk";
+} from "@hiero-ledger/sdk";
 
 import dotenv from "dotenv";
 
@@ -32,7 +32,7 @@ async function main() {
 
     const client = Client.forName(process.env.HEDERA_NETWORK).setOperator(
         AccountId.fromString(process.env.OPERATOR_ID),
-        PrivateKey.fromStringDer(process.env.OPERATOR_KEY),
+        PrivateKey.fromStringECDSA(process.env.OPERATOR_KEY),
     );
 
     try {

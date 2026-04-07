@@ -1,26 +1,33 @@
 import { defineConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
+
 export default defineConfig({
     test: {
         watch: false,
         globals: true,
+        pool: "threads",
+        isolate: false,
+        environment: "jsdom",
         browser: {
             screenshotFailures: false,
             headless: true,
-            provider: "playwright",
+            provider: playwright(),
             enabled: true,
             instances: [{ browser: "chromium" }],
         },
         include: ["test/unit/**/*.js"],
-        exclude: ["test/unit/Mocker.js", "test/unit/node/*"],
+        exclude: [
+            "test/unit/Mocker.js",
+            "test/unit/browser/utils/*",
+            "test/unit/node/*",
+        ],
+        testTimeout: 120000,
         retry: 1,
-        maxWorkers: 4,
-        fileParallelism: true,
-        isolate: true,
         coverage: {
             include: ["src/**/*.js"],
             provider: "v8",
             reporter: ["text-summary", "lcov"],
-            reportsDirectory: "./coverage",
+            reportsDirectory: "./coverage/browser",
         },
     },
     resolve: {
@@ -30,6 +37,8 @@ export default defineConfig({
             // will take care of this
             "../../src/index.js": "../../src/browser.js",
             "../src/index.js": "../src/browser.js",
+            // Redirect proto package to use ESM version in browser mode
+            "@hiero-ledger/proto": "/packages/proto/src/index.js",
             // TODO: extract `encoding/hex.js` etc into a variable and call a function to generate
             // all the prefixes.
             "../../../src/encoding/hex.js":

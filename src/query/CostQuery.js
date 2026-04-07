@@ -3,7 +3,7 @@
 import TransactionId from "../transaction/TransactionId.js";
 import Hbar from "../Hbar.js";
 import AccountId from "../account/AccountId.js";
-import * as HieroProto from "@hashgraph/proto";
+import * as HieroProto from "@hiero-ledger/proto";
 import QueryBase from "./QueryBase.js";
 
 /**
@@ -125,8 +125,8 @@ export default class CostQuery extends QueryBase {
      * @returns {[Status, ExecutionState]}
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _shouldRetry(request, response) {
-        return this._query._shouldRetry(request, response);
+    _getStatusAndExecutionState(request, response) {
+        return this._query._getStatusAndExecutionState(request, response);
     }
 
     /**

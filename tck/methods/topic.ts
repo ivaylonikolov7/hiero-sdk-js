@@ -8,7 +8,9 @@ import {
     TopicMessageSubmitTransaction,
     CustomFeeLimit,
     AccountId,
-} from "@hashgraph/sdk";
+    TopicInfoQuery,
+    TopicInfo,
+} from "@hiero-ledger/sdk";
 import Long from "long";
 
 import { applyCommonTransactionParams } from "../params/common-tx-params";
@@ -17,26 +19,30 @@ import {
     TopicUpdateParams,
     TopicDeleteParams,
     TopicSubmitMessageParams,
+    GetTopicInfoParams,
 } from "../params/topic";
 
 import { sdk } from "../sdk_data";
-import { TopicResponse } from "../response/topic";
+import { TopicResponse, TopicInfoQueryResponse } from "../response/topic";
 
 import { DEFAULT_GRPC_DEADLINE } from "../utils/constants/config";
 import { getKeyFromString } from "../utils/key";
 
 // buildCreateTopic builds a TopicCreateTransaction from parameters
-export const buildCreateTopic = ({
-    memo,
-    adminKey,
-    submitKey,
-    autoRenewPeriod,
-    autoRenewAccountId,
-    feeScheduleKey,
-    feeExemptKeys,
-    customFees,
-    commonTransactionParams,
-}: TopicCreateParams): TopicCreateTransaction => {
+export const buildCreateTopic = (
+    {
+        memo,
+        adminKey,
+        submitKey,
+        autoRenewPeriod,
+        autoRenewAccountId,
+        feeScheduleKey,
+        feeExemptKeys,
+        customFees,
+        commonTransactionParams,
+    }: TopicCreateParams,
+    client,
+): TopicCreateTransaction => {
     const transaction = new TopicCreateTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -95,7 +101,7 @@ export const buildCreateTopic = ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
@@ -105,10 +111,11 @@ export const buildCreateTopic = ({
 export const createTopic = async (
     params: TopicCreateParams,
 ): Promise<TopicResponse> => {
-    const transaction = buildCreateTopic(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildCreateTopic(params, client);
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         topicId: receipt.topicId?.toString(),
@@ -117,19 +124,22 @@ export const createTopic = async (
 };
 
 // buildUpdateTopic builds a TopicUpdateTransaction from parameters
-const buildUpdateTopic = ({
-    topicId,
-    memo,
-    adminKey,
-    submitKey,
-    autoRenewPeriod,
-    autoRenewAccountId,
-    expirationTime,
-    feeScheduleKey,
-    feeExemptKeys,
-    customFees,
-    commonTransactionParams,
-}: TopicUpdateParams): TopicUpdateTransaction => {
+const buildUpdateTopic = (
+    {
+        topicId,
+        memo,
+        adminKey,
+        submitKey,
+        autoRenewPeriod,
+        autoRenewAccountId,
+        expirationTime,
+        feeScheduleKey,
+        feeExemptKeys,
+        customFees,
+        commonTransactionParams,
+    }: TopicUpdateParams,
+    client,
+): TopicUpdateTransaction => {
     const transaction = new TopicUpdateTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -143,7 +153,6 @@ const buildUpdateTopic = ({
     }
 
     if (adminKey != null) {
-        console.log("adminKey in updateTopic", adminKey);
         transaction.setAdminKey(getKeyFromString(adminKey));
     }
 
@@ -156,7 +165,6 @@ const buildUpdateTopic = ({
     }
 
     if (autoRenewAccountId != null) {
-        console.log("autoRenewAccountId in updateTopic", autoRenewAccountId);
         transaction.setAutoRenewAccountId(autoRenewAccountId);
     }
 
@@ -213,7 +221,7 @@ const buildUpdateTopic = ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
@@ -223,10 +231,11 @@ const buildUpdateTopic = ({
 export const updateTopic = async (
     params: TopicUpdateParams,
 ): Promise<TopicResponse> => {
-    const transaction = buildUpdateTopic(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildUpdateTopic(params, client);
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -234,16 +243,15 @@ export const updateTopic = async (
 };
 
 // buildDeleteTopic builds a TopicDeleteTransaction from parameters
-const buildDeleteTopic = ({
-    topicId,
-    commonTransactionParams,
-}: TopicDeleteParams): TopicDeleteTransaction => {
+const buildDeleteTopic = (
+    { topicId, commonTransactionParams }: TopicDeleteParams,
+    client,
+): TopicDeleteTransaction => {
     const transaction = new TopicDeleteTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
 
     if (topicId != null) {
-        console.log("topicId in deleteTopic", topicId);
         transaction.setTopicId(topicId);
     }
 
@@ -251,7 +259,7 @@ const buildDeleteTopic = ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
@@ -261,10 +269,11 @@ const buildDeleteTopic = ({
 export const deleteTopic = async (
     params: TopicDeleteParams,
 ): Promise<TopicResponse> => {
-    const transaction = buildDeleteTopic(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildDeleteTopic(params, client);
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -272,14 +281,17 @@ export const deleteTopic = async (
 };
 
 // buildSubmitTopicMessage builds a TopicMessageSubmitTransaction from parameters
-export const buildSubmitTopicMessage = ({
-    topicId,
-    message,
-    maxChunks,
-    chunkSize,
-    customFeeLimits,
-    commonTransactionParams,
-}: TopicSubmitMessageParams): TopicMessageSubmitTransaction => {
+export const buildSubmitTopicMessage = (
+    {
+        topicId,
+        message,
+        maxChunks,
+        chunkSize,
+        customFeeLimits,
+        commonTransactionParams,
+    }: TopicSubmitMessageParams,
+    client,
+): TopicMessageSubmitTransaction => {
     const transaction = new TopicMessageSubmitTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -290,8 +302,6 @@ export const buildSubmitTopicMessage = ({
 
     if (message != null) {
         transaction.setMessage(message);
-    } else {
-        throw new Error("Message is required");
     }
 
     if (maxChunks != null) {
@@ -326,7 +336,7 @@ export const buildSubmitTopicMessage = ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
@@ -336,12 +346,91 @@ export const buildSubmitTopicMessage = ({
 export const submitTopicMessage = async (
     params: TopicSubmitMessageParams,
 ): Promise<TopicResponse> => {
-    const transaction = buildSubmitTopicMessage(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildSubmitTopicMessage(params, client);
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
     };
+};
+
+// Helper function to map TopicInfo to TopicInfoQueryResponse
+const mapTopicInfoResponse = (info: TopicInfo): TopicInfoQueryResponse => {
+    // Helper function to serialize custom fees
+    const serializeCustomFees = (customFees: CustomFixedFee[]): any[] => {
+        if (!customFees || customFees.length === 0) {
+            return [];
+        }
+        return customFees.map((fee) => {
+            return {
+                feeCollectorAccountId: fee.feeCollectorAccountId?.toString(),
+                allCollectorsAreExempt: fee.allCollectorsAreExempt,
+                fixedFee: {
+                    amount: fee.amount?.toString(),
+                    denominatingTokenId:
+                        fee.denominatingTokenId?.toString() || null,
+                },
+            };
+        });
+    };
+
+    return {
+        topicId: info.topicId?.toString(),
+        topicMemo: info.topicMemo,
+        runningHash:
+            info.runningHash && info.runningHash.length > 0
+                ? Buffer.from(info.runningHash).toString("hex")
+                : undefined,
+        sequenceNumber: info.sequenceNumber?.toString(),
+        expirationTime: info.expirationTime?.seconds.toString(),
+        adminKey: info.adminKey?.toString(),
+        submitKey: info.submitKey?.toString(),
+        feeScheduleKey: info.feeScheduleKey?.toString(),
+        feeExemptKeys:
+            info.feeExemptKeys && info.feeExemptKeys.length > 0
+                ? info.feeExemptKeys.map((key) => key.toString())
+                : undefined,
+        autoRenewPeriod: info.autoRenewPeriod?.seconds.toString(),
+        autoRenewAccountId: info.autoRenewAccountId?.toString(),
+        customFees: serializeCustomFees(info.customFees),
+        ledgerId: info.ledgerId?.toString(),
+    };
+};
+
+export const getTopicInfo = async ({
+    topicId,
+    queryPayment,
+    maxQueryPayment,
+    getCost,
+    sessionId,
+}: GetTopicInfoParams): Promise<TopicInfoQueryResponse> => {
+    const client = sdk.getClient(sessionId);
+    const query = new TopicInfoQuery().setGrpcDeadline(DEFAULT_GRPC_DEADLINE);
+
+    if (topicId != null) {
+        query.setTopicId(topicId);
+    }
+
+    if (queryPayment != null) {
+        query.setQueryPayment(Hbar.fromTinybars(queryPayment));
+    }
+
+    if (maxQueryPayment != null) {
+        query.setMaxQueryPayment(Hbar.fromTinybars(maxQueryPayment));
+    }
+
+    if (getCost) {
+        const cost = await query.getCost(client);
+
+        return {
+            cost: cost.toTinybars().toString(),
+        };
+    }
+
+    const response = await query.execute(client);
+
+    return mapTopicInfoResponse(response);
 };

@@ -3,17 +3,28 @@ import {
     ContractDeleteTransaction,
     ContractExecuteTransaction,
     ContractUpdateTransaction,
+    ContractCallQuery,
+    ContractByteCodeQuery,
+    ContractInfoQuery,
     Hbar,
     Timestamp,
-} from "@hashgraph/sdk";
+} from "@hiero-ledger/sdk";
 
 import {
     CreateContractParams,
     DeleteContractParams,
     ExecuteContractParams,
     UpdateContractParams,
+    ContractCallQueryParams,
+    ContractByteCodeQueryParams,
+    ContractInfoQueryParams,
 } from "../params/contract";
-import { ContractResponse } from "../response/contract";
+import {
+    ContractResponse,
+    ContractCallQueryResponse,
+    ContractByteCodeQueryResponse,
+    ContractInfoQueryResponse,
+} from "../response/contract";
 
 import { DEFAULT_GRPC_DEADLINE } from "../utils/constants/config";
 import { applyCommonTransactionParams } from "../params/common-tx-params";
@@ -21,6 +32,7 @@ import { sdk } from "../sdk_data";
 import { getKeyFromString } from "../utils/key";
 import Long from "long";
 import { decode } from "../utils/hex";
+import { buildContractCallQueryResponse } from "../utils/helpers/contract";
 
 export const createContract = async ({
     adminKey,
@@ -37,7 +49,9 @@ export const createContract = async ({
     maxAutomaticTokenAssociations,
     constructorParameters,
     commonTransactionParams,
+    sessionId,
 }: CreateContractParams): Promise<ContractResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new ContractCreateTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -102,12 +116,12 @@ export const createContract = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         contractId: receipt.contractId?.toString(),
@@ -127,7 +141,9 @@ export const updateContract = async ({
     maxAutomaticTokenAssociations,
     expirationTime,
     commonTransactionParams,
+    sessionId,
 }: UpdateContractParams): Promise<ContractResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new ContractUpdateTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -180,12 +196,12 @@ export const updateContract = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -198,7 +214,9 @@ export const deleteContract = async ({
     transferContractId,
     permanentRemoval,
     commonTransactionParams,
+    sessionId,
 }: DeleteContractParams): Promise<ContractResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new ContractDeleteTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -224,12 +242,12 @@ export const deleteContract = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -242,7 +260,9 @@ export const executeContract = async ({
     amount,
     functionParameters,
     commonTransactionParams,
+    sessionId,
 }: ExecuteContractParams): Promise<ContractResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new ContractExecuteTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -268,13 +288,150 @@ export const executeContract = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
+    };
+};
+
+export const contractCallQuery = async ({
+    contractId,
+    gas,
+    functionName,
+    functionParameters,
+    maxQueryPayment,
+    senderAccountId,
+    sessionId,
+}: ContractCallQueryParams): Promise<ContractCallQueryResponse> => {
+    const client = sdk.getClient(sessionId);
+    const query = new ContractCallQuery().setGrpcDeadline(
+        DEFAULT_GRPC_DEADLINE,
+    );
+
+    if (contractId != null) {
+        query.setContractId(contractId);
+    }
+
+    if (gas != null) {
+        query.setGas(Long.fromString(gas));
+    }
+
+    if (functionParameters != null) {
+        const functionParams = decode(functionParameters);
+        query.setFunctionParameters(functionParams);
+    }
+
+    if (functionName != null) {
+        query.setFunction(functionName);
+    }
+
+    if (maxQueryPayment != null) {
+        query.setMaxQueryPayment(Hbar.fromTinybars(maxQueryPayment));
+    }
+
+    if (senderAccountId != null) {
+        query.setSenderAccountId(senderAccountId);
+    }
+
+    const result = await query.execute(client);
+
+    return buildContractCallQueryResponse(result);
+};
+
+export const contractByteCodeQuery = async ({
+    contractId,
+    queryPayment,
+    maxQueryPayment,
+    sessionId,
+}: ContractByteCodeQueryParams): Promise<ContractByteCodeQueryResponse> => {
+    const client = sdk.getClient(sessionId);
+    const query = new ContractByteCodeQuery().setGrpcDeadline(
+        DEFAULT_GRPC_DEADLINE,
+    );
+
+    if (contractId != null) {
+        query.setContractId(contractId);
+    }
+
+    if (queryPayment != null) {
+        query.setQueryPayment(Hbar.fromTinybars(queryPayment));
+    }
+
+    if (maxQueryPayment != null) {
+        query.setMaxQueryPayment(Hbar.fromTinybars(maxQueryPayment));
+    }
+
+    const result = await query.execute(client);
+
+    return {
+        bytecode:
+            result != null && result.length > 0
+                ? "0x" + Buffer.from(result).toString("hex")
+                : undefined,
+        contractId: query.contractId?.toString(),
+    };
+};
+
+export const contractInfoQuery = async ({
+    contractId,
+    queryPayment,
+    maxQueryPayment,
+    sessionId,
+}: ContractInfoQueryParams): Promise<ContractInfoQueryResponse> => {
+    const client = sdk.getClient(sessionId);
+    const query = new ContractInfoQuery().setGrpcDeadline(
+        DEFAULT_GRPC_DEADLINE,
+    );
+
+    if (contractId != null) {
+        query.setContractId(contractId);
+    }
+
+    if (queryPayment != null) {
+        query.setQueryPayment(Hbar.fromTinybars(queryPayment));
+    }
+
+    if (maxQueryPayment != null) {
+        query.setMaxQueryPayment(Hbar.fromTinybars(maxQueryPayment));
+    }
+
+    const result = await query.execute(client);
+
+    return {
+        contractId: result.contractId?.toString(),
+        accountId: result.accountId?.toString(),
+        contractAccountId: result.contractAccountId,
+        adminKey: result.adminKey?.toString(),
+        expirationTime: result.expirationTime?.toString(),
+        autoRenewPeriod: result.autoRenewPeriod?.seconds?.toString(),
+        autoRenewAccountId: result.autoRenewAccountId?.toString(),
+        storage: result.storage?.toString(),
+        contractMemo: result.contractMemo,
+        balance: result.balance?.toTinybars().toString(),
+        isDeleted: result.isDeleted,
+        maxAutomaticTokenAssociations:
+            result.maxAutomaticTokenAssociations?.toString(),
+        ledgerId: result.ledgerId?.toString(),
+        stakingInfo: {
+            declineStakingReward:
+                result.stakingInfo?.declineStakingReward,
+            stakePeriodStart:
+                result.stakingInfo?.stakePeriodStart?.toString(),
+            pendingReward: result.stakingInfo?.pendingReward
+                ?.toTinybars()
+                .toString(),
+            stakedToMe: result.stakingInfo?.stakedToMe
+                ?.toTinybars()
+                .toString(),
+            stakedAccountId:
+                result.stakingInfo?.stakedAccountId?.toString(),
+            stakedNodeId:
+                result.stakingInfo?.stakedNodeId?.toString(),
+        },
     };
 };

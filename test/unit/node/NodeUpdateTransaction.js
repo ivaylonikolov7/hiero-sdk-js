@@ -67,7 +67,7 @@ describe("NodeUpdateTransaction", function () {
         expect(tx.transactionId.toString()).to.equal(
             tx2.transactionId.toString(),
         );
-        expect(tx.nodeId).to.equal(tx2.nodeId.toInt());
+        expect(tx.nodeId.toInt()).to.equal(tx2.nodeId.toInt());
         expect(tx.accountId.toString()).to.equal(tx2.accountId.toString());
         expect(tx.description).to.equal(tx2.description);
         expect(tx.maxTransactionFee.toTinybars().toInt()).to.equal(
@@ -112,7 +112,7 @@ describe("NodeUpdateTransaction", function () {
     it("should change node id", function () {
         const newNodeId = 421;
         const tx = new NodeUpdateTransaction().setNodeId(newNodeId);
-        expect(tx.nodeId).to.equal(newNodeId);
+        expect(tx.nodeId.toInt()).to.equal(newNodeId);
     });
 
     it("should change description", function () {
@@ -357,6 +357,25 @@ describe("NodeUpdateTransaction", function () {
 
             expect(tx.grpcWebProxyEndpoint).to.be.null;
             expect(tx2.grpcWebProxyEndpoint).to.be.null;
+        });
+    });
+
+    describe("description serialization", function () {
+        it("should omit description when it is not set", function () {
+            const transaction = new NodeUpdateTransaction();
+
+            expect(transaction._makeTransactionData().description).to.be.null;
+        });
+
+        it("should serialize an empty string when description is cleared", function () {
+            const transaction = new NodeUpdateTransaction();
+            transaction.clearDescription();
+
+            expect(transaction._makeTransactionData().description).to.deep.equal(
+                {
+                    value: "",
+                },
+            );
         });
     });
 

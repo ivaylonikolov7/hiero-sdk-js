@@ -1,4 +1,4 @@
-import { Wallet, LocalProvider, AccountBalanceQuery } from "@hashgraph/sdk";
+import { Wallet, LocalProvider, AccountBalanceQuery } from "@hiero-ledger/sdk";
 
 import dotenv from "dotenv";
 
@@ -34,7 +34,7 @@ async function main() {
                 .toString()} balance = ${balance.hbars.toString()}`,
         );
     } catch (error) {
-        console.error(Error);
+        console.error(error);
     }
 
     provider.close();

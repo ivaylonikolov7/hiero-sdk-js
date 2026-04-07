@@ -8,7 +8,7 @@ import {
     AccountId,
     Logger,
     LogLevel,
-} from "@hashgraph/sdk";
+} from "@hiero-ledger/sdk";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -34,7 +34,7 @@ async function main() {
     }
 
     const operatorId = AccountId.fromString(process.env.OPERATOR_ID);
-    const operatorKey = PrivateKey.fromStringED25519(process.env.OPERATOR_KEY);
+    const operatorKey = PrivateKey.fromStringECDSA(process.env.OPERATOR_KEY);
 
     //  Create the client based on the HEDERA_NETWORK environment variable
     const client = Client.forName(process.env.HEDERA_NETWORK);

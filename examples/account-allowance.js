@@ -9,10 +9,10 @@ import {
     AccountAllowanceApproveTransaction,
     TransferTransaction,
     Hbar,
-} from "@hashgraph/sdk";
+} from "@hiero-ledger/sdk";
 
 /**
- * @typedef {import("@hashgraph/sdk").AccountId} AccountId
+ * @typedef {import("@hiero-ledger/sdk").AccountId} AccountId
  */
 
 import dotenv from "dotenv";
@@ -40,9 +40,9 @@ async function main() {
 
     console.log("Generating accounts for example...");
 
-    const aliceKey = PrivateKey.generateED25519();
-    const bobKey = PrivateKey.generateED25519();
-    const charlieKey = PrivateKey.generateED25519();
+    const aliceKey = PrivateKey.generateECDSA();
+    const bobKey = PrivateKey.generateECDSA();
+    const charlieKey = PrivateKey.generateECDSA();
 
     try {
         let transaction = await new AccountCreateTransaction()

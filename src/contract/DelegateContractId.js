@@ -5,13 +5,15 @@ import ContractId from "./ContractId.js";
 
 /**
  * @namespace {proto}
- * @typedef {import("@hashgraph/proto").proto.IContractID} HieroProto.proto.IContractID
- * @typedef {import("@hashgraph/proto").proto.IKey} HieroProto.proto.IKey
+ * @typedef {import("@hiero-ledger/proto").proto.IContractID} HieroProto.proto.IContractID
+ * @typedef {import("@hiero-ledger/proto").proto.IKey} HieroProto.proto.IKey
  */
 
 /**
  * @typedef {import("long")} Long
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/Channel.js").default} Channel
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  */
 
 /**

@@ -7,14 +7,15 @@ import TransactionId from "./TransactionId.js";
 import PrecheckStatusError from "../PrecheckStatusError.js";
 import ReceiptStatusError from "../ReceiptStatusError.js";
 import { ExecutionState } from "../Executable.js";
-import * as HieroProto from "@hashgraph/proto";
+import * as HieroProto from "@hiero-ledger/proto";
 
 const { proto } = HieroProto;
 
 /**
  * @typedef {import("../account/AccountId.js").default} AccountId
  * @typedef {import("../channel/Channel.js").default} Channel
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  */
 
 /**
@@ -189,7 +190,7 @@ export default class TransactionReceiptQuery extends Query {
      * @returns {[Status, ExecutionState]}
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _shouldRetry(request, response) {
+    _getStatusAndExecutionState(request, response) {
         const { nodeTransactionPrecheckCode } =
             this._mapResponseHeader(response);
 

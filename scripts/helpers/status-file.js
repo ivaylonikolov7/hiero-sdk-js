@@ -40,7 +40,7 @@ function getResponseCodeComment(name) {
     try {
         const protoPath = path.join(
             process.cwd(),
-            "packages/proto/src/proto/services/response_code.proto",
+            "packages/proto/src/proto/services_response_code.proto",
         );
         const protoContent = fs.readFileSync(protoPath, "utf8");
 
@@ -208,7 +208,7 @@ export function generateCompleteStatusFile(statusCodes) {
         let content = `// SPDX-License-Identifier: Apache-2.0\n
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.ResponseCodeEnum} HieroProto.proto.ResponseCodeEnum
+ * @typedef {import("@hiero-ledger/proto").proto.ResponseCodeEnum} HieroProto.proto.ResponseCodeEnum
  */
 
 export default class Status {

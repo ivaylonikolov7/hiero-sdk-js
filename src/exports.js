@@ -9,7 +9,7 @@ export {
     HEDERA_PATH,
     SLIP44_ECDSA_ETH_PATH,
     SLIP44_ECDSA_HEDERA_PATH,
-} from "@hashgraph/cryptography";
+} from "@hiero-ledger/cryptography";
 export { default as PrivateKey } from "./PrivateKey.js";
 export { default as PublicKey } from "./PublicKey.js";
 export { default as KeyList } from "./KeyList.js";
@@ -58,6 +58,7 @@ export { default as EthereumTransaction } from "./EthereumTransaction.js";
 export { default as EthereumTransactionDataLegacy } from "./EthereumTransactionDataLegacy.js";
 export { default as EthereumTransactionDataEip1559 } from "./EthereumTransactionDataEip1559.js";
 export { default as EthereumTransactionDataEip2930 } from "./EthereumTransactionDataEip2930.js";
+export { default as EthereumTransactionDataEip7702 } from "./EthereumTransactionDataEip7702.js";
 export { default as EthereumTransactionData } from "./EthereumTransactionData.js";
 // eslint-disable-next-line deprecation/deprecation
 export { default as EthereumFlow } from "./EthereumFlow.js";
@@ -72,6 +73,23 @@ export { default as FeeDataType } from "./FeeDataType.js";
 export { default as FeeSchedule } from "./FeeSchedule.js";
 export { default as FeeSchedules } from "./FeeSchedules.js";
 export { default as FileAppendTransaction } from "./file/FileAppendTransaction.js";
+export { default as HookCreationDetails } from "./hooks/HookCreationDetails.js";
+export { default as EvmHook } from "./hooks/EvmHook.js";
+export { HookExtensionPoint } from "./hooks/HookExtensionPoint.js";
+export { default as FungibleHookCall } from "./hooks/FungibleHookCall.js";
+export { default as NftHookCall } from "./hooks/NftHookCall.js";
+export { default as EvmHookCall } from "./hooks/EvmHookCall.js";
+export { default as FungibleHookType } from "./hooks/FungibleHookType.js";
+export { default as NftHookType } from "./hooks/NftHookType.js";
+export { default as HookId } from "./hooks/HookId.js";
+export { default as HookEntityId } from "./hooks/HookEntityId.js";
+export { default as HookStoreTransaction } from "./hooks/HookStoreTransaction.js";
+export {
+    EvmHookStorageUpdate,
+    EvmHookStorageSlot,
+    EvmHookMappingEntries,
+} from "./hooks/EvmHookStorageUpdate.js";
+export { default as EvmHookMappingEntry } from "./hooks/EvmHookMappingEntry.js";
 export { default as FileContentsQuery } from "./file/FileContentsQuery.js";
 export { default as FileCreateTransaction } from "./file/FileCreateTransaction.js";
 export { default as FileDeleteTransaction } from "./file/FileDeleteTransaction.js";

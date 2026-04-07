@@ -5,7 +5,7 @@ import Cache from "./Cache.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.ITimestamp} HieroProto.proto.ITimestamp
+ * @typedef {import("@hiero-ledger/proto").proto.ITimestamp} HieroProto.proto.ITimestamp
  */
 
 const MAX_NS = Long.fromNumber(1000000000);
@@ -93,7 +93,7 @@ export default class Timestamp {
      */
     toDate() {
         return new Date(
-            this.seconds.toInt() * 1000 +
+            this.seconds.toNumber() * 1000 +
                 Math.floor(this.nanos.toInt() / 1000000),
         );
     }
@@ -127,10 +127,10 @@ export default class Timestamp {
     static _fromProtobuf(timestamp) {
         return new Timestamp(
             timestamp.seconds instanceof Long
-                ? timestamp.seconds.toInt()
+                ? timestamp.seconds
                 : timestamp.seconds != null
-                  ? timestamp.seconds
-                  : 0,
+                ? timestamp.seconds
+                : 0,
 
             timestamp.nanos != null ? timestamp.nanos : 0,
         );

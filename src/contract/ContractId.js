@@ -2,7 +2,7 @@
 
 import * as EntityIdHelper from "../EntityIdHelper.js";
 import Key from "../Key.js";
-import * as HieroProto from "@hashgraph/proto";
+import * as HieroProto from "@hiero-ledger/proto";
 import CACHE from "../Cache.js";
 import * as hex from "../encoding/hex.js";
 import { arrayEqual } from "../array.js";
@@ -11,7 +11,9 @@ import { isLongZeroAddress } from "../util.js";
 import EvmAddress from "../EvmAddress.js";
 
 /**
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/Channel.js").default} Channel
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  */
 
 /**
@@ -117,18 +119,10 @@ export default class ContractId extends Key {
      * @returns {Promise<ContractId>}
      */
     async populateAccountNum(client) {
-        if (this.evmAddress === null) {
-            throw new Error("field `evmAddress` should not be null");
-        }
-        const mirrorUrl = client.mirrorNetwork[0].slice(
-            0,
-            client.mirrorNetwork[0].indexOf(":"),
-        );
+        const mirrorRestApiBaseUrl = client.mirrorRestApiBaseUrl;
+        const url = `${mirrorRestApiBaseUrl}/contracts/${this.toEvmAddress()}`;
 
         /* eslint-disable */
-        const url = `https://${mirrorUrl}/api/v1/contracts/${hex.encode(
-            this.evmAddress,
-        )}`;
         const response = await fetch(url);
         const data = await response.json();
         const mirrorAccountId = data.contract_id;

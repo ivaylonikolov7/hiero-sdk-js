@@ -1,6 +1,6 @@
 # Contributing to the Hiero SDK for JavaScript
 
-Thank you for your interest in contributing the Hiero SDK for JavaScript!
+Thank you for your interest in contributing to the Hiero SDK for JavaScript!
 
 We appreciate your interest in helping us and the rest of our community. We welcome bug reports, feature requests, and code contributions.
 
@@ -52,13 +52,55 @@ Please ensure that your bug report contains the following:
 4. Run `task build`
 5. Run `node::name of the example file`
 
-Please note: Some of the examples require to run a [Local Node.](https://github.com/hiero-ledger/hiero-local-node)
+### Running Integration Tests
+
+To run integration tests locally, you need to set up [Solo](https://solo.hiero.org/) (the official Hiero local network).
+
+**System Requirements:**
+- **Platform:** macOS or Linux only (Windows users must use WSL2)
+- **RAM:** Minimum 12 GB for single node, 24 GB for dual node (required for DAB tests)
+
+For complete system requirements, see the [official Solo documentation](https://solo.hiero.org/latest/docs/step-by-step-guide/#prerequisites).
+
+1. **Install dependencies:**
+   ```bash
+   task install
+   ```
+
+2. **Setup Solo local network:**
+   ```bash
+   # Single node setup (default, requires 12 GB RAM)
+   task solo:setup
+   
+   # OR dual node setup (requires 24 GB RAM, needed for DAB tests)
+   task solo:setup:dual-node
+   ```
+   
+   This will automatically create a local Kubernetes-based network with:
+   - Consensus node(s)
+   - Mirror node services
+   - A dedicated ECDSA test account
+   - Auto-generated `.env` file
+
+3. **Run integration tests:**
+   ```bash
+   task test:integration
+   ```
+
+4. **Teardown when done:**
+   ```bash
+   task solo:teardown
+   ```
+
+For detailed setup instructions and troubleshooting, see the [Solo Setup Guide](./manual/SOLO_SETUP.md).
+
+**Note:** Some examples may also work with Solo running locally. Check the specific example's documentation.
 
 ## Feature Requests
 
 Feature requests are also submitted through the [Issues][issues] page.
 
-As with Bug Reports, please do a search of the open requests first before submitting a new one to avoid duplicates. If you do find a a feature request that represents your suggestion, please give it a +1.
+As with Bug Reports, please do a search of the open requests first before submitting a new one to avoid duplicates. If you do find a feature request that represents your suggestion, please give it a +1.
 
 **NOTE:** If you intend to implement this feature, please submit the feature request _before_ working on any code changes. This will allow members on the SDK team to assess the idea, discuss the design with you and ensure that it makes sense to include such a feature in the SDK.
 
@@ -69,9 +111,9 @@ Feature requests are labeled as [enhancements][label-enhancement].
 Open an [issue][issues] with the following:
 
 -   A short, descriptive title. Other community members should be able to understand the nature of the issue by reading this title.
--   A detailed description of the the proposed feature. Explain why you believe it should be added to the SDK. Illustrative example code may also be provided to help explain how the feature should work.
+-   A detailed description of the proposed feature. Explain why you believe it should be added to the SDK. Illustrative example code may also be provided to help explain how the feature should work.
 -   [Markdown][markdown] formatting as appropriate to make the request easier to read.
--   If you plan to implement this feature yourself, please let us know that you'd like to the issue to be assigned to you.
+-   If you plan to implement this feature yourself, please let us know that you'd like the issue to be assigned to you.
 
 ## Code Contributions
 
@@ -81,7 +123,7 @@ Code contributions to the SDK are handled using [Pull Requests][pull-requests]. 
 
     Any code you submit will be released under this license.
 
--   For anything other than small or quick changes, you should always start by reviewing the [Issues][issues] page to ensure that the nobody else is already working on the same issue.
+-   For anything other than small or quick changes, you should always start by reviewing the [Issues][issues] page to ensure that nobody else is already working on the same issue.
 
     If you're working on a bug fix, check to see whether the bug has already been reported. If it has but no one is assigned to it, ask one of the maintainers to assign it to you before beginning work. If you're confident the bug hasn't been reported yet, create a new [Bug Report](#bug-reports) and ask us to assign it to you.
 
@@ -95,15 +137,19 @@ Before submitting your pull request, refer to the pull request readiness checkli
 
 -   [ ] Includes tests to exercise the new behaviour
 -   [ ] Code is documented, especially public and user-facing constructs
--   [ ] Local run of `task build`, `task test:unit:node` and `task:test:integration:node` succeed
+-   [ ] Local run of `task build` succeeds
+-   [ ] Unit tests pass: `task test:unit:node`
+-   [ ] Integration tests pass with Solo: `task solo:setup && task test:integration:node`
 -   [ ] Git commit message is detailed and includes context behind the change
 -   [ ] If the change is related to an existing Bug Report or Feature Request, please include its issue number
+
+**Note:** Integration tests require Solo to be running. See the [Solo Setup Guide](./manual/SOLO_SETUP.md) for setup instructions.
 
 To contribute, please fork the GitHub repository and submit a pull request to the `develop` branch.
 
 ### Getting Your Pull Request Merged
 
-All Pull Requests must be approved by at least one member of the SDK team before it can be merged in. The members only have limited bandwidth to review Pull Requests so it's not unusual for a Pull Request to go unreviewed for a few days, especially if it's a large or complex one. After a couple of weeks, if you haven't received any feedback regarding your Pull Request from the SDK team, feel free to contact us on [Discord](https://discord.com/channels/373889138199494658) to ask for a review.
+All Pull Requests must be approved by at least one member of the SDK team before it can be merged. The members only have limited bandwidth to review Pull Requests so it's not unusual for a Pull Request to go unreviewed for a few days, especially if it's a large or complex one. After a couple of weeks, if you haven't received any feedback regarding your Pull Request from the SDK team, feel free to contact us on [Discord](https://discord.com/channels/373889138199494658) to ask for a review.
 
 ## Getting in Contact
 

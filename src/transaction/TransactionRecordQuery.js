@@ -9,13 +9,14 @@ import PrecheckStatusError from "../PrecheckStatusError.js";
 import ReceiptStatusError from "../ReceiptStatusError.js";
 import RecordStatusError from "../RecordStatusError.js";
 import { ExecutionState } from "../Executable.js";
-import * as HieroProto from "@hashgraph/proto";
+import * as HieroProto from "@hiero-ledger/proto";
 
 const { proto } = HieroProto;
 
 /**
  * @typedef {import("../channel/Channel.js").default} Channel
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  * @typedef {import("../account/AccountId.js").default} AccountId
  */
 
@@ -181,7 +182,7 @@ export default class TransactionRecordQuery extends Query {
      * @param {HieroProto.proto.IResponse} response
      * @returns {[Status, ExecutionState]}
      */
-    _shouldRetry(request, response) {
+    _getStatusAndExecutionState(request, response) {
         const { nodeTransactionPrecheckCode } =
             this._mapResponseHeader(response);
 

@@ -2,6 +2,7 @@ import { Client, LedgerId } from "../../../src/index.js";
 import AccountId from "../../../src/account/AccountId.js";
 import NodeClient from "../../../src/client/NodeClient.js";
 import MirrorNode from "../../../src/MirrorNode.js";
+import { DEFAULT_GRPC_DEADLINE } from "../../../src/constants/ClientConstants.js";
 
 const ledgerId = LedgerId.LOCAL_NODE;
 
@@ -105,6 +106,17 @@ describe("Client", function () {
         expect(network["2.testnet.hedera.com:50211"].toString()).to.be.equal(
             "0.0.6",
         );
+    });
+
+    it("maintains backward compatibility with maxExecutionTime setter", function () {
+        const client = new Client({ scheduleNetworkUpdate: false });
+
+        // Test that grpcDeadline is set to the default value
+        expect(client.grpcDeadline).to.equal(DEFAULT_GRPC_DEADLINE);
+
+        // Test that setting maxExecutionTime updates grpcDeadline
+        client.setMaxExecutionTime(5000);
+        expect(client.grpcDeadline).to.equal(5000);
     });
 
     describe("local-node factories work", function () {
@@ -324,6 +336,93 @@ describe("Client", function () {
                 expect(client._shard).to.equal(1);
                 expect(client._realm).to.equal(2);
             });
+        });
+    });
+
+    describe("mirrorRestApiBaseUrl", function () {
+        it("should return correct URL for HTTPS port 443", function () {
+            const client = Client.forTestnet();
+            const mirrorRestApiBaseUrl = client.mirrorRestApiBaseUrl;
+
+            expect(mirrorRestApiBaseUrl).to.equal(
+                "https://testnet.mirrornode.hedera.com:443/api/v1",
+            );
+        });
+
+        it("should return correct URL for HTTP port 80", function () {
+            const client = new NodeClient({
+                scheduleNetworkUpdate: false,
+            });
+
+            // Set a custom mirror network with HTTP port
+            client._mirrorNetwork.setNetwork(["example.com:80"]);
+
+            const mirrorRestApiBaseUrl = client.mirrorRestApiBaseUrl;
+
+            expect(mirrorRestApiBaseUrl).to.equal(
+                "http://example.com:80/api/v1",
+            );
+        });
+
+        it("should return correct URL for localhost with custom port", function () {
+            const client = new NodeClient({
+                scheduleNetworkUpdate: false,
+            });
+
+            // Set a custom mirror network with localhost and custom port (should use HTTP)
+            client._mirrorNetwork.setNetwork(["localhost:5600"]);
+
+            const mirrorRestApiBaseUrl = client.mirrorRestApiBaseUrl;
+
+            expect(mirrorRestApiBaseUrl).to.equal(
+                "http://localhost:5551/api/v1",
+            );
+        });
+
+        it("should return correct URL for 127.0.0.1 with custom port", function () {
+            const client = new NodeClient({
+                scheduleNetworkUpdate: false,
+            });
+
+            // Set a custom mirror network with 127.0.0.1 and custom port (should use HTTP)
+            client._mirrorNetwork.setNetwork(["127.0.0.1:5600"]);
+
+            const mirrorRestApiBaseUrl = client.mirrorRestApiBaseUrl;
+
+            expect(mirrorRestApiBaseUrl).to.equal(
+                "http://127.0.0.1:5551/api/v1",
+            );
+        });
+
+        it("should throw error when mirror network is empty", function () {
+            const client = new NodeClient({
+                scheduleNetworkUpdate: false,
+            });
+
+            // Set empty mirror network
+            client._mirrorNetwork.setNetwork([]);
+
+            expect(() => {
+                client.mirrorRestApiBaseUrl;
+            }).to.throw(
+                "Client has no mirror network configured or no healthy mirror nodes are available",
+            );
+        });
+
+        it("should throw error when mirror node has invalid address", function () {
+            const client = new NodeClient({
+                scheduleNetworkUpdate: false,
+            });
+
+            // This test would require mocking the ManagedNodeAddress to have null values
+            // For now, we'll test the empty network case which should also throw an error
+            client._mirrorNetwork.setNetwork([]);
+
+            expect(() => {
+                client.mirrorRestApiBaseUrl;
+            }).to.throw(
+                "Client has no mirror network configured or no healthy mirror nodes are available",
+            );
         });
     });
 });

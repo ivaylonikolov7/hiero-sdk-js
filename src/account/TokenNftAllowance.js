@@ -6,15 +6,17 @@ import Long from "long";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.IGrantedNftAllowance} HieroProto.proto.IGrantedNftAllowance
- * @typedef {import("@hashgraph/proto").proto.INftRemoveAllowance} HieroProto.proto.INftRemoveAllowance
- * @typedef {import("@hashgraph/proto").proto.INftAllowance} HieroProto.proto.INftAllowance
- * @typedef {import("@hashgraph/proto").proto.ITokenID} HieroProto.proto.ITokenID
- * @typedef {import("@hashgraph/proto").proto.IAccountID} HieroProto.proto.IAccountID
+ * @typedef {import("@hiero-ledger/proto").proto.IGrantedNftAllowance} HieroProto.proto.IGrantedNftAllowance
+ * @typedef {import("@hiero-ledger/proto").proto.INftRemoveAllowance} HieroProto.proto.INftRemoveAllowance
+ * @typedef {import("@hiero-ledger/proto").proto.INftAllowance} HieroProto.proto.INftAllowance
+ * @typedef {import("@hiero-ledger/proto").proto.ITokenID} HieroProto.proto.ITokenID
+ * @typedef {import("@hiero-ledger/proto").proto.IAccountID} HieroProto.proto.IAccountID
  */
 
 /**
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/Channel.js").default} Channel
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  */
 
 /**
@@ -108,10 +110,10 @@ export default class TokenNftAllowance {
             serialNumbers: allSerials
                 ? null
                 : allowance.serialNumbers != null
-                  ? allowance.serialNumbers.map((serialNumber) =>
-                        Long.fromValue(serialNumber),
-                    )
-                  : [],
+                ? allowance.serialNumbers.map((serialNumber) =>
+                      Long.fromValue(serialNumber),
+                  )
+                : [],
             allSerials,
             delegatingSpender:
                 allowance.delegatingSpender != null

@@ -279,18 +279,43 @@ export function requireStringOrUint8Array(variable) {
  */
 export function convertToBigNumber(variable) {
     requireNonNull(variable);
-    if (
-        isBigNumber(variable) ||
-        isString(variable) ||
-        isNumber(variable) ||
-        isLong(variable)
-    ) {
+    if (isBigNumber(variable) || isString(variable) || isNumber(variable)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return new BigNumber(variable);
+    }
+    if (isLong(variable)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
+        return new BigNumber(variable.toString());
     }
     throw new Error(FUNCTION_CONVERT_TO_BIGNUMBER_ERROR);
 }
 
+/**
+ * Converts amount (number, Long, BigNumber, or bigint) to Long.
+ * This utility ensures consistent amount handling across the SDK.
+ *
+ * @param {number | Long | BigNumber | bigint} amount
+ * @returns {Long}
+ */
+export function convertAmountToLong(amount) {
+    requireNonNull(amount);
+
+    // Preserve exact original behavior for existing types
+    if (Long.isLong(amount)) {
+        return amount;
+    } else if (typeof amount === "number") {
+        return Long.fromNumber(amount);
+    } else if (BigNumber.isBigNumber(amount)) {
+        return Long.fromValue(
+            amount.integerValue(BigNumber.ROUND_DOWN).toString(),
+        );
+    } else if (typeof amount === "bigint") {
+        return Long.fromValue(amount.toString());
+    } else {
+        // Handle other types that can be converted to string
+        return Long.fromValue(String(amount));
+    }
+}
 /**
  * Converts Array of Numbers or Strings to Array of BigNumbers.
  *

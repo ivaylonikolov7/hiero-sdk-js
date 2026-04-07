@@ -1,4 +1,6 @@
-import { setTimeout } from "timers/promises";
+// Cross-environment sleep function
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 import {
     MirrorNodeContractCallQuery,
     ContractCreateTransaction,
@@ -13,11 +15,7 @@ import {
 import IntegrationTestEnv from "./client/NodeIntegrationTestEnv.js";
 import { createAccount } from "./utils/Fixtures.js";
 
-/**
- * Temporary skip this test until Solo is updated to support these queries again
- */
-// eslint-disable-next-line vitest/no-disabled-tests
-describe.skip("MirrorNodeContractQuery", function () {
+describe("MirrorNodeContractQuery", function () {
     let env, contractId;
     const ADDRESS = "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4";
 
@@ -41,7 +39,7 @@ describe.skip("MirrorNodeContractQuery", function () {
             ).getReceipt(env.client)
         ).contractId;
 
-        await setTimeout(5000);
+        await sleep(5000);
     });
 
     it("should get contract owner", async function () {
@@ -143,7 +141,7 @@ describe.skip("MirrorNodeContractQuery", function () {
 
         const newOwnerEvmAddress = accountId.toEvmAddress();
 
-        await setTimeout(3000);
+        await sleep(3000);
 
         const gas = await new MirrorNodeContractEstimateQuery()
             .setContractId(contractId)

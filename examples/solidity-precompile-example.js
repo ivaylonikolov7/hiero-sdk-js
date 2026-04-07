@@ -1,4 +1,4 @@
-import * as hashgraph from "@hashgraph/sdk";
+import * as hashgraph from "@hiero-ledger/sdk";
 import ContractHelper from "./ContractHelper.js";
 import contract from "./precompile-example/PrecompileExample.json" with { type: "json" };
 import dotenv from "dotenv";
@@ -24,7 +24,7 @@ async function main() {
         provider,
     );
 
-    const operatorPrivateKey = hashgraph.PrivateKey.fromStringED25519(
+    const operatorPrivateKey = hashgraph.PrivateKey.fromStringECDSA(
         process.env.OPERATOR_KEY,
     );
     const operatorPublicKey = operatorPrivateKey.publicKey;
@@ -33,7 +33,7 @@ async function main() {
         process.env.OPERATOR_ID,
     );
 
-    const alicePrivateKey = hashgraph.PrivateKey.generateED25519();
+    const alicePrivateKey = hashgraph.PrivateKey.generateECDSA();
     const alicePublicKey = alicePrivateKey.publicKey;
 
     try {

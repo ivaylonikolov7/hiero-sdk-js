@@ -6,7 +6,7 @@ import {
     NodeUpdateTransaction,
     NodeDeleteTransaction,
     ServiceEndpoint,
-} from "@hashgraph/sdk";
+} from "@hiero-ledger/sdk";
 
 import dotenv from "dotenv";
 
@@ -25,7 +25,7 @@ async function main() {
 
     const network = process.env.HEDERA_NETWORK;
     const operatorId = AccountId.fromString(process.env.OPERATOR_ID);
-    const operatorKey = PrivateKey.fromStringDer(process.env.OPERATOR_KEY);
+    const operatorKey = PrivateKey.fromStringECDSA(process.env.OPERATOR_KEY);
     const client = Client.forName(network).setOperator(operatorId, operatorKey);
 
     // Transaction parameters

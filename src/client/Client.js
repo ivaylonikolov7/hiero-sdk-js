@@ -12,6 +12,12 @@ import FileId from "../file/FileId.js";
 import Logger from "../logger/Logger.js"; // eslint-disable-line
 import { convertToNumber } from "../util.js";
 import AddressBookQuery from "../network/AddressBookQuery.js";
+import {
+    DEFAULT_GRPC_DEADLINE,
+    DEFAULT_LOCAL_MAX_ATTEMPTS,
+    DEFAULT_MAX_ATTEMPTS,
+    DEFAULT_REQUEST_TIMEOUT,
+} from "../constants/ClientConstants.js";
 
 /**
  * @typedef {import("../channel/Channel.js").default} Channel
@@ -40,6 +46,8 @@ import AddressBookQuery from "../network/AddressBookQuery.js";
  * @property {boolean} [scheduleNetworkUpdate]
  * @property {number} [shard]
  * @property {number} [realm]
+ * @property {number} [grpcDeadline]
+ * @property {number} [requestTimeout]
  */
 
 /**
@@ -108,8 +116,11 @@ export default class Client {
             }
         }
 
-        /** @type {number | null} */
-        this._maxAttempts = null;
+        /** @type {number} */
+        this._maxAttempts =
+            props != null && this._isLocalNetwork(props.network)
+                ? DEFAULT_LOCAL_MAX_ATTEMPTS
+                : DEFAULT_MAX_ATTEMPTS;
 
         /** @private */
         this._signOnDemand = false;
@@ -126,8 +137,23 @@ export default class Client {
         /** @private */
         this._defaultRegenerateTransactionId = true;
 
+        /**
+         * When enabled, allows receipt queries to fail over to other nodes
+         * if the submitting node is unresponsive. Default is false to preserve
+         * existing semantics where receipt queries are pinned to the submitting node.
+         *
+         * Tradeoff: Improved availability vs the rare case where only the submitting
+         * node may have final failure information.
+         *
+         * @private
+         */
+        this._allowReceiptNodeFailover = false;
+
         /** @private */
-        this._requestTimeout = null;
+        this._requestTimeout = DEFAULT_REQUEST_TIMEOUT;
+
+        /** @private */
+        this._grpcDeadline = DEFAULT_GRPC_DEADLINE;
 
         /**
          * @type {boolean}
@@ -154,6 +180,23 @@ export default class Client {
 
         if (props != null && props.realm != null) {
             this._realm = props.realm;
+        }
+
+        if (props != null && props.grpcDeadline != null) {
+            this.setGrpcDeadline(props.grpcDeadline);
+        }
+
+        if (props != null && props.requestTimeout != null) {
+            this.setRequestTimeout(props.requestTimeout);
+        }
+
+        // Validate that requestTimeout is larger than grpcDeadline after both are set
+        if (this._requestTimeout <= this._grpcDeadline) {
+            console.warn(
+                `DEPRECATION WARNING: requestTimeout (${this._requestTimeout}ms) should be larger than grpcDeadline (${this._grpcDeadline}ms). ` +
+                    `This configuration may cause operations to fail unexpectedly. ` +
+                    `This will throw an error in the next major version. Please adjust your timeout values.`,
+            );
         }
 
         /** @internal */
@@ -252,6 +295,32 @@ export default class Client {
     }
 
     /**
+     * @returns {boolean}
+     */
+    get isLocalNetwork() {
+        return this._isLocalNetwork();
+    }
+
+    /**
+     * @private
+     * @param {{[key: string]: (string | AccountId)} | string} [network]
+     * @returns {boolean}
+     */
+    _isLocalNetwork(network = this.network) {
+        if (typeof network === "string") {
+            return network === "local-node";
+        }
+
+        if (network == null) {
+            return false;
+        }
+
+        return Object.keys(network).some(
+            (key) => key.includes("127.0.0.1") || key.includes("localhost"),
+        );
+    }
+
+    /**
      * @param {string[] | string} mirrorNetwork
      * @returns {void}
      */
@@ -265,6 +334,14 @@ export default class Client {
      */
     get mirrorNetwork() {
         return this._mirrorNetwork.network;
+    }
+
+    /**
+     * @returns {string}
+     * @throws {Error} When no mirror network is configured or available
+     */
+    get mirrorRestApiBaseUrl() {
+        return this._mirrorNetwork.mirrorRestApiBaseUrl;
     }
 
     /**
@@ -447,6 +524,32 @@ export default class Client {
     }
 
     /**
+     * @returns {boolean}
+     */
+    get allowReceiptNodeFailover() {
+        return this._allowReceiptNodeFailover;
+    }
+
+    /**
+     * Enable or disable receipt query failover to other nodes when the submitting node
+     * is unresponsive. When enabled, receipt queries will start with the submitting node
+     * but can fail over to other nodes in the network if needed.
+     *
+     * Default is `false` to preserve existing behavior where receipt queries are pinned
+     * to the submitting node only.
+     *
+     * **Tradeoff**: Enabling this improves availability for high-throughput/relay use cases,
+     * but in rare cases only the submitting node may have the final failure information.
+     *
+     * @param {boolean} allowReceiptNodeFailover
+     * @returns {this}
+     */
+    setAllowReceiptNodeFailover(allowReceiptNodeFailover) {
+        this._allowReceiptNodeFailover = allowReceiptNodeFailover;
+        return this;
+    }
+
+    /**
      * @returns {Hbar}
      */
     get defaultMaxQueryPayment() {
@@ -490,7 +593,7 @@ export default class Client {
      * @returns {number}
      */
     get maxAttempts() {
-        return this._maxAttempts != null ? this._maxAttempts : 10;
+        return this._maxAttempts;
     }
 
     /**
@@ -535,15 +638,24 @@ export default class Client {
     }
 
     /**
-     * @returns {number}
+     * Gets the maximum number of nodes that a transaction or query will attempt to execute against.
+     *
+     * @returns {number} The current maximum nodes per transaction setting.
+     *   Returns -1 if no limit is set (uses network defaults).
      */
     get maxNodesPerTransaction() {
         return this._network.maxNodesPerTransaction;
     }
 
     /**
-     * @param {number} maxNodesPerTransaction
-     * @returns {this}
+     * Sets the maximum number of nodes that a transaction or query will execute against.
+     *
+     * - **Before freezing**: Limits automatic node selection when no explicit nodes are set
+     * - **After freezing**: Trims frozen transactions to the first N nodes while preserving signatures
+     * - **Special values**: 0 disables limiting, values > available nodes cause no trimming
+     *
+     * @param {number} maxNodesPerTransaction - Maximum nodes per transaction. Set to 0 to disable.
+     * @returns {this} The client instance for method chaining
      */
     setMaxNodesPerTransaction(maxNodesPerTransaction) {
         this._network.setMaxNodesPerTransaction(maxNodesPerTransaction);
@@ -658,19 +770,63 @@ export default class Client {
     }
 
     /**
-     * @param {number} requestTimeout - Number of milliseconds
+     * Set the total request timeout for complete operations.
+     *
+     * @param {number} requestTimeout - Maximum time in milliseconds for complete Transaction/Query operations
      * @returns {this}
      */
     setRequestTimeout(requestTimeout) {
+        if (requestTimeout <= 0) {
+            throw new Error("requestTimeout must be a positive number");
+        }
+        if (requestTimeout <= this._grpcDeadline) {
+            console.warn(
+                `DEPRECATION WARNING: requestTimeout (${requestTimeout}ms) should be larger than grpcDeadline (${this._grpcDeadline}ms). ` +
+                    `This configuration may cause operations to fail unexpectedly. ` +
+                    `This will throw an error in the next major version. Please adjust your timeout values.`,
+            );
+        }
         this._requestTimeout = requestTimeout;
         return this;
     }
 
     /**
-     * @returns {?number}
+     * Get the total request timeout for complete operations.
+     *
+     * @returns {number} Maximum time in milliseconds for complete Transaction/Query operations
      */
     get requestTimeout() {
         return this._requestTimeout;
+    }
+
+    /**
+     * Set the global gRPC deadline for all requests.
+     *
+     * @param {number} grpcDeadline - Maximum time in milliseconds for a single gRPC request
+     * @returns {this}
+     */
+    setGrpcDeadline(grpcDeadline) {
+        if (grpcDeadline <= 0) {
+            throw new Error("grpcDeadline must be a positive number");
+        }
+        if (grpcDeadline >= this._requestTimeout) {
+            console.warn(
+                `DEPRECATION WARNING: grpcDeadline (${grpcDeadline}ms) should be smaller than requestTimeout (${this._requestTimeout}ms). ` +
+                    `This configuration may cause operations to fail unexpectedly. ` +
+                    `This will throw an error in the next major version. Please adjust your timeout values.`,
+            );
+        }
+        this._grpcDeadline = grpcDeadline;
+        return this;
+    }
+
+    /**
+     * Get the global gRPC deadline for all requests.
+     *
+     * @returns {number} Maximum time in milliseconds for a single gRPC request
+     */
+    get grpcDeadline() {
+        return this._grpcDeadline;
     }
 
     /**
@@ -777,7 +933,9 @@ export default class Client {
      * @returns {(address: string) => ChannelT}
      */
     _createNetworkChannel() {
-        throw new Error("not implemented");
+        return () => {
+            throw new Error("not implemented");
+        };
     }
 
     /**
@@ -785,7 +943,9 @@ export default class Client {
      * @returns {(address: string) => MirrorChannelT}
      */
     _createMirrorNetworkChannel() {
-        throw new Error("not implemented");
+        return () => {
+            throw new Error("not implemented");
+        };
     }
 
     /**

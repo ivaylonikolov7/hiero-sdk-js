@@ -4,7 +4,7 @@ import {
     AccountId,
     AccountCreateTransaction,
     Cache,
-} from "@hashgraph/sdk";
+} from "@hiero-ledger/sdk";
 import axios from "axios";
 
 import dotenv from "dotenv";
@@ -54,7 +54,7 @@ async function main() {
 
     const client = Client.forName(process.env.HEDERA_NETWORK).setOperator(
         AccountId.fromString(process.env.OPERATOR_ID),
-        PrivateKey.fromStringDer(process.env.OPERATOR_KEY),
+        PrivateKey.fromStringECDSA(process.env.OPERATOR_KEY),
     );
 
     await sync();

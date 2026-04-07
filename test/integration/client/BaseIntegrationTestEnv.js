@@ -32,6 +32,12 @@ export default class BaseIntegrationTestEnv {
         /** @type {AccountId} */
         this.operatorId = options.operatorId;
 
+        /** @type {PrivateKey} */
+        this.genesisOperatorKey = options.genesisOperatorKey;
+
+        /** @type {AccountId} */
+        this.genesisOperatorId = options.genesisOperatorId;
+
         this.throwaway = options.throwaway;
 
         /** @type {Wallet} */
@@ -48,7 +54,7 @@ export default class BaseIntegrationTestEnv {
      * @property {boolean} [options.throwaway]
      */
     static async new(options = {}) {
-        let client, wallet, operatorId, operatorKey;
+        let client, wallet;
 
         if (
             options.env.HEDERA_NETWORK != null &&
@@ -65,9 +71,7 @@ export default class BaseIntegrationTestEnv {
                 options.env.HEDERA_NETWORK == "localhost") ||
             options.env.HEDERA_NETWORK == "local-node"
         ) {
-            client = options.client.forNetwork({
-                "127.0.0.1:50211": new AccountId(3),
-            });
+            client = options.client.forLocalNode();
         } else if (options.env.CONFIG_FILE != null) {
             client = await options.client.fromConfigFile(
                 options.env.CONFIG_FILE,
@@ -82,13 +86,28 @@ export default class BaseIntegrationTestEnv {
             options.env.OPERATOR_ID != null &&
             options.env.OPERATOR_KEY != null
         ) {
-            operatorId = AccountId.fromString(options.env.OPERATOR_ID);
-            operatorKey = PrivateKey.fromStringED25519(
+            this.operatorId = AccountId.fromString(options.env.OPERATOR_ID);
+            this.operatorKey = PrivateKey.fromStringDer(
                 options.env.OPERATOR_KEY,
             );
 
-            client.setOperator(operatorId, operatorKey);
+            client.setOperator(this.operatorId, this.operatorKey);
             client.setMirrorNetwork(options.env.HEDERA_NETWORK);
+        }
+
+        if (
+            options.env.GENESIS_OPERATOR_ID != null &&
+            options.env.GENESIS_OPERATOR_KEY != null
+        ) {
+            const genesisOperatorId = AccountId.fromString(
+                options.env.GENESIS_OPERATOR_ID,
+            );
+            const genesisOperatorKey = PrivateKey.fromStringDer(
+                options.env.GENESIS_OPERATOR_KEY,
+            );
+
+            this.genesisOperatorId = genesisOperatorId;
+            this.genesisOperatorKey = genesisOperatorKey;
         }
 
         client
@@ -109,14 +128,19 @@ export default class BaseIntegrationTestEnv {
             }
         }
         client.setNetwork(network);
-
-        wallet = new Wallet(operatorId, operatorKey, new LocalProvider());
+        wallet = new Wallet(
+            this.operatorId,
+            this.operatorKey,
+            new LocalProvider(),
+        );
 
         return new BaseIntegrationTestEnv({
             client: client,
             wallet: wallet,
-            operatorKey,
-            operatorId,
+            operatorKey: this.operatorKey,
+            operatorId: this.operatorId,
+            genesisOperatorKey: this.genesisOperatorKey,
+            genesisOperatorId: this.genesisOperatorId,
             throwaway: options.throwaway,
         });
     }

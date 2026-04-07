@@ -5,9 +5,9 @@ import Hbar from "../Hbar.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.IGrantedCryptoAllowance} HieroProto.proto.IGrantedCryptoAllowance
- * @typedef {import("@hashgraph/proto").proto.ICryptoAllowance} HieroProto.proto.ICryptoAllowance
- * @typedef {import("@hashgraph/proto").proto.IAccountID} HieroProto.proto.IAccountID
+ * @typedef {import("@hiero-ledger/proto").proto.IGrantedCryptoAllowance} HieroProto.proto.IGrantedCryptoAllowance
+ * @typedef {import("@hiero-ledger/proto").proto.ICryptoAllowance} HieroProto.proto.ICryptoAllowance
+ * @typedef {import("@hiero-ledger/proto").proto.IAccountID} HieroProto.proto.IAccountID
  */
 
 /**
@@ -15,7 +15,9 @@ import Hbar from "../Hbar.js";
  */
 
 /**
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/Channel.js").default} Channel
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  */
 
 /**

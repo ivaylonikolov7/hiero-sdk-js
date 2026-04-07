@@ -23,7 +23,10 @@ import {
     PendingAirdropId,
     TokenRejectTransaction,
     TokenCancelAirdropTransaction,
-} from "@hashgraph/sdk";
+    TokenInfoQuery,
+    TokenNftInfoQuery,
+    Hbar,
+} from "@hiero-ledger/sdk";
 import Long from "long";
 
 import { sdk } from "../sdk_data";
@@ -35,6 +38,8 @@ import {
     configureTokenManagementTransaction,
     createCustomFees,
     executeTokenManagementTransaction,
+    mapTokenInfoResponse,
+    mapTokenNftInfoResponse,
 } from "../utils/helpers/token";
 
 import { applyCommonTransactionParams } from "../params/common-tx-params";
@@ -54,41 +59,48 @@ import {
     AirdropCancelTokenParams,
     AirdropClaimTokenParams,
     RejectTokenParams,
+    GetTokenInfoParams,
+    GetTokenNftInfoParams,
 } from "../params/token";
 
 import {
     TokenResponse,
     TokenBurnResponse,
     TokenMintResponse,
+    TokenInfoQueryResponse,
+    TokenNftInfoQueryResponse,
 } from "../response/token";
 
 // buildCreateToken builds a TokenCreateTransaction from parameters
-const buildCreateToken = ({
-    name,
-    symbol,
-    decimals,
-    initialSupply,
-    treasuryAccountId,
-    adminKey,
-    kycKey,
-    freezeKey,
-    wipeKey,
-    supplyKey,
-    freezeDefault,
-    expirationTime,
-    autoRenewPeriod,
-    autoRenewAccountId,
-    memo,
-    tokenType,
-    supplyType,
-    maxSupply,
-    feeScheduleKey,
-    customFees,
-    pauseKey,
-    metadata,
-    metadataKey,
-    commonTransactionParams,
-}: CreateTokenParams): TokenCreateTransaction => {
+const buildCreateToken = (
+    {
+        name,
+        symbol,
+        decimals,
+        initialSupply,
+        treasuryAccountId,
+        adminKey,
+        kycKey,
+        freezeKey,
+        wipeKey,
+        supplyKey,
+        freezeDefault,
+        expirationTime,
+        autoRenewPeriod,
+        autoRenewAccountId,
+        memo,
+        tokenType,
+        supplyType,
+        maxSupply,
+        feeScheduleKey,
+        customFees,
+        pauseKey,
+        metadata,
+        metadataKey,
+        commonTransactionParams,
+    }: CreateTokenParams,
+    client,
+): TokenCreateTransaction => {
     let transaction = new TokenCreateTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -206,7 +218,7 @@ const buildCreateToken = ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
@@ -216,10 +228,11 @@ const buildCreateToken = ({
 export const createToken = async (
     params: CreateTokenParams,
 ): Promise<TokenResponse> => {
-    const transaction = buildCreateToken(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildCreateToken(params, client);
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         tokenId: receipt.tokenId.toString(),
@@ -228,26 +241,29 @@ export const createToken = async (
 };
 
 // buildUpdateToken builds a TokenUpdateTransaction from parameters
-const buildUpdateToken = ({
-    tokenId,
-    symbol,
-    name,
-    treasuryAccountId,
-    adminKey,
-    kycKey,
-    freezeKey,
-    wipeKey,
-    supplyKey,
-    autoRenewAccountId,
-    autoRenewPeriod,
-    expirationTime,
-    memo,
-    feeScheduleKey,
-    pauseKey,
-    metadata,
-    metadataKey,
-    commonTransactionParams,
-}: UpdateTokenParams): TokenUpdateTransaction => {
+const buildUpdateToken = (
+    {
+        tokenId,
+        symbol,
+        name,
+        treasuryAccountId,
+        adminKey,
+        kycKey,
+        freezeKey,
+        wipeKey,
+        supplyKey,
+        autoRenewAccountId,
+        autoRenewPeriod,
+        expirationTime,
+        memo,
+        feeScheduleKey,
+        pauseKey,
+        metadata,
+        metadataKey,
+        commonTransactionParams,
+    }: UpdateTokenParams,
+    client,
+): TokenUpdateTransaction => {
     let transaction = new TokenUpdateTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -328,7 +344,7 @@ const buildUpdateToken = ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
@@ -338,10 +354,11 @@ const buildUpdateToken = ({
 export const updateToken = async (
     params: UpdateTokenParams,
 ): Promise<TokenResponse> => {
-    const transaction = buildUpdateToken(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildUpdateToken(params, client);
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -349,10 +366,10 @@ export const updateToken = async (
 };
 
 // buildDeleteToken builds a TokenDeleteTransaction from parameters
-const buildDeleteToken = ({
-    tokenId,
-    commonTransactionParams,
-}: DeleteTokenParams): TokenDeleteTransaction => {
+const buildDeleteToken = (
+    { tokenId, commonTransactionParams }: DeleteTokenParams,
+    client,
+): TokenDeleteTransaction => {
     let transaction = new TokenDeleteTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -365,7 +382,7 @@ const buildDeleteToken = ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
@@ -375,10 +392,11 @@ const buildDeleteToken = ({
 export const deleteToken = async (
     params: DeleteTokenParams,
 ): Promise<TokenResponse> => {
-    const transaction = buildDeleteToken(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildDeleteToken(params, client);
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -386,11 +404,14 @@ export const deleteToken = async (
 };
 
 // buildUpdateTokenFeeSchedule builds a TokenFeeScheduleUpdateTransaction from parameters
-const buildUpdateTokenFeeSchedule = ({
-    tokenId,
-    customFees,
-    commonTransactionParams,
-}: UpdateTokenFeeScheduleParams): TokenFeeScheduleUpdateTransaction => {
+const buildUpdateTokenFeeSchedule = (
+    {
+        tokenId,
+        customFees,
+        commonTransactionParams,
+    }: UpdateTokenFeeScheduleParams,
+    client,
+): TokenFeeScheduleUpdateTransaction => {
     let transaction = new TokenFeeScheduleUpdateTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -408,7 +429,7 @@ const buildUpdateTokenFeeSchedule = ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
@@ -418,10 +439,11 @@ const buildUpdateTokenFeeSchedule = ({
 export const updateTokenFeeSchedule = async (
     params: UpdateTokenFeeScheduleParams,
 ): Promise<TokenResponse> => {
-    const transaction = buildUpdateTokenFeeSchedule(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildUpdateTokenFeeSchedule(params, client);
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -432,82 +454,71 @@ export const associateToken = async (
     params: AssociateDisassociateTokenParams,
 ): Promise<TokenResponse> => {
     const transaction = new TokenAssociateTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    const client = sdk.getClient(params.sessionId);
+    configureTokenManagementTransaction(transaction, params, client);
 
-    return await executeTokenManagementTransaction(
-        transaction,
-        sdk.getClient(),
-    );
+    return await executeTokenManagementTransaction(transaction, client);
 };
 
 export const dissociateToken = async (
     params: AssociateDisassociateTokenParams,
 ): Promise<TokenResponse> => {
     const transaction = new TokenDissociateTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    const client = sdk.getClient(params.sessionId);
+    configureTokenManagementTransaction(transaction, params, client);
 
-    return await executeTokenManagementTransaction(
-        transaction,
-        sdk.getClient(),
-    );
+    return await executeTokenManagementTransaction(transaction, client);
 };
 
 export const pauseToken = async (
     params: PauseUnpauseTokenParams,
 ): Promise<TokenResponse> => {
     const transaction = new TokenPauseTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    const client = sdk.getClient(params.sessionId);
+    configureTokenManagementTransaction(transaction, params, client);
 
-    return await executeTokenManagementTransaction(
-        transaction,
-        sdk.getClient(),
-    );
+    return await executeTokenManagementTransaction(transaction, client);
 };
 
 export const unpauseToken = async (
     params: PauseUnpauseTokenParams,
 ): Promise<TokenResponse> => {
     const transaction = new TokenUnpauseTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    const client = sdk.getClient(params.sessionId);
+    configureTokenManagementTransaction(transaction, params, client);
 
-    return await executeTokenManagementTransaction(
-        transaction,
-        sdk.getClient(),
-    );
+    return await executeTokenManagementTransaction(transaction, client);
 };
 
 export const freezeToken = async (
     params: FreezeUnfreezeTokenParams,
 ): Promise<TokenResponse> => {
     const transaction = new TokenFreezeTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    const client = sdk.getClient(params.sessionId);
+    configureTokenManagementTransaction(transaction, params, client);
 
-    return await executeTokenManagementTransaction(
-        transaction,
-        sdk.getClient(),
-    );
+    return await executeTokenManagementTransaction(transaction, client);
 };
 
 export const unfreezeToken = async (
     params: FreezeUnfreezeTokenParams,
 ): Promise<TokenResponse> => {
     const transaction = new TokenUnfreezeTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    const client = sdk.getClient(params.sessionId);
+    configureTokenManagementTransaction(transaction, params, client);
 
-    return await executeTokenManagementTransaction(
-        transaction,
-        sdk.getClient(),
-    );
+    return await executeTokenManagementTransaction(transaction, client);
 };
 
 export const grantTokenKyc = async (
     params: GrantRevokeTokenKycParams,
 ): Promise<TokenResponse> => {
     const transaction = new TokenGrantKycTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    const client = sdk.getClient(params.sessionId);
+    configureTokenManagementTransaction(transaction, params, client);
     const receipt = await executeTokenManagementTransaction(
         transaction,
-        sdk.getClient(),
+        client,
     );
     return { status: receipt.status.toString() };
 };
@@ -516,30 +527,30 @@ export const revokeTokenKyc = async (
     params: GrantRevokeTokenKycParams,
 ): Promise<TokenResponse> => {
     const transaction = new TokenRevokeKycTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    const client = sdk.getClient(params.sessionId);
+    configureTokenManagementTransaction(transaction, params, client);
 
-    return await executeTokenManagementTransaction(
-        transaction,
-        sdk.getClient(),
-    );
+    return await executeTokenManagementTransaction(transaction, client);
 };
 
 // buildMintToken builds a TokenMintTransaction from parameters
 export const buildMintToken = (
     params: MintTokenParams,
+    client,
 ): TokenMintTransaction => {
     const transaction = new TokenMintTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    configureTokenManagementTransaction(transaction, params, client);
     return transaction;
 };
 
 export const mintToken = async (
     params: MintTokenParams,
 ): Promise<TokenMintResponse> => {
-    const transaction = buildMintToken(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildMintToken(params, client);
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -551,19 +562,21 @@ export const mintToken = async (
 // buildBurnToken builds a TokenBurnTransaction from parameters
 export const buildBurnToken = (
     params: BurnTokenParams,
+    client,
 ): TokenBurnTransaction => {
     const transaction = new TokenBurnTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    configureTokenManagementTransaction(transaction, params, client);
     return transaction;
 };
 
 export const burnToken = async (
     params: BurnTokenParams,
 ): Promise<TokenBurnResponse> => {
-    const transaction = buildBurnToken(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildBurnToken(params, client);
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -575,10 +588,11 @@ export const wipeToken = async (
     params: WipeTokenParams,
 ): Promise<TokenBurnResponse> => {
     const transaction = new TokenWipeTransaction();
-    configureTokenManagementTransaction(transaction, params, sdk.getClient());
+    const client = sdk.getClient(params.sessionId);
+    configureTokenManagementTransaction(transaction, params, client);
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -586,10 +600,10 @@ export const wipeToken = async (
 };
 
 // buildAirdropToken builds a TokenAirdropTransaction from parameters
-const buildAirdropToken = ({
-    tokenTransfers,
-    commonTransactionParams,
-}: AirdropTokenParams): TokenAirdropTransaction => {
+const buildAirdropToken = (
+    { tokenTransfers, commonTransactionParams }: AirdropTokenParams,
+    client,
+): TokenAirdropTransaction => {
     const transaction = new TokenAirdropTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -611,28 +625,29 @@ const buildAirdropToken = ({
 
                     isApproved
                         ? transaction.addApprovedTokenTransferWithDecimals(
-                              tokenId,
-                              accountId,
-                              amount,
-                              decimals,
-                          )
-                        : transaction.addTokenTransfer(
-                              tokenId,
-                              accountId,
-                              amount,
-                          );
+                            tokenId,
+                            accountId,
+                            amount,
+                            decimals,
+                        )
+                        : transaction.addTokenTransferWithDecimals(
+                            tokenId,
+                            accountId,
+                            amount,
+                            decimals,
+                        );
                 } else {
                     isApproved
                         ? transaction.addApprovedTokenTransfer(
-                              tokenId,
-                              accountId,
-                              amount,
-                          )
+                            tokenId,
+                            accountId,
+                            amount,
+                        )
                         : transaction.addTokenTransfer(
-                              tokenId,
-                              accountId,
-                              amount,
-                          );
+                            tokenId,
+                            accountId,
+                            amount,
+                        );
                 }
             } else {
                 // NFT airdrop transfer
@@ -649,15 +664,15 @@ const buildAirdropToken = ({
 
                 isApproved
                     ? transaction.addApprovedNftTransfer(
-                          nftId,
-                          senderAccountId,
-                          receiverAccountId,
-                      )
+                        nftId,
+                        senderAccountId,
+                        receiverAccountId,
+                    )
                     : transaction.addNftTransfer(
-                          nftId,
-                          senderAccountId,
-                          receiverAccountId,
-                      );
+                        nftId,
+                        senderAccountId,
+                        receiverAccountId,
+                    );
             }
         }
     }
@@ -666,7 +681,7 @@ const buildAirdropToken = ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
@@ -676,10 +691,11 @@ const buildAirdropToken = ({
 export const airdropToken = async (
     params: AirdropTokenParams,
 ): Promise<TokenResponse> => {
-    const transaction = buildAirdropToken(params);
+    const client = sdk.getClient(params.sessionId);
+    const transaction = buildAirdropToken(params, client);
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -692,7 +708,9 @@ export const claimToken = async ({
     tokenId,
     serialNumbers,
     commonTransactionParams,
+    sessionId,
 }: AirdropClaimTokenParams): Promise<TokenResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new TokenClaimAirdropTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -726,12 +744,12 @@ export const claimToken = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -743,7 +761,9 @@ export const rejectToken = async ({
     tokenIds,
     serialNumbers,
     commonTransactionParams,
+    sessionId,
 }: RejectTokenParams): Promise<TokenResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new TokenRejectTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -776,12 +796,12 @@ export const rejectToken = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -791,7 +811,9 @@ export const rejectToken = async ({
 export const cancelAirdrop = async ({
     pendingAirdrops,
     commonTransactionParams,
+    sessionId,
 }: AirdropCancelTokenParams): Promise<TokenResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new TokenCancelAirdropTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -837,14 +859,91 @@ export const cancelAirdrop = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
-    const txResponse = await transaction.execute(sdk.getClient());
-    const receipt = await txResponse.getReceipt(sdk.getClient());
+    const txResponse = await transaction.execute(client);
+    const receipt = await txResponse.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
     };
+};
+
+export const getTokenInfo = async ({
+    tokenId,
+    queryPayment,
+    maxQueryPayment,
+    getCost,
+    sessionId,
+}: GetTokenInfoParams): Promise<TokenInfoQueryResponse> => {
+    const client = sdk.getClient(sessionId);
+    const query = new TokenInfoQuery().setGrpcDeadline(DEFAULT_GRPC_DEADLINE);
+
+    if (tokenId != null) {
+        query.setTokenId(tokenId);
+    }
+
+    if (queryPayment != null) {
+        query.setQueryPayment(Hbar.fromTinybars(queryPayment));
+    }
+
+    if (maxQueryPayment != null) {
+        query.setMaxQueryPayment(Hbar.fromTinybars(maxQueryPayment));
+    }
+
+    if (getCost) {
+        const cost = await query.getCost(client);
+
+        return {
+            cost: cost.toTinybars().toString(),
+        };
+    }
+
+    const response = await query.execute(client);
+
+    return mapTokenInfoResponse(response);
+};
+
+export const getTokenNftInfo = async ({
+    nftId,
+    queryPayment,
+    maxQueryPayment,
+    getCost,
+    sessionId,
+}: GetTokenNftInfoParams): Promise<TokenNftInfoQueryResponse> => {
+    const client = sdk.getClient(sessionId);
+    const query = new TokenNftInfoQuery().setGrpcDeadline(
+        DEFAULT_GRPC_DEADLINE,
+    );
+
+    if (nftId != null) {
+        query.setNftId(nftId);
+    }
+
+    if (queryPayment != null) {
+        query.setQueryPayment(Hbar.fromTinybars(queryPayment));
+    }
+
+    if (maxQueryPayment != null) {
+        query.setMaxQueryPayment(Hbar.fromTinybars(maxQueryPayment));
+    }
+
+    if (getCost) {
+        const cost = await query.getCost(client);
+
+        return {
+            cost: cost.toTinybars().toString(),
+        };
+    }
+
+    const response = await query.execute(client);
+
+    // TokenNftInfoQuery returns an array, but for a single NFT query, we return the first result
+    if (response && response.length > 0) {
+        return mapTokenNftInfoResponse(response[0]);
+    }
+
+    throw new Error("No NFT info returned");
 };

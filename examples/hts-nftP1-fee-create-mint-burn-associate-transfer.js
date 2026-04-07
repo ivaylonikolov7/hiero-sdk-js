@@ -16,11 +16,11 @@ import {
     AccountUpdateTransaction,
     TokenAssociateTransaction,
     AccountCreateTransaction,
-} from "@hashgraph/sdk";
+} from "@hiero-ledger/sdk";
 
 /**
- * @typedef {import("@hashgraph/sdk").TokenInfo} TokenInfo
- * @typedef {import("@hashgraph/sdk").TransactionReceipt} TransactionReceipt
+ * @typedef {import("@hiero-ledger/sdk").TokenInfo} TokenInfo
+ * @typedef {import("@hiero-ledger/sdk").TransactionReceipt} TransactionReceipt
  */
 
 import dotenv from "dotenv";
@@ -29,7 +29,7 @@ dotenv.config();
 
 // Configure accounts and client, and generate needed keys
 const operatorId = AccountId.fromString(process.env.OPERATOR_ID);
-const operatorKey = PrivateKey.fromStringDer(process.env.OPERATOR_KEY);
+const operatorKey = PrivateKey.fromStringECDSA(process.env.OPERATOR_KEY);
 const nodes = {
     "127.0.0.1:50211": new AccountId(3),
 };

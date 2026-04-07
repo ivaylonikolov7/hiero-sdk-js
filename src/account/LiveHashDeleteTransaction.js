@@ -7,17 +7,18 @@ import AccountId from "./AccountId.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.ITransaction} HieroProto.proto.ITransaction
- * @typedef {import("@hashgraph/proto").proto.ISignedTransaction} HieroProto.proto.ISignedTransaction
- * @typedef {import("@hashgraph/proto").proto.TransactionBody} HieroProto.proto.TransactionBody
- * @typedef {import("@hashgraph/proto").proto.ITransactionBody} HieroProto.proto.ITransactionBody
- * @typedef {import("@hashgraph/proto").proto.ITransactionResponse} HieroProto.proto.ITransactionResponse
- * @typedef {import("@hashgraph/proto").proto.ICryptoDeleteLiveHashTransactionBody} HieroProto.proto.ICryptoDeleteLiveHashTransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITransaction} HieroProto.proto.ITransaction
+ * @typedef {import("@hiero-ledger/proto").proto.ISignedTransaction} HieroProto.proto.ISignedTransaction
+ * @typedef {import("@hiero-ledger/proto").proto.TransactionBody} HieroProto.proto.TransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITransactionBody} HieroProto.proto.ITransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITransactionResponse} HieroProto.proto.ITransactionResponse
+ * @typedef {import("@hiero-ledger/proto").proto.ICryptoDeleteLiveHashTransactionBody} HieroProto.proto.ICryptoDeleteLiveHashTransactionBody
  */
 
 /**
  * @typedef {import("../channel/Channel.js").default} Channel
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  * @typedef {import("../transaction/TransactionId.js").default} TransactionId
  */
 

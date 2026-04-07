@@ -4,25 +4,27 @@ import TokenId from "./TokenId.js";
 import Transaction, {
     TRANSACTION_REGISTRY,
 } from "../transaction/Transaction.js";
-import Long from "long";
 import * as hex from "../encoding/hex.js";
+import { convertAmountToLong } from "../util.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.ITransaction} HieroProto.proto.ITransaction
- * @typedef {import("@hashgraph/proto").proto.ISignedTransaction} HieroProto.proto.ISignedTransaction
- * @typedef {import("@hashgraph/proto").proto.TransactionBody} HieroProto.proto.TransactionBody
- * @typedef {import("@hashgraph/proto").proto.ITransactionBody} HieroProto.proto.ITransactionBody
- * @typedef {import("@hashgraph/proto").proto.ITransactionResponse} HieroProto.proto.ITransactionResponse
- * @typedef {import("@hashgraph/proto").proto.ITokenMintTransactionBody} HieroProto.proto.ITokenMintTransactionBody
- * @typedef {import("@hashgraph/proto").proto.ITokenID} HieroProto.proto.ITokenID
+ * @typedef {import("@hiero-ledger/proto").proto.ITransaction} HieroProto.proto.ITransaction
+ * @typedef {import("@hiero-ledger/proto").proto.ISignedTransaction} HieroProto.proto.ISignedTransaction
+ * @typedef {import("@hiero-ledger/proto").proto.TransactionBody} HieroProto.proto.TransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITransactionBody} HieroProto.proto.ITransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITransactionResponse} HieroProto.proto.ITransactionResponse
+ * @typedef {import("@hiero-ledger/proto").proto.ITokenMintTransactionBody} HieroProto.proto.ITokenMintTransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITokenID} HieroProto.proto.ITokenID
  */
 
 /**
  * @typedef {import("../channel/Channel.js").default} Channel
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  * @typedef {import("../account/AccountId.js").default} AccountId
  * @typedef {import("../transaction/TransactionId.js").default} TransactionId
+ * @typedef {import("bignumber.js").default} BigNumber
  */
 
 /**
@@ -32,7 +34,7 @@ export default class TokenMintTransaction extends Transaction {
     /**
      * @param {object} [props]
      * @param {TokenId | string} [props.tokenId]
-     * @param {Long | number} [props.amount]
+     * @param {Long | number | BigNumber | bigint} [props.amount]
      * @param {Uint8Array[]} [props.metadata]
      */
     constructor(props = {}) {
@@ -138,12 +140,12 @@ export default class TokenMintTransaction extends Transaction {
     }
 
     /**
-     * @param {Long | number} amount
+     * @param {Long | number | BigNumber | bigint} amount
      * @returns {this}
      */
     setAmount(amount) {
         this._requireNotFrozen();
-        this._amount = amount instanceof Long ? amount : Long.fromValue(amount);
+        this._amount = convertAmountToLong(amount);
 
         return this;
     }

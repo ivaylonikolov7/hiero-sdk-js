@@ -3,7 +3,7 @@
 import Query from "../query/Query.js";
 import NodeAddress from "../address_book/NodeAddress.js";
 import NodeAddressBook from "../address_book/NodeAddressBook.js";
-import * as HieroProto from "@hashgraph/proto";
+import * as HieroProto from "@hiero-ledger/proto";
 import FileId from "../file/FileId.js";
 import { RST_STREAM } from "../Executable.js";
 
@@ -163,13 +163,6 @@ export default class AddressBookQuery extends Query {
      * @returns {Promise<NodeAddressBook>}
      */
     execute(client, requestTimeout) {
-        // Extra validation when initializing the client with only a mirror network
-        if (client._network._network.size === 0 && !client._timer) {
-            throw new Error(
-                "The client's network update period is required. Please set it using the setNetworkUpdatePeriod method.",
-            );
-        }
-
         return new Promise((resolve, reject) => {
             this._makeServerStreamRequest(
                 client,
@@ -188,6 +181,7 @@ export default class AddressBookQuery extends Query {
      * @param {number=} requestTimeout
      */
     _makeServerStreamRequest(client, resolve, reject, requestTimeout) {
+        const maxAttempts = this._maxAttempts ?? client.maxAttempts;
         const request =
             HieroProto.com.hedera.mirror.api.proto.AddressBookQuery.encode({
                 fileId:
@@ -217,7 +211,7 @@ export default class AddressBookQuery extends Query {
                     const message =
                         error instanceof Error ? error.message : error.details;
                     if (
-                        this._attempt < this._maxAttempts &&
+                        this._attempt < maxAttempts &&
                         !client.isClientShutDown &&
                         this._retryHandler(error)
                     ) {
@@ -225,7 +219,7 @@ export default class AddressBookQuery extends Query {
                             250 * 2 ** this._attempt,
                             this._maxBackoff,
                         );
-                        if (this._attempt >= this._maxAttempts) {
+                        if (this._attempt >= maxAttempts) {
                             console.warn(
                                 `Error getting nodes from mirror for file ${
                                     this._fileId != null

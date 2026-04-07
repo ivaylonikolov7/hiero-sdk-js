@@ -5,17 +5,18 @@ import ContractId from "./ContractId.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.IQuery} HieroProto.proto.IQuery
- * @typedef {import("@hashgraph/proto").proto.IQueryHeader} HieroProto.proto.IQueryHeader
- * @typedef {import("@hashgraph/proto").proto.IResponse} HieroProto.proto.IResponse
- * @typedef {import("@hashgraph/proto").proto.IResponseHeader} HieroProto.proto.IResponseHeader
- * @typedef {import("@hashgraph/proto").proto.IContractGetBytecodeQuery} HieroProto.proto.IContractGetBytecodeQuery
- * @typedef {import("@hashgraph/proto").proto.IContractGetBytecodeResponse} HieroProto.proto.IContractGetBytecodeResponse
+ * @typedef {import("@hiero-ledger/proto").proto.IQuery} HieroProto.proto.IQuery
+ * @typedef {import("@hiero-ledger/proto").proto.IQueryHeader} HieroProto.proto.IQueryHeader
+ * @typedef {import("@hiero-ledger/proto").proto.IResponse} HieroProto.proto.IResponse
+ * @typedef {import("@hiero-ledger/proto").proto.IResponseHeader} HieroProto.proto.IResponseHeader
+ * @typedef {import("@hiero-ledger/proto").proto.IContractGetBytecodeQuery} HieroProto.proto.IContractGetBytecodeQuery
+ * @typedef {import("@hiero-ledger/proto").proto.IContractGetBytecodeResponse} HieroProto.proto.IContractGetBytecodeResponse
  */
 
 /**
  * @typedef {import("../channel/Channel.js").default} Channel
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  * @typedef {import("../account/AccountId.js").default} AccountId
  */
 

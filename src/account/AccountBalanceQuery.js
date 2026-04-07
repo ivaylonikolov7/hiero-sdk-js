@@ -7,17 +7,18 @@ import AccountBalance from "./AccountBalance.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.IQuery} HieroProto.proto.IQuery
- * @typedef {import("@hashgraph/proto").proto.IQueryHeader} HieroProto.proto.IQueryHeader
- * @typedef {import("@hashgraph/proto").proto.IResponse} HieroProto.proto.IResponse
- * @typedef {import("@hashgraph/proto").proto.IResponseHeader} HieroProto.proto.IResponseHeader
- * @typedef {import("@hashgraph/proto").proto.ICryptoGetAccountBalanceQuery} HieroProto.proto.ICryptoGetAccountBalanceQuery
- * @typedef {import("@hashgraph/proto").proto.ICryptoGetAccountBalanceResponse} HieroProto.proto.ICryptoGetAccountBalanceResponse
+ * @typedef {import("@hiero-ledger/proto").proto.IQuery} HieroProto.proto.IQuery
+ * @typedef {import("@hiero-ledger/proto").proto.IQueryHeader} HieroProto.proto.IQueryHeader
+ * @typedef {import("@hiero-ledger/proto").proto.IResponse} HieroProto.proto.IResponse
+ * @typedef {import("@hiero-ledger/proto").proto.IResponseHeader} HieroProto.proto.IResponseHeader
+ * @typedef {import("@hiero-ledger/proto").proto.ICryptoGetAccountBalanceQuery} HieroProto.proto.ICryptoGetAccountBalanceQuery
+ * @typedef {import("@hiero-ledger/proto").proto.ICryptoGetAccountBalanceResponse} HieroProto.proto.ICryptoGetAccountBalanceResponse
  */
 
 /**
  * @typedef {import("../channel/Channel.js").default} Channel
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  */
 
 /**
@@ -166,7 +167,6 @@ export default class AccountBalanceQuery extends Query {
 
     /**
      * @override
-     * @override
      * @internal
      * @param {HieroProto.proto.IResponse} response
      * @returns {HieroProto.proto.IResponseHeader}
@@ -183,15 +183,12 @@ export default class AccountBalanceQuery extends Query {
 
     /**
      * @override
-     * @override
      * @internal
      * @param {HieroProto.proto.IResponse} response
-     * @param {AccountId} nodeAccountId
-     * @param {HieroProto.proto.IQuery} request
      * @returns {Promise<AccountBalance>}
      */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _mapResponse(response, nodeAccountId, request) {
+
+    _mapResponse(response) {
         const cryptogetAccountBalance =
             /** @type {HieroProto.proto.ICryptoGetAccountBalanceResponse} */ (
                 response.cryptogetAccountBalance
@@ -233,6 +230,5 @@ export default class AccountBalanceQuery extends Query {
 
 QUERY_REGISTRY.set(
     "cryptogetAccountBalance",
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    AccountBalanceQuery._fromProtobuf,
+    AccountBalanceQuery._fromProtobuf.bind(null),
 );

@@ -7,6 +7,7 @@ import Transaction, {
 } from "../transaction/Transaction.js";
 import Long from "long";
 import AccountId from "../account/AccountId.js";
+import { convertAmountToLong } from "../util.js";
 import Timestamp from "../Timestamp.js";
 import Duration from "../Duration.js";
 import CustomFixedFee from "./CustomFixedFee.js";
@@ -18,19 +19,20 @@ import Key from "../Key.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.ITransaction} HieroProto.proto.ITransaction
- * @typedef {import("@hashgraph/proto").proto.ISignedTransaction} HieroProto.proto.ISignedTransaction
- * @typedef {import("@hashgraph/proto").proto.TransactionBody} HieroProto.proto.TransactionBody
- * @typedef {import("@hashgraph/proto").proto.ITransactionBody} HieroProto.proto.ITransactionBody
- * @typedef {import("@hashgraph/proto").proto.ITransactionResponse} HieroProto.proto.ITransactionResponse
- * @typedef {import("@hashgraph/proto").proto.ITokenCreateTransactionBody} HieroProto.proto.ITokenCreateTransactionBody
- * @typedef {import("@hashgraph/proto").proto.ITokenID} HieroProto.proto.ITokenID
+ * @typedef {import("@hiero-ledger/proto").proto.ITransaction} HieroProto.proto.ITransaction
+ * @typedef {import("@hiero-ledger/proto").proto.ISignedTransaction} HieroProto.proto.ISignedTransaction
+ * @typedef {import("@hiero-ledger/proto").proto.TransactionBody} HieroProto.proto.TransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITransactionBody} HieroProto.proto.ITransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITransactionResponse} HieroProto.proto.ITransactionResponse
+ * @typedef {import("@hiero-ledger/proto").proto.ITokenCreateTransactionBody} HieroProto.proto.ITokenCreateTransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITokenID} HieroProto.proto.ITokenID
  */
 
 /**
  * @typedef {import("bignumber.js").default} BigNumber
  * @typedef {import("../channel/Channel.js").default} Channel
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  * @typedef {import("../transaction/TransactionId.js").default} TransactionId
  * @typedef {import("./CustomFee.js").default} CustomFee
  */
@@ -44,7 +46,7 @@ export default class TokenCreateTransaction extends Transaction {
      * @param {string} [props.tokenName]
      * @param {string} [props.tokenSymbol]
      * @param {Long | number} [props.decimals]
-     * @param {Long | number} [props.initialSupply]
+     * @param {Long | number | BigNumber | bigint} [props.initialSupply]
      * @param {AccountId | string} [props.treasuryAccountId]
      * @param {Key} [props.adminKey]
      * @param {Key} [props.kycKey]
@@ -61,7 +63,7 @@ export default class TokenCreateTransaction extends Transaction {
      * @param {CustomFee[]} [props.customFees]
      * @param {TokenType} [props.tokenType]
      * @param {TokenSupplyType} [props.supplyType]
-     * @param {Long | number} [props.maxSupply]
+     * @param {Long | number | BigNumber | bigint} [props.maxSupply]
      * @param {Key} [props.metadataKey]
      * @param {Uint8Array} [props.metadata]
      */
@@ -486,12 +488,12 @@ export default class TokenCreateTransaction extends Transaction {
     }
 
     /**
-     * @param {Long | number} initialSupply
+     * @param {Long | number | BigNumber | bigint} initialSupply
      * @returns {this}
      */
     setInitialSupply(initialSupply) {
         this._requireNotFrozen();
-        this._initialSupply = Long.fromValue(initialSupply);
+        this._initialSupply = convertAmountToLong(initialSupply);
 
         return this;
     }
@@ -819,14 +821,11 @@ export default class TokenCreateTransaction extends Transaction {
     }
 
     /**
-     * @param {Long | number} maxSupply
+     * @param {Long | number | BigNumber | bigint} maxSupply
      * @returns {this}
      */
     setMaxSupply(maxSupply) {
-        this._maxSupply =
-            typeof maxSupply === "number"
-                ? Long.fromNumber(maxSupply)
-                : maxSupply;
+        this._maxSupply = convertAmountToLong(maxSupply);
         return this;
     }
 

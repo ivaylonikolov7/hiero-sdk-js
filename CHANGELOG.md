@@ -5,6 +5,154 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# v2.83.0 - beta.3
+
+### Added
+- Support for Hiero Hooks [#3911](https://github.com/hiero-ledger/hiero-sdk-js/pull/3911)
+
+### Fixed
+- Add a new Logger constructor overload that accepts an options object (LoggerOptions) with a silent flag, which creates a no-op pino logger (enabled: false) without spawning a pino-pretty worker thread
+- The legacy positional-arguments constructor (new Logger(level, logFile, sync, ...)) remains fully intact — no breaking changes. Add JSDoc @overload annotations for both constructor signatures
+
+# v2.82.0
+
+### Added
+- String input support for `PendingAirdropId` constructor and setter methods (`setSenderId`, `setReceiverId`, `setTokenId`, `setNftId`), allowing callers to pass string representations of IDs instead of only object instances. [#3844](https://github.com/hiero-ledger/hiero-sdk-js/pull/3844)
+
+### Changed
+- Migrated from `ethers` v5 to `ethers` v6, resolving peer dependency security vulnerabilities in transitive dependencies (e.g. `elliptic`). [#3870](https://github.com/hiero-ledger/hiero-sdk-js/pull/3870)
+- Upgraded dev dependency `typescript` from 5.7.2 to 5.9.3 and `@types/node` from 24.0.8 to 25.5.0 to fix TS 5.9 `Uint8Array` generic type compatibility issues. [#3871](https://github.com/hiero-ledger/hiero-sdk-js/pull/3871)
+- Bumped `bignumber.js` from 9.1.1 to 10.0.2. Note: `BigNumber.DEBUG` has been removed upstream — invalid input now always throws instead of returning `NaN`. [#3807](https://github.com/hiero-ledger/hiero-sdk-js/pull/3807)
+
+### Fixed
+- Resolved an issue where `NodeUpdateTransaction` was clearing the node's description when the description field had not been explicitly set. [#3889](https://github.com/hiero-ledger/hiero-sdk-js/pull/3889)
+
+# 2.81.0
+
+### Fixed
+- Resolved issues related to inconsistent handling of multiple transaction bodies, ensuring transactions are processed and serialized consistently across the SDK. [#3832](https://github.com/hiero-ledger/hiero-sdk-js/pull/3832)
+
+# 2.81.0-beta.1
+
+### Added
+
+- HIP-1195 support. [#3535](https://github.com/hiero-ledger/hiero-sdk-js/pull/3535)  - *Released but not supported on Testnet yet*
+- Allow multiple nodes on getRecord/getReceipt. [#3741](https://github.com/hiero-ledger/hiero-sdk-js/pull/3741)
+
+# 2.80.0
+
+### Fixed
+- Fixed an integer overflow issue where `validStart` and `expirationTime` (Unix seconds stored as 64-bit values) were incorrectly converted using `Long.toInt()`, causing dates beyond `2^32−1` seconds (e.g., year 2125) to decode incorrectly (e.g., as 1988). `ExchangeRate` and `ExpirationTime` now correctly use 64-bit values. [#3641](https://github.com/hiero-ledger/hiero-sdk-js/pull/3641)
+- Resolved a race condition in node health handling where concurrent failures could repeatedly increase backoff and mark a node unhealthy for an excessive duration. Backoff is now only increased when the node is healthy, preventing runaway backoff under high concurrency. [#3647](https://github.com/hiero-ledger/hiero-sdk-js/pull/3647)
+
+# 2.80.0-beta.1
+
+### Changed
+- Switched to **pnpm workspaces** for local development library linking, replacing the unsupported `yalc`. This improves maintainability and contributor development experience. ([#3610](https://github.com/hiero-ledger/hiero-sdk-js/pull/3610))
+- Improved contributor experience by integrating **solo** as a development dependency with predefined start scripts and supporting documentation. ([#3614](https://github.com/hiero-ledger/hiero-sdk-js/pull/3614))
+
+# 2.79.0
+
+### Addded 
+
+- Tests for HIP-1300
+
+# 2.79.0-beta.13
+
+### Added
+
+- Support for Ethereum type 4 transaction (currently not supported in consensus node)
+
+# 2.79.0-beta.12
+
+### Added
+
+- Updated publishing mechanism to support npmjs' new OIDC trusted publishers [#3572](https://github.com/hiero-ledger/hiero-sdk-js/pull/3572)
+
+# 2.78.0
+
+### Added 
+
+- Retry mechanism when a transaction hits `INVALID_NODE_ACCOUNT_ID` that updates the network automatically in accordance to [#53](https://github.com/hiero-ledger/sdk-collaboration-hub/pull/53)
+
+### Fixed 
+
+-  Fix of the pollyfills for react native environment not being loaded correctly, causing No PRNG errors [#3526](https://github.com/hiero-ledger/hiero-sdk-js/pull/3526)
+
+# v2.78.0-beta.2
+
+### Changed
+
+- Updated the entire codebase to use the definitions from the @hiero-ledger/* packages instead of @hashgraph/* packages. This is part of the transition to the new @hiero-ledger namespace for all SDK packages. [#3400]
+- Swap publishing order of @hiero-ledger and @hashgraph packages to ensure @hiero-ledger packages are published first. [#3400]
+
+## v2.77.0
+
+### Fixed
+- Resolved an issue where the mirror network was not correctly set in the client state when using `WebClient.forMirrorNetwork` in web environments. [#3510](https://github.com/hiero-ledger/hiero-sdk-js/pull/3510)
+- Fixed a bug preventing `AddressBookQuery` from executing when the `Client` class had an empty network state. [#3510](https://github.com/hiero-ledger/hiero-sdk-js/pull/3510)
+- Corrected a model definition issue where a property of the `Node` model was not marked as optional. [#3510](https://github.com/hiero-ledger/hiero-sdk-js/pull/3510)
+
+
+## v2.76.0
+
+### Added
+
+- Added New gRPC web proxy for node 32. [#3482](https://github.com/hiero-ledger/hiero-sdk-js/pull/3482)
+
+### Fixed
+
+- Restored backward compatibility for custom network configurations in the web environment that include a URL scheme (e.g., https://node00.swirldslabs.com:443). The SDK now normalizes these endpoints internally to the expected host:port format to prevent breaking existing integrations. A deprecation warning is logged to encourage migration to the correct format.[#3480](https://github.com/hiero-ledger/hiero-sdk-js/pull/3480)
+
+### Deprecated
+
+- Endpoints with URL schemes (http:// or https://) are now deprecated. While still accepted for backward compatibility, developers should update their configurations to use the documented host:port format (e.g., node00.swirldslabs.com:443). Support for scheme-prefixed endpoints will be removed in a future release.[#3480](https://github.com/hiero-ledger/hiero-sdk-js/pull/3480)
+
+## v2.75.0
+
+### Fixed
+
+- Fixed pagination issue in `AddressBookQuery` for web environments where only the first page of nodes from the Mirror Node API was being retrieved instead of all available pages. [#3421](https://github.com/hiero-ledger/hiero-sdk-js/pull/3421)
+
+## v2.74.0
+
+### Fixed
+
+- Fixed an issue where setMaxNodesPerTransaction() had no effect if called after a transaction was frozen. The setting is now applied correctly, allowing dApps and wallets to reduce redundant signing prompts when executing transactions. [#3383](https://github.com/hiero-ledger/hiero-sdk-js/pull/3383)
+
+### Added
+
+- Extended amount field support across the SDK to accept BigNumber and bigint types in addition to existing Long and number types, ensuring consistent handling of large amounts throughout the codebase. [#3394](https://github.com/hiero-ledger/hiero-sdk-js/pull/3394)
+- Added support for latest Metro bundler by adding "react-native" to `package.json`'s exports [#3388](https://github.com/hiero-ledger/hiero-sdk-js/pull/3388)
+
+### Changed
+
+- This moves the mirrorRestApiBaseUrl construction from the client to the MirrorNode class for better separation of concerns.
+Additional fix - port for the rest api is handled correctly for local dev environments. [#3395](https://github.com/hiero-ledger/hiero-sdk-js/pull/3395)
+- Added New gRPC web proxies for node 33 and node 34[#3384](https://github.com/hiero-ledger/hiero-sdk-js/pull/3384)
+
+## v2.73.2
+
+### Added
+- Introduced `Client.mirrorRestApiBaseUrl` getter to provide the full Mirror Node REST API base URL, including scheme and port. [#3376](https://github.com/hiero-ledger/hiero-sdk-js/pull/3376)
+
+### Changed
+- Updated `AccountId.populateAccountEvmAddress`, `AccountId.populateAccountNum`  `MirrorNodeContractQuery` to construct URLs using `mirrorRestApiBaseUrl` instead of manually parsing strings. [#3376](https://github.com/hiero-ledger/hiero-sdk-js/pull/3376)
+
+### Fixed
+- Resolved an issue in `MirrorNodeContractQuery` where the port was incorrectly overridden to `8545` for custom network configurations. [#3376](https://github.com/hiero-ledger/hiero-sdk-js/pull/3376)
+
+## v2.73.1
+
+### Added
+
+- Added negative NodeId check in the NodeUpdateTransaction and NodeDeleteTransaction
+- Updated NodeDeleteTransaction and NodeUpdateTransaction to transform the input always to Long
+
+### Changed
+
+- Pin all dependency versions in the SDK package/proto package/cryptography
+
 ## v2.72.0
 
 ### Added
@@ -19,7 +167,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `WebClient.forTestnetAsync()`
   - `WebClient.forPreviewnetAsync()`
   - `WebClient.forNameAsync(name)` [#3274](https://github.com/hiero-ledger/hiero-sdk-js/pull/3274)
-  
+
   These methods default to performing an address book update unless `scheduleNetworkUpdate` is explicitly set to `false`, improving client reliability.
 - Async client initialization for `NativeClient` (intended for **React Native / Expo users**), allowing automatic address book updates at instantiation time. [#3285](https://github.com/hiero-ledger/hiero-sdk-js/pull/3285)
   - `NativeClient.forMainnetAsync()`
@@ -51,13 +199,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v2.70.0
 
-> ⚠️ **Important Notice**  
-> Starting from this version (`v2.70.0`), we will be releasing all packages under both the `@hiero-ledger` and `@hashgraph` namespaces for a transitional period.  
-> Eventually, `@hashgraph/*` packages will be **deprecated** and all development will continue solely under the `@hiero-ledger/*` scope.  
->  
-> No breaking changes are introduced in this release from a user perspective.  
->  
-> To support this transition, a detailed [migration guide is available here](https://github.com/hiero-ledger/hiero-sdk-js/blob/main/manual/migration_hiero.md).  
+> ⚠️ **Important Notice**
+> Starting from this version (`v2.70.0`), we will be releasing all packages under both the `@hiero-ledger` and `@hashgraph` namespaces for a transitional period.
+> Eventually, `@hashgraph/*` packages will be **deprecated** and all development will continue solely under the `@hiero-ledger/*` scope.
+>
+> No breaking changes are introduced in this release from a user perspective.
+>
+> To support this transition, a detailed [migration guide is available here](https://github.com/hiero-ledger/hiero-sdk-js/blob/main/manual/migration_hiero.md).
 > Please begin migrating to `@hiero-ledger` packages at your earliest convenience.
 
 ---
@@ -199,7 +347,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   Added a UMD example demonstrating usage of the SDK in browser environments [#3028](https://github.com/hiero-ledger/hiero-sdk-js/pull/3028)
--   Added `PrivateKey.getRecoveryId(r, s, message)` method to enable recovery ID (v) calculation from raw `ECDSA` signature components.  
+-   Added `PrivateKey.getRecoveryId(r, s, message)` method to enable recovery ID (v) calculation from raw `ECDSA` signature components.
     This addition allows developers to compute the recovery ID directly, enabling full support for signing and serializing Ethereum transactions (including `EIP-155`) within the SDK. It enhances compatibility with external Ethereum clients and tooling. [#3021](https://github.com/hiero-ledger/hiero-sdk-js/pull/3021)
 -   Added an example demonstrating how to sign and recover Ethereum addresses using the Hedera SDK, Ethereum-style signature hashing (`EIP-191`), and the ecrecover contract. [#3029](https://github.com/hiero-ledger/hiero-sdk-js/pull/3029)
 -   Implemented dynamic generation of `RequestType.js` and `Status.js` by parsing protobuf definitions. [#3018](https://github.com/hiero-ledger/hiero-sdk-js/pull/3018)
@@ -241,7 +389,7 @@ This is NOT a Breaking Change. The SDK continues to function exactly as before, 
 -   Improved `AccountId` behavior with more explicit protobuf conversion in the following scenarios:
     -   Both `AccountId` number and alias are set
     -   Only alias is set
-    -   Only `AccountId` number is set  
+    -   Only `AccountId` number is set
         Comprehensive test coverage was added. by @ivaylonikolov7 in #2994
 
 ### Documentation

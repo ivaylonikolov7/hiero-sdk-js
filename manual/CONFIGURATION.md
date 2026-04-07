@@ -46,6 +46,7 @@ The JS SDK package supports loading of configuration from an `.env` file or via 
 | setDefaultRegenerateTransactionId | true                                                       |
 | setSignOnDemand                   | false                                                      |
 | setDefaultMaxQueryPayment         | 1 Hbar                                                     |
+| setAllowReceiptNodeFailover       | false                                                      |
 | setMinBackoff                     | 250 (milliseconds)                                         |
 | setMaxBackoff                     | 8000 (milliseconds)                                        |
 | setNetworkUpdatePeriod            | 1 day                                                      |
@@ -101,22 +102,30 @@ This example behaves the same way as the React Native example.
 
 ## Which network to use?
 
--   The maintainers of this repository use `hiero-local-node` when running integration tests. Running integration tests on testnet costs far too much HBARs making it unsustainable.
+-   The maintainers of this repository use **Solo** (the official Hiero local network solution) when running integration tests. Running integration tests on testnet costs far too much HBARs making it unsustainable.
 -   When running the examples, you can use any network of your choice. These examples are designed to demonstrate how a feature is intended to work and are optimized to function on any network you prefer.
 -   Unit tests do not require environment variables.
+
+See the [Solo Setup Guide](./SOLO_SETUP.md) for detailed instructions on setting up your local development environment.
 
 ## How to get my account keys and IDs?
 
 ### Local network
 
-If you have followed our best practices, such as using hedera-local-node for running integration tests, you can retrieve account keys and IDs when starting the local node. Upon startup, the local node generates accounts and displays their details.
+If you have followed our best practices and set up Solo using `task solo:setup`, the account keys and IDs are **automatically generated and configured** in your `.env` file. You don't need to manually copy or configure anything.
 
-You can copy one of these accounts and use its key and ID for the following:
+The automated setup creates:
 
--   `OPERATOR_KEY` and `OPERATOR_ID`
--   `ALICE_ID` and `ALICE_KEY`
--   `BOB_ID` and `BOB_KEY`
--   `TREASURY_ID` and `TREASURY_KEY`
+-   `OPERATOR_KEY` and `OPERATOR_ID` - A dedicated ECDSA test account for regular integration tests
+-   `GENESIS_OPERATOR_ID` and `GENESIS_OPERATOR_KEY` - The genesis account (only for genesis-specific tests)
+
+For additional test accounts (Alice, Bob, Treasury, etc.), you can create them manually using Solo CLI:
+
+```bash
+npx solo ledger account create --generate-ecdsa-key --deployment-name solo-deployment --dev
+```
+
+See the [Solo Setup Guide](./SOLO_SETUP.md) for more details.
 
 ### Testnet and previewnet
 
@@ -125,10 +134,13 @@ To run the examples on the testnet, you can obtain your account keys and IDs fro
 ## Possible configuration issues
 
 -   The most common issue occurs when users mistakenly use an ED25519 key instead of an ECDSA key, or vice versa. Please verify that you are using the correct key type.
--   Running unit tests while the local-node is active can disrupt multiple tests. Ensure the node is not running when executing tests.
+-   If you're using Solo for local development, ensure the cluster is running before running tests. Check with `task solo:status`.
 -   Occasionally, some tests may fail unexpectedly. However, rerunning them usually resolves the issue.
--   If local-node has been inactive for a while, it might enter sleep mode. Restarting it is often necessary to rerun tests. This is not an SDK-related issue but is a frequently encountered scenario.
+-   If you encounter network connectivity issues with Solo, try tearing down and setting up again: `task solo:teardown && task solo:setup`.
 -   Always use the `task install` command to install dependencies. Avoid manual installation with npm or yarn, as it can lead to configuration problems.
+-   Make sure Docker is running before starting Solo.
+
+For more troubleshooting help, see the [Solo Setup Guide](./SOLO_SETUP.md#troubleshooting).
 
 ## Should I have multiple .env files like .env.local, .env.production, .envdevelopment etc?
 
@@ -239,6 +251,31 @@ client.setSignOnDemand(true);
 
 -   `setDefaultMaxQueryPayment` - Same as `setDefaultMaxTransactionFee` but for queries.
 
+-   `setAllowReceiptNodeFailover` - Configure receipt query node failover behavior. By default, receipt queries are pinned exclusively to the node that submitted the transaction. When enabled, receipt queries can fail over to other nodes while still prioritizing the submitting node first.
+
+```javascript
+const client = Client.forTestnet();
+client.setAllowReceiptNodeFailover(true); // Enable receipt query failover
+```
+
+When failover is disabled (default):
+- Receipt queries will only be sent to the node that originally processed the transaction
+- If that node is unavailable or slow to respond, the query will retry only on that same node
+- This ensures consistency but may result in delays if the submitting node is experiencing issues
+
+When failover is enabled:
+- Receipt queries start with the submitting node (to maximize consistency)
+- If the submitting node fails or is unavailable, the query can fail over to other nodes in the network
+- The node list respects the transaction's configured nodes if specified, otherwise uses the client's network nodes
+- Duplicate nodes are automatically filtered out
+
+This setting is particularly useful in scenarios where:
+- You need higher availability for receipt retrieval
+- The submitting node may be temporarily unavailable
+- You're willing to trade some consistency guarantees for improved reliability
+
+**Note**: This setting affects both `getReceipt()` and `getRecord()` queries on transaction responses. The getter `client.allowReceiptNodeFailover` can be used to check the current setting.
+
 ## Retry and Timeout Settings
 
 -   `setMaxAttempts` - Sets maximum retry attempts before an error is thrown.
@@ -249,7 +286,7 @@ client.setSignOnDemand(true);
 -   `setMaxBackoff` - Set maximum backoff time for retries
     Same as above but this sets on the maximum amount of seconds the backoff time may go.
 
--   `setRequestTimeout` - This timeout is the maximum allowed time for the entire transaction/query, including all retries.
+-   `setRequestTimeout` - This timeout is the maximum allowed time for the entire transaction/query, including all retries. This timeout must be larger than the `grpcDeadline` to ensure that individual gRPC requests have enough time to complete within the overall operation timeout.
 
 ```javascript
 let client = Client.forTestnet();
@@ -258,13 +295,24 @@ client.setRequestTimeout(30000);
 // Network doesn't matter here.
 ```
 
--   `setMaxExecutionTime` - this timeout applies to each single gRPC request within the transaction/query. It’s used for the edge cases where 10 seconds are not enough for the execution of a single gRPC request and the user can pass more.
+-   `setGrpcDeadline` - This timeout applies to each single gRPC request within the transaction/query. It's the maximum time allowed for a single gRPC call before it times out. This value must be smaller than the `requestTimeout` to ensure that individual requests can complete within the overall operation timeout.
+
+```javascript
+const client = Client.forNetwork();
+client.setGrpcDeadline(5000); // Set gRPC deadline to 5 seconds (5000 milliseconds)
+```
+
+-   `setMaxExecutionTime` - This is an alias for `setGrpcDeadline` and is maintained for backward compatibility. It applies to each single gRPC request within the transaction/query. It's used for the edge cases where 10 seconds are not enough for the execution of a single gRPC request and the user can pass more.
 
 ```javascript
 const client = Client.forNetwork();
 const timeInMs = 10000;
-client.setMaxExecutionTime(10000); // Set the request timeout to 10 seconds (10000 milliseconds)
+client.setMaxExecutionTime(10000); // Set the gRPC deadline to 10 seconds (10000 milliseconds)
 ```
+
+**Important**: When configuring timeouts, ensure that `requestTimeout` is always larger than `grpcDeadline`. The SDK will display deprecation warnings if you attempt to set `grpcDeadline` greater than or equal to `requestTimeout`, or if you set `requestTimeout` less than or equal to `grpcDeadline`. These warnings will become errors in the next major version. This validation ensures that individual gRPC requests have sufficient time to complete within the overall operation timeout.
+
+**Deprecation Notice**: Invalid timeout configurations currently show warnings but will throw errors in the next major version. Please update your timeout configurations to avoid future breaking changes.
 
 ### Node Management
 

@@ -10,7 +10,7 @@ function getRequestTypeComment(name) {
     try {
         const protoPath = path.join(
             process.cwd(),
-            "packages/proto/src/proto/services/basic_types.proto",
+            "packages/proto/src/proto/services_basic_types.proto",
         );
         const protoContent = fs.readFileSync(protoPath, "utf8");
 
@@ -249,7 +249,7 @@ export function generateCompleteRequestTypeFile(requestTypes) {
         let content = `// SPDX-License-Identifier: Apache-2.0\n
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.HederaFunctionality} HieroProto.proto.HederaFunctionality
+ * @typedef {import("@hiero-ledger/proto").proto.HederaFunctionality} HieroProto.proto.HederaFunctionality
  */
 
 export default class RequestType {

@@ -1,17 +1,16 @@
-import { setTimeout } from "timers/promises";
 import {
     MirrorNodeContractCallQuery,
     ContractCreateTransaction,
     FileCreateTransaction,
     ContractFunctionParameters,
 } from "../../src/exports.js";
+import { wait } from "../../src/util.js";
 import IntegrationTestEnv from "./client/NodeIntegrationTestEnv.js";
 
 /**
  * Temporary skip this test until Solo is updated to support these queries
  */
-// eslint-disable-next-line vitest/no-disabled-tests
-describe.skip("MirrorNodeContractCallQuery", function () {
+describe("MirrorNodeContractCallQuery", function () {
     let env;
 
     beforeEach(async function () {
@@ -35,7 +34,7 @@ describe.skip("MirrorNodeContractCallQuery", function () {
         ).getReceipt(env.client);
 
         // wait 5 seconds for MN to update
-        await setTimeout(10000);
+        await wait(10000);
 
         const result = await new MirrorNodeContractCallQuery()
             .setContractId(contractId)

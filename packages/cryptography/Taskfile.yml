@@ -1,6 +1,6 @@
 version: "3"
 
-silent: true
+silent: false
 
 tasks:
     default:
@@ -19,7 +19,7 @@ tasks:
 
     install:
         cmds:
-            - pnpm i > /dev/null 2>&1
+            - pnpm i
 
     build:
         deps:
@@ -27,16 +27,24 @@ tasks:
         cmds:
             - task: format
             - task: lint
-            - npx babel src -d lib --out-file-extension .cjs > /dev/null
-            - npx yalc publish > /dev/null
+            - npx babel src -d lib --out-file-extension .cjs
+
+    build:dev:
+        desc: "Build and globally link @hiero-ledger/cryptography for local dev"
+        deps:
+            - build
+        cmds:
+            - pnpm link --global --dir . --package @hiero-ledger/cryptography
 
     clean:
         cmds:
+            - |
+                pnpm list --global --depth 0 2>/dev/null | grep -q "@hiero-ledger/cryptography" && pnpm remove --global @hiero-ledger/cryptography 2>/dev/null || true
             - rm -rf node_modules
 
     format:
         cmds:
-            - npx prettier src "test/unit/*.js" "*.json" "src/*.js" --write > /dev/null
+            - npx prettier src "test/unit/*.js" "*.json" "src/*.js" --write
 
     lint:
         deps:
@@ -51,12 +59,11 @@ tasks:
 
     "lint:dpdm":
         cmds:
-            # It's really annoying seeing [X/X] Analyze done. If a circular dep is found remove `2>&1`
-            - npx dpdm src/index.js --circular true --tree false --warning false > /dev/null 2>&1
+            - npx dpdm src/index.js --circular true --tree false --warning false
 
     "lint:format":
         cmds:
-            - npx prettier src "test/unit/*.js" "*.json" "src/*.js" --check > /dev/null
+            - npx prettier src "test/unit/*.js" "*.json" "src/*.js" --check
 
     "lint:js":
         cmds:
@@ -78,23 +85,33 @@ tasks:
     "test:unit:node":
         cmds:
             - npx vitest --config=test/vitest-node.config.ts
-
-    "test:unit:codecov":
-        cmds:
-            - npx vitest --coverage --config=test/vitest-node.config.ts
-
     "test:unit:browser":
         cmds:
             - npx vitest --config=test/vitest-browser.config.ts
+    "test:unit:node:codecov":
+        cmds:
+            - npx vitest --coverage --config=test/vitest-node.config.ts
+    "test:unit:browser:codecov":
+        cmds:
+            - npx vitest --coverage --config=test/vitest-browser.config.ts
+    "test:unit:codecov":
+        deps:
+            - test:unit:node:codecov
+            - test:unit:browser:codecov
 
     update:
         cmds:
             - task: build
 
-    publish:
+    pack:
         preconditions:
-            - '! grep ''".*": "link:.*"'' package.json > /dev/null'
+            - '! grep ''".*": "link:.*"'' package.json'
         deps:
             - "build"
         cmds:
-            - pnpm publish {{.CLI_ARGS}}
+            - pnpm pack --out {{.CLI_ARGS}}
+            - ls -lh {{.CLI_ARGS}}
+
+    publish:
+        cmds:
+            - npm publish {{.TARBALL}} {{.CLI_ARGS}}

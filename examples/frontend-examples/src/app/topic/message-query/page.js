@@ -8,7 +8,7 @@ import {
     TopicCreateTransaction,
     TopicId,
     TopicMessageSubmitTransaction,
-} from "@hashgraph/sdk";
+} from "@hiero-ledger/sdk";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import TopicListener from "@/app/components/TopicListener";
 
@@ -22,7 +22,7 @@ const MessageQueryPage = () => {
 
     // Setup Hedera client
     const accountId = AccountId.fromString(process.env.NEXT_PUBLIC_OPERATOR_ID);
-    const operatorKey = PrivateKey.fromStringED25519(
+    const operatorKey = PrivateKey.fromStringECDSA(
         process.env.NEXT_PUBLIC_OPERATOR_KEY,
     );
     const client = Client.forTestnet().setOperator(accountId, operatorKey);

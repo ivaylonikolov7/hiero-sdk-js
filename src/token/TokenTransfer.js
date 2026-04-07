@@ -3,13 +3,16 @@
 import Long from "long";
 import AccountId from "../account/AccountId.js";
 import TokenId from "./TokenId.js";
+import { convertAmountToLong } from "../util.js";
+import FungibleHookCall from "../hooks/FungibleHookCall.js";
+import FungibleHookType from "../hooks/FungibleHookType.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.ITokenTransferList} HieroProto.proto.ITokenTransferList
- * @typedef {import("@hashgraph/proto").proto.IAccountAmount} HieroProto.proto.IAccountAmount
- * @typedef {import("@hashgraph/proto").proto.IAccountID} HieroProto.proto.IAccountID
- * @typedef {import("@hashgraph/proto").proto.ITokenID} HieroProto.proto.ITokenID
+ * @typedef {import("@hiero-ledger/proto").proto.ITokenTransferList} HieroProto.proto.ITokenTransferList
+ * @typedef {import("@hiero-ledger/proto").proto.IAccountAmount} HieroProto.proto.IAccountAmount
+ * @typedef {import("@hiero-ledger/proto").proto.IAccountID} HieroProto.proto.IAccountID
+ * @typedef {import("@hiero-ledger/proto").proto.ITokenID} HieroProto.proto.ITokenID
  */
 
 /**
@@ -35,8 +38,9 @@ export default class TokenTransfer {
      * @param {TokenId | string} props.tokenId
      * @param {AccountId | string} props.accountId
      * @param {number | null} props.expectedDecimals
-     * @param {Long | number} props.amount
+     * @param {Long | number | BigNumber | bigint} props.amount
      * @param {boolean} props.isApproved
+     * @param {FungibleHookCall} [props.hookCall]
      */
     constructor(props) {
         /**
@@ -60,8 +64,9 @@ export default class TokenTransfer {
                 : AccountId.fromString(props.accountId);
 
         this.expectedDecimals = props.expectedDecimals;
-        this.amount = Long.fromValue(props.amount);
+        this.amount = convertAmountToLong(props.amount);
         this.isApproved = props.isApproved;
+        this.hookCall = props.hookCall || null;
     }
 
     /**
@@ -86,6 +91,20 @@ export default class TokenTransfer {
             for (const transfer of tokenTransfer.transfers != null
                 ? tokenTransfer.transfers
                 : []) {
+                // Determine which hook type is present, if any
+                let hookCall = null;
+                if (transfer.preTxAllowanceHook != null) {
+                    hookCall = FungibleHookCall._fromProtobufWithType(
+                        transfer.preTxAllowanceHook,
+                        FungibleHookType.PRE_TX_ALLOWANCE_HOOK,
+                    );
+                } else if (transfer.prePostTxAllowanceHook != null) {
+                    hookCall = FungibleHookCall._fromProtobufWithType(
+                        transfer.prePostTxAllowanceHook,
+                        FungibleHookType.PRE_POST_TX_ALLOWANCE_HOOK,
+                    );
+                }
+
                 transfers.push(
                     new TokenTransfer({
                         tokenId,
@@ -100,6 +119,7 @@ export default class TokenTransfer {
                                 ? transfer.amount
                                 : Long.ZERO,
                         isApproved: transfer.isApproval == true,
+                        hookCall: hookCall ?? undefined,
                     }),
                 );
             }
@@ -113,11 +133,25 @@ export default class TokenTransfer {
      * @returns {HieroProto.proto.IAccountAmount}
      */
     _toProtobuf() {
-        return {
+        /** @type {HieroProto.proto.IAccountAmount} */
+        const result = {
             accountID: this.accountId._toProtobuf(),
             amount: this.amount,
             isApproval: this.isApproved,
         };
+
+        if (this.hookCall != null) {
+            switch (this.hookCall.type) {
+                case FungibleHookType.PRE_TX_ALLOWANCE_HOOK:
+                    result.preTxAllowanceHook = this.hookCall._toProtobuf();
+                    break;
+                case FungibleHookType.PRE_POST_TX_ALLOWANCE_HOOK:
+                    result.prePostTxAllowanceHook = this.hookCall._toProtobuf();
+                    break;
+            }
+        }
+
+        return result;
     }
 
     /**

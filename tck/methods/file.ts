@@ -3,8 +3,11 @@ import {
     FileAppendTransaction,
     FileUpdateTransaction,
     FileDeleteTransaction,
+    FileInfoQuery,
+    Hbar,
     Timestamp,
-} from "@hashgraph/sdk";
+    FileContentsQuery,
+} from "@hiero-ledger/sdk";
 import Long from "long";
 
 import { applyCommonTransactionParams } from "../params/common-tx-params";
@@ -12,12 +15,19 @@ import {
     FileCreateParams,
     FileAppendParams,
     FileDeleteParams,
+    GetFileInfoParams,
+    GetFileContentsParams,
 } from "../params/file";
 
 import { sdk } from "../sdk_data";
-import { FileResponse } from "../response/file";
+import {
+    FileInfoQueryResponse,
+    FileResponse,
+    FileContentsResponse,
+} from "../response/file";
 
 import { DEFAULT_GRPC_DEADLINE } from "../utils/constants/config";
+import { mapFileInfoResponse } from "../utils/helpers/file";
 import { getKeyFromString } from "../utils/key";
 
 export const createFile = async ({
@@ -26,7 +36,9 @@ export const createFile = async ({
     expirationTime,
     memo,
     commonTransactionParams,
+    sessionId,
 }: FileCreateParams): Promise<FileResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new FileCreateTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -53,12 +65,12 @@ export const createFile = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         fileId: receipt.fileId.toString(),
@@ -73,7 +85,9 @@ export const updateFile = async ({
     expirationTime,
     memo,
     commonTransactionParams,
+    sessionId,
 }: any): Promise<FileResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new FileUpdateTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -104,12 +118,12 @@ export const updateFile = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -122,7 +136,9 @@ export const appendFile = async ({
     maxChunks,
     chunkSize,
     commonTransactionParams,
+    sessionId,
 }: FileAppendParams): Promise<FileResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new FileAppendTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -147,12 +163,12 @@ export const appendFile = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
@@ -162,7 +178,9 @@ export const appendFile = async ({
 export const deleteFile = async ({
     fileId,
     commonTransactionParams,
+    sessionId,
 }: FileDeleteParams): Promise<FileResponse> => {
+    const client = sdk.getClient(sessionId);
     const transaction = new FileDeleteTransaction().setGrpcDeadline(
         DEFAULT_GRPC_DEADLINE,
     );
@@ -175,14 +193,84 @@ export const deleteFile = async ({
         applyCommonTransactionParams(
             commonTransactionParams,
             transaction,
-            sdk.getClient(),
+            client,
         );
     }
 
-    const response = await transaction.execute(sdk.getClient());
-    const receipt = await response.getReceipt(sdk.getClient());
+    const response = await transaction.execute(client);
+    const receipt = await response.getReceipt(client);
 
     return {
         status: receipt.status.toString(),
+    };
+};
+
+export const getFileInfo = async ({
+    fileId,
+    queryPayment,
+    maxQueryPayment,
+    getCost,
+    sessionId,
+}: GetFileInfoParams): Promise<FileInfoQueryResponse> => {
+    const client = sdk.getClient(sessionId);
+    const query = new FileInfoQuery().setGrpcDeadline(DEFAULT_GRPC_DEADLINE);
+
+    if (fileId != null) {
+        query.setFileId(fileId);
+    }
+
+    if (queryPayment != null) {
+        query.setQueryPayment(Hbar.fromTinybars(queryPayment));
+    }
+
+    if (maxQueryPayment != null) {
+        query.setMaxQueryPayment(Hbar.fromTinybars(maxQueryPayment));
+    }
+
+    if (getCost) {
+        const cost = await query.getCost(client);
+
+        return {
+            cost: cost.toTinybars().toString(),
+        };
+    }
+
+    const response = await query.execute(client);
+
+    return mapFileInfoResponse(response);
+};
+
+export const getFileContents = async ({
+    fileId,
+    queryPayment,
+    maxQueryPayment,
+    sessionId,
+}: GetFileContentsParams): Promise<FileContentsResponse> => {
+    const client = sdk.getClient(sessionId);
+    const query = new FileContentsQuery().setGrpcDeadline(
+        DEFAULT_GRPC_DEADLINE,
+    );
+
+    if (fileId != null) {
+        query.setFileId(fileId);
+    }
+
+    if (queryPayment != null) {
+        query.setQueryPayment(Hbar.fromTinybars(queryPayment));
+    }
+
+    if (maxQueryPayment != null) {
+        query.setMaxQueryPayment(Hbar.fromTinybars(maxQueryPayment));
+    }
+
+    const response = await query.execute(client);
+
+    // Convert Uint8Array to string
+    // Using TextDecoder to properly handle all byte sequences
+    const decoder = new TextDecoder("utf-8", { fatal: false });
+    const contents = decoder.decode(response);
+
+    return {
+        contents,
     };
 };

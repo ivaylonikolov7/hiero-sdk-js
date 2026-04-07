@@ -61,7 +61,7 @@ export default class ExchangeRate {
 
     /**
      * @internal
-     * @param {import("@hashgraph/proto").proto.IExchangeRate} rate
+     * @param {import("@hiero-ledger/proto").proto.IExchangeRate} rate
      * @returns {ExchangeRate}
      */
     static _fromProtobuf(rate) {
@@ -72,8 +72,8 @@ export default class ExchangeRate {
                 rate.expirationTime != null
                     ? rate.expirationTime.seconds != null
                         ? Long.isLong(rate.expirationTime.seconds)
-                            ? rate.expirationTime.seconds.toInt() * 1000
-                            : rate.expirationTime.seconds
+                            ? rate.expirationTime.seconds.toNumber() * 1000
+                            : rate.expirationTime.seconds * 1000
                         : 0
                     : 0,
             ),
@@ -82,7 +82,7 @@ export default class ExchangeRate {
 
     /**
      * @internal
-     * @returns {import("@hashgraph/proto").proto.IExchangeRate}
+     * @returns {import("@hiero-ledger/proto").proto.IExchangeRate}
      */
     _toProtobuf() {
         return {

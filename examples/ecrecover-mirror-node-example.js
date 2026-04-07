@@ -16,7 +16,7 @@ import {
     ContractCreateFlow,
     ContractFunctionParameters,
     MirrorNodeContractCallQuery,
-} from "@hashgraph/sdk";
+} from "@hiero-ledger/sdk";
 
 import ecrecoverCaller from "./ecrecover_caller.json" with { type: "json" };
 import { setTimeout } from "node:timers/promises";
@@ -33,7 +33,7 @@ async function main() {
     }
 
     const operatorId = AccountId.fromString(process.env.OPERATOR_ID);
-    const operatorKey = PrivateKey.fromStringDer(process.env.OPERATOR_KEY);
+    const operatorKey = PrivateKey.fromStringECDSA(process.env.OPERATOR_KEY);
     const client = Client.forLocalNode().setOperator(operatorId, operatorKey);
 
     console.log(`Operator account: ${operatorId.toString()}`);

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
-import { PublicKey as PublicKeyCrypto } from "@hashgraph/cryptography";
+import { PublicKey as PublicKeyCrypto } from "@hiero-ledger/cryptography";
 import { arrayEqual } from "./array.js";
 import Key from "./Key.js";
 import CACHE from "./Cache.js";
@@ -12,10 +12,10 @@ import CACHE from "./Cache.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.IKey} HieroProto.proto.IKey
- * @typedef {import("@hashgraph/proto").proto.ITransaction} HieroProto.proto.ITransaction
- * @typedef {import("@hashgraph/proto").proto.ISignaturePair} HieroProto.proto.ISignaturePair
- * @typedef {import("@hashgraph/proto").proto.ISignedTransaction} HieroProto.proto.ISignedTransaction
+ * @typedef {import("@hiero-ledger/proto").proto.IKey} HieroProto.proto.IKey
+ * @typedef {import("@hiero-ledger/proto").proto.ITransaction} HieroProto.proto.ITransaction
+ * @typedef {import("@hiero-ledger/proto").proto.ISignaturePair} HieroProto.proto.ISignaturePair
+ * @typedef {import("@hiero-ledger/proto").proto.ISignedTransaction} HieroProto.proto.ISignedTransaction
  */
 
 export default class PublicKey extends Key {
@@ -114,46 +114,63 @@ export default class PublicKey extends Key {
         // before we execute the transaction (execute -> makeRequest -> buildTransaction -> signTransaction).
         // However, in JavaScript, we build the `_signedTransactions` list while signing the transaction.
         for (const signedTransaction of transaction._signedTransactions.list) {
-            if (
-                signedTransaction.sigMap != null &&
-                signedTransaction.sigMap.sigPair != null
-            ) {
-                let found = false;
-                for (const sigPair of signedTransaction.sigMap.sigPair) {
-                    const pubKeyPrefix = /** @type {Uint8Array} */ (
-                        sigPair.pubKeyPrefix
-                    );
-                    if (arrayEqual(pubKeyPrefix, this.toBytesRaw())) {
-                        found = true;
-
-                        const bodyBytes = /** @type {Uint8Array} */ (
-                            signedTransaction.bodyBytes
-                        );
-
-                        let signature = null;
-                        if (sigPair.ed25519 != null) {
-                            signature = sigPair.ed25519;
-                        } else if (sigPair.ECDSASecp256k1 != null) {
-                            signature = sigPair.ECDSASecp256k1;
-                        }
-
-                        if (signature == null) {
-                            continue;
-                        }
-
-                        if (!this.verify(bodyBytes, signature)) {
-                            return false;
-                        }
-                    }
-                }
-
-                if (!found) {
-                    return false;
-                }
+            if (!this._verifySignedTransaction(signedTransaction)) {
+                return false;
             }
         }
 
         return true;
+    }
+
+    /**
+     * @private
+     * @param {HieroProto.proto.ISignedTransaction} signedTransaction
+     * @returns {boolean}
+     */
+    _verifySignedTransaction(signedTransaction) {
+        const sigMap = signedTransaction.sigMap;
+        if (sigMap == null || sigMap.sigPair == null) {
+            return false;
+        }
+
+        const bodyBytes = /** @type {Uint8Array} */ (
+            signedTransaction.bodyBytes
+        );
+        const publicKeyBytes = this.toBytesRaw();
+
+        for (const sigPair of sigMap.sigPair) {
+            const pubKeyPrefix = /** @type {Uint8Array} */ (
+                sigPair.pubKeyPrefix
+            );
+
+            if (!arrayEqual(pubKeyPrefix, publicKeyBytes)) {
+                continue;
+            }
+
+            const signature = this._extractSignature(sigPair);
+            if (signature == null) {
+                return false;
+            }
+
+            return this.verify(bodyBytes, signature);
+        }
+
+        return false;
+    }
+
+    /**
+     * @private
+     * @param {HieroProto.proto.ISignaturePair} sigPair
+     * @returns {Uint8Array | null}
+     */
+    _extractSignature(sigPair) {
+        if (sigPair.ed25519 != null) {
+            return sigPair.ed25519;
+        }
+        if (sigPair.ECDSASecp256k1 != null) {
+            return sigPair.ECDSASecp256k1;
+        }
+        return null;
     }
 
     /**

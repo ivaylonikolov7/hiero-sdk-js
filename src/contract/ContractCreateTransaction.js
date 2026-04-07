@@ -14,20 +14,21 @@ import Key from "../Key.js";
 
 /**
  * @namespace proto
- * @typedef {import("@hashgraph/proto").proto.ITransaction} HieroProto.proto.ITransaction
- * @typedef {import("@hashgraph/proto").proto.ISignedTransaction} HieroProto.proto.ISignedTransaction
- * @typedef {import("@hashgraph/proto").proto.TransactionBody} HieroProto.proto.TransactionBody
- * @typedef {import("@hashgraph/proto").proto.ITransactionBody} HieroProto.proto.ITransactionBody
- * @typedef {import("@hashgraph/proto").proto.ITransactionResponse} HieroProto.proto.ITransactionResponse
- * @typedef {import("@hashgraph/proto").proto.IContractCreateTransactionBody} HieroProto.proto.IContractCreateTransactionBody
- * @typedef {import("@hashgraph/proto").proto.IAccountID} HieroProto.proto.IAccountID
- * @typedef {import("@hashgraph/proto").proto.IFileID} HieroProto.proto.IFileID
+ * @typedef {import("@hiero-ledger/proto").proto.ITransaction} HieroProto.proto.ITransaction
+ * @typedef {import("@hiero-ledger/proto").proto.ISignedTransaction} HieroProto.proto.ISignedTransaction
+ * @typedef {import("@hiero-ledger/proto").proto.TransactionBody} HieroProto.proto.TransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITransactionBody} HieroProto.proto.ITransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.ITransactionResponse} HieroProto.proto.ITransactionResponse
+ * @typedef {import("@hiero-ledger/proto").proto.IContractCreateTransactionBody} HieroProto.proto.IContractCreateTransactionBody
+ * @typedef {import("@hiero-ledger/proto").proto.IAccountID} HieroProto.proto.IAccountID
+ * @typedef {import("@hiero-ledger/proto").proto.IFileID} HieroProto.proto.IFileID
  */
 
 /**
  * @typedef {import("bignumber.js").default} BigNumber
  * @typedef {import("../channel/Channel.js").default} Channel
- * @typedef {import("../client/Client.js").default<*, *>} Client
+ * @typedef {import("../channel/MirrorChannel.js").default} MirrorChannel
+ * @typedef {import("../client/Client.js").default<Channel, MirrorChannel>} Client
  * @typedef {import("../transaction/TransactionId.js").default} TransactionId
  */
 
@@ -69,6 +70,7 @@ export default class ContractCreateTransaction extends Transaction {
      * @param {Long | number} [props.stakedNodeId]
      * @param {boolean} [props.declineStakingReward]
      * @param {AccountId} [props.autoRenewAccountId]
+     * @param {import("../hooks/HookCreationDetails.js").default[]} [props.hooks]
      */
     constructor(props = {}) {
         super();
@@ -157,6 +159,16 @@ export default class ContractCreateTransaction extends Transaction {
          * @type {?AccountId}
          */
         this._autoRenewAccountId = null;
+
+        /**
+         * @private
+         * @type {import("../hooks/HookCreationDetails.js").default[]}
+         */
+        this._hooks = [];
+
+        if (props.hooks != null) {
+            this._hooks = props.hooks;
+        }
 
         if (props.bytecodeFileId != null) {
             this.setBytecodeFileId(props.bytecodeFileId);
@@ -602,6 +614,31 @@ export default class ContractCreateTransaction extends Transaction {
     }
 
     /**
+     * @param {import("../hooks/HookCreationDetails.js").default} hook
+     * @returns {this}
+     */
+    addHook(hook) {
+        this._hooks.push(hook);
+        return this;
+    }
+
+    /**
+     * @param {import("../hooks/HookCreationDetails.js").default[]} hooks
+     * @returns {this}
+     */
+    setHooks(hooks) {
+        this._hooks = hooks;
+        return this;
+    }
+
+    /**
+     * @returns {import("../hooks/HookCreationDetails.js").default[]}
+     */
+    get hooks() {
+        return this._hooks;
+    }
+
+    /**
      * @override
      * @internal
      * @param {Channel} channel
@@ -658,6 +695,7 @@ export default class ContractCreateTransaction extends Transaction {
                 this._autoRenewAccountId != null
                     ? this._autoRenewAccountId._toProtobuf()
                     : null,
+            hookCreationDetails: this.hooks.map((hook) => hook._toProtobuf()),
         };
     }
 

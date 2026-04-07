@@ -3,7 +3,8 @@ import {
     LocalProvider,
     FileContentsQuery,
     ExchangeRates,
-} from "@hashgraph/sdk";
+    PrivateKey,
+} from "@hiero-ledger/sdk";
 
 import dotenv from "dotenv";
 
@@ -22,11 +23,10 @@ async function main() {
 
     const provider = new LocalProvider();
 
-    const wallet = new Wallet(
-        process.env.OPERATOR_ID,
-        process.env.OPERATOR_KEY,
-        provider,
-    );
+    // Parse ECDSA key explicitly
+    const operatorKey = PrivateKey.fromStringECDSA(process.env.OPERATOR_KEY);
+
+    const wallet = new Wallet(process.env.OPERATOR_ID, operatorKey, provider);
     let resp;
     try {
         resp = await new FileContentsQuery()

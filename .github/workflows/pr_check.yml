@@ -6,13 +6,13 @@ on:
       - reopened
       - edited
       - synchronize
+      - assigned
 
 defaults:
   run:
     shell: bash
 
 permissions:
-  contents: read
   statuses: write
 
 concurrency:
@@ -25,12 +25,12 @@ jobs:
     runs-on: hiero-client-sdk-linux-medium
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
       - name: Check PR Title
-        uses: step-security/conventional-pr-title-action@d47e8818876fa91d2010b65c4d699bb5f0d34d56 # v3.2.3
+        uses: step-security/conventional-pr-title-action@bb2263ec311ca158e9ffa6bd9b997fb425402034 # v3.2.6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 

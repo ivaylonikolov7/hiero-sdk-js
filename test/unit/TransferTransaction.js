@@ -199,7 +199,7 @@ describe("TransferTransaction", function () {
 
         const data = transferTransaction._makeTransactionData();
 
-        expect(data.transfers.accountAmounts).to.deep.equal([
+        expect(data.transfers.accountAmounts).toEqual([
             {
                 accountID: {
                     shardNum: Long.fromNumber(1),
@@ -223,7 +223,7 @@ describe("TransferTransaction", function () {
         ]);
 
         expect(data.tokenTransfers.length).to.be.equal(4);
-        expect(data.tokenTransfers[0]).to.deep.equal({
+        expect(data.tokenTransfers[0]).toEqual({
             token: {
                 shardNum: Long.fromNumber(1),
                 realmNum: Long.fromNumber(1),
@@ -254,7 +254,7 @@ describe("TransferTransaction", function () {
             ],
             nftTransfers: [],
         });
-        expect(data.tokenTransfers[1]).to.deep.equal({
+        expect(data.tokenTransfers[1]).toEqual({
             token: {
                 shardNum: Long.fromNumber(2),
                 realmNum: Long.fromNumber(2),
@@ -285,7 +285,7 @@ describe("TransferTransaction", function () {
             ],
             nftTransfers: [],
         });
-        expect(data.tokenTransfers[2]).to.deep.equal({
+        expect(data.tokenTransfers[2]).toEqual({
             token: {
                 shardNum: Long.fromNumber(3),
                 realmNum: Long.fromNumber(3),
@@ -328,7 +328,7 @@ describe("TransferTransaction", function () {
                 },
             ],
         });
-        expect(data.tokenTransfers[3]).to.deep.equal({
+        expect(data.tokenTransfers[3]).toEqual({
             token: {
                 shardNum: Long.fromNumber(4),
                 realmNum: Long.fromNumber(4),
@@ -382,17 +382,26 @@ describe("TransferTransaction", function () {
             .addHbarTransfer(accountId1, amount.negated())
             .addHbarTransfer(accountId2, amount);
 
-        expect(tx.hbarTransfersList).to.deep.equal([
-            {
-                accountId: accountId1,
-                amount: amount.negated(),
-                isApproved: false,
-            },
-            {
-                accountId: accountId2,
-                amount: amount,
-                isApproved: false,
-            },
-        ]);
+        const transfers = tx.hbarTransfersList;
+
+        expect(transfers).to.have.lengthOf(2);
+
+        expect(transfers[0].accountId.toString()).to.equal(
+            accountId1.toString(),
+        );
+        expect(transfers[0].amount.toTinybars().toString()).to.equal(
+            amount.negated().toTinybars().toString(),
+        );
+        expect(transfers[0].isApproved).to.equal(false);
+        expect(transfers[0].hookCall).to.be.undefined;
+
+        expect(transfers[1].accountId.toString()).to.equal(
+            accountId2.toString(),
+        );
+        expect(transfers[1].amount.toTinybars().toString()).to.equal(
+            amount.toTinybars().toString(),
+        );
+        expect(transfers[1].isApproved).to.equal(false);
+        expect(transfers[1].hookCall).to.be.undefined;
     });
 });

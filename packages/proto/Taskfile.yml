@@ -1,6 +1,6 @@
 version: "3"
 
-silent: true
+silent: false
 
 tasks:
     default:
@@ -19,7 +19,7 @@ tasks:
 
     install:submodules:
         vars:
-            commit: "7ca2f4e457a68fbc092edd17552bc5db7e032f6d" # v0.65.0
+            commit: "5c7b188962dd56ea9246ff4647fbb63db989046e"
         cmds:
             - git submodule update --init --recursive --remote
             - |
@@ -40,38 +40,55 @@ tasks:
             - rm -rf src/proto/streams
             - mv src/services/hapi/hedera-protobuf-java-api/src/main/proto/services src/proto/
             - mv src/services/hapi/hedera-protobuf-java-api/src/main/proto/streams src/proto/
-            - mv src/services/hapi/hedera-protobuf-java-api/src/main/proto/platform/event/* src/proto/services/
+            - mv src/services/hapi/hedera-protobuf-java-api/src/main/proto/platform/event/* src/proto/
+            - mv src/services/hapi/hedera-protobuf-java-api/src/main/proto/platform/state/* src/proto/
+            - node scripts/remove-duplicate-protobuf.js
             - echo "Protobufs moved successfully!"
             - task "delete:submodule"
 
+    flatten:protobufs:
+        after:
+            - "move:protobufs"
+        desc: "Flatten proto directory structure to src/proto/* and fix imports"
+        cmds:
+            - node scripts/flatten-protos.js
+
     delete:submodule:
         cmds:
-            - find src/services -mindepth 1 -delete
+            - npx -y rimraf --glob "src/services/*" "src/services/.[!.]*" "src/services/..?*"
             - echo "Submodule contents removed successfully, folder retained."
 
     install:
+        desc: "Fetch protobufs from submodule, move, flatten (run only when updating protos; normal build uses committed files)"
         deps:
             - "install:submodules"
         cmds:
             - task "move:protobufs"
-            - pnpm i > /dev/null
+            - task "flatten:protobufs"
+            - pnpm i
 
     build:
-        deps:
-            - install
+        desc: "Compile committed protos to JS/TS (no download)"
         cmds:
             - task "build:standalone"
             - task "build:minimal:transactions"
 
+    build:dev:
+        desc: "Build and globally link @hiero-ledger/proto for local dev"
+        deps:
+            - build
+        cmds:
+            - pnpm link --global --dir . --package @hiero-ledger/proto
+
     build:standalone:
         cmds:
-            - npx pbjs -r hashgraph -t static-module -w es6 -p=src/proto --force-long --no-beautify --no-convert --no-delimited --no-verify -o src/proto.js src/proto/**/*.proto
-            - npx pbts -n hashgraph -o src/proto.d.ts src/proto.js
-            - perl -pi -e "s#(?<!api\.)proto\.#hashgraph.proto.#g" src/proto.d.ts
+            - pnpm exec pbjs -r hashgraph -t static-module -w es6 -p=src/proto --force-long --no-beautify --no-convert --no-delimited --no-verify -o src/proto.js src/proto/**/*.proto
+            - pnpm exec pbts -n hashgraph -o src/proto.d.ts src/proto.js
+            - node scripts/fix-proto-namespaces.js
             - task: format
             - task: lint
             - npx babel src -d lib
-            - npx copyfiles -u 1 src/index.d.ts src/proto.d.ts lib/ > /dev/null
+            - npx copyfiles -u 1 src/index.d.ts src/proto.d.ts lib/
               # This is necessary to correctly run browser tests with an unpublished proto package
             - npx yalc publish > /dev/null
     build:minimal:transactions:
@@ -87,13 +104,13 @@ tasks:
                     if [ -f "$proto_file" ]; then
                         base_name=$(basename "$proto_file" .proto)
                         echo "Generating $base_name.js..."
-                        
+
                         # Get the imports from the transaction file
                         imports=$(grep -h '^import' "$proto_file" | sed 's/import "\(.*\)";/minimal_src\/\1/' | tr '\n' ' ')
-                        
-                        # Get list of directly imported files (without minimal_src/ prefix) 
+
+                        # Get list of directly imported files (without minimal_src/ prefix)
                         direct_imports=$(grep -h '^import' "$proto_file" | sed 's/import "\(.*\)";/\1/' | tr '\n' ' ')
-                        
+
                         # Build common deps, excluding any that are directly imported
                         common_deps=""
                         for dep in duration.proto basic_types.proto custom_fees.proto timestamp.proto google_protobuf_wrappers.proto; do
@@ -101,7 +118,7 @@ tasks:
                                 common_deps="$common_deps minimal_src/$dep"
                             fi
                         done
-                        
+
                         # Generate each transaction with its own unique namespace to avoid conflicts
                         unique_namespace="hashgraph_${base_name}"
                         if  npx pbjs -r "$unique_namespace" -t static-module -w es6 -p=minimal_src --dependency protobufjs/minimal --force-long --no-beautify --no-convert --no-delimited --no-verify -o "src/minimal/${base_name}.js" "$proto_file" $imports $common_deps 2>/dev/null; then
@@ -110,7 +127,7 @@ tasks:
                             npx pbts -n "$unique_namespace" -o src/minimal/${base_name}.d.ts src/minimal/${base_name}.js
                             npx pbts -n "transaction_contents" -o src/minimal/transaction_contents.d.ts src/minimal/transaction_contents.js
                             npx pbts -n "transaction_response" -o src/minimal/transaction_response.d.ts src/minimal/transaction_response.js
-                            echo "✓ Successfully generated $base_name.js"
+                            echo "Successfully generated $base_name.js"
                             success_count=$((success_count + 1))
                         fi
                     fi
@@ -119,7 +136,7 @@ tasks:
                 echo ""
                 echo "Summary: $success_count files generated successfully, $fail_count failed"
                 if [ $success_count -gt 0 ]; then
-                    echo "✓ Each generated JS file contains the specific transaction and its dependencies"
+                    echo "Each generated JS file contains the specific transaction and its dependencies"
                 fi
                 if [ $fail_count -gt 0 ]; then
                     echo "Note: Failed files likely have missing dependencies that need to be added to minimal_src/"
@@ -175,7 +192,7 @@ tasks:
 
                 # Count the exports
                 export_count=$(grep -c "export { default as" lib/minimal/index.js)
-                echo "✓ Generated index.js with $export_count transaction exports"
+                echo "Generated index.js with $export_count transaction exports"
             - task: generate:minimal:index:types
 
     generate:minimal:index:types:
@@ -201,11 +218,13 @@ tasks:
 
     clean:
         cmds:
+            - |
+                pnpm list --global --depth 0 2>/dev/null | grep -q "@hiero-ledger/proto" && pnpm remove --global @hiero-ledger/proto 2>/dev/null || true
             - rm -rf node_modules
 
     format:
         cmds:
-            - npx prettier "*.json" "src/*.js" --write > /dev/null
+            - npx prettier "*.json" "src/*.js" --write
 
     lint:
         deps:
@@ -219,7 +238,7 @@ tasks:
 
     "lint:format":
         cmds:
-            - npx prettier "*.json" "src/*.js" --check > /dev/null
+            - npx prettier "*.json" "src/*.js" --check
 
     "lint:js":
         cmds:
@@ -230,6 +249,7 @@ tasks:
             - build
 
     update:
+        desc: "Update protobufs: fetch from submodule at given tag, move, flatten, regenerate JS. Use when bumping proto tag (e.g. task proto:update -- v0.68.2)"
         vars:
             latest_tag:
                 sh: git ls-remote --tags https://github.com/hiero-ledger/hiero-consensus-node.git | awk '{print $2}' | grep -E 'refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1 | sed 's#refs/tags/##'
@@ -243,17 +263,23 @@ tasks:
                 if [ "$(git rev-parse --is-shallow-repository)" = "true" ]; then
                     git fetch --unshallow --tags
                 fi &&
-                git checkout {{.stag}}
+                git checkout {{.proto}}
                 )
             - task "move:protobufs"
-            - pnpm i > /dev/null
+            - task "flatten:protobufs"
+            - pnpm i
             - task "build:standalone"
             - echo "Successfully updated protobufs to {{.proto}}"
 
-    publish:
+    pack:
         preconditions:
-            - "! grep '\".*\": \"\\(link\\|file\\):.*\"' package.json > /dev/null"
+            - "! grep '\".*\": \"\\(link\\|file\\):.*\"' package.json"
         deps:
             - "test:release"
         cmds:
-            - pnpm publish {{.CLI_ARGS}}
+            - pnpm pack --out {{.CLI_ARGS}}
+            - ls -lh {{.CLI_ARGS}}
+
+    publish:
+        cmds:
+            - npm publish {{.TARBALL}} {{.CLI_ARGS}}
