@@ -9,9 +9,8 @@ import PrecheckStatusError from "../PrecheckStatusError.js";
 import ReceiptStatusError from "../ReceiptStatusError.js";
 import RecordStatusError from "../RecordStatusError.js";
 import { ExecutionState } from "../Executable.js";
-import * as HieroProto from "@hiero-ledger/proto";
-
-const { proto } = HieroProto;
+import { Services as proto } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto };
 
 /**
  * @typedef {import("../channel/Channel.js").default} Channel

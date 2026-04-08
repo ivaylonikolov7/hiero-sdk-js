@@ -1,4 +1,4 @@
-import { proto } from "@hiero-ledger/proto";
+import { TransactionCore as proto } from "@hiero-ledger/proto/minimal";
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /**
  * A class to decode ASN.1 encoded data, typically used for parsing cryptographic key data.

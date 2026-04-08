@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 import { hexlify } from "ethers";
 import { PrivateKey as PrivateKeyCrypto } from "@hiero-ledger/cryptography";
-import { proto } from "@hiero-ledger/proto";
+import { TransactionCore } from "@hiero-ledger/proto/minimal";
+const proto = TransactionCore;
 import Mnemonic from "./Mnemonic.js";
 import PublicKey from "./PublicKey.js";
 import Key from "./Key.js";

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
-import * as HieroProto from "@hiero-ledger/proto";
+import { EntityIds as HieroProto_proto } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_proto };
 import TokenId from "../token/TokenId.js";
 import Long from "long";
 

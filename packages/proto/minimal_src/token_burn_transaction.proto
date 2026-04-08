@@ -28,7 +28,7 @@ message Transaction {
  * A transaction body for token burning.
  */
 message TransactionBody {
-    reserved 30, 61, 62, 63, 64;
+    reserved 61, 62, 63, 64;
 
     /**
      * A transaction identifier.

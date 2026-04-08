@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import NodeAddress from "./NodeAddress.js";
-import * as HieroProto from "@hiero-ledger/proto";
+import { NetworkInfo as HieroProto_proto } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_proto };
 
 /**
  * @typedef {import("./NodeAddress.js").NodeAddressJson} NodeAddressJson

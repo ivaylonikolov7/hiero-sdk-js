@@ -1,0 +1,74 @@
+/**
+ * # Contract Types
+ * Minimal contract-specific proto types.
+ */
+syntax = "proto3";
+
+package proto;
+
+// SPDX-License-Identifier: Apache-2.0
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+import "timestamp.proto";
+import "duration.proto";
+import "response_code.proto";
+
+/**
+ * Response header.
+ */
+message ResponseHeader {
+    ResponseCodeEnum nodeTransactionPrecheckCode = 1;
+}
+
+/**
+ * Contract get info response.
+ */
+message ContractGetInfoResponse {
+    ResponseHeader header = 1;
+    ContractInfo contractInfo = 2;
+
+    message ContractInfo {
+        ContractID contractID = 1;
+        AccountID accountID = 2;
+        string contractAccountID = 3;
+        Timestamp expirationTime = 5;
+        Duration autoRenewPeriod = 6;
+        int64 storage = 7;
+        string memo = 8;
+        uint64 balance = 9;
+        bool deleted = 10;
+        repeated TokenRelationship tokenRelationships = 11;
+        string ledger_id = 12;
+        AccountID auto_renew_account_id = 13;
+        int32 max_automatic_token_associations = 14;
+        Key admin_key = 24;
+        AccountID staking_info = 25;
+    }
+}
+
+/**
+ * Contract nonce info.
+ */
+message ContractNonceInfo {
+    ContractID contract_id = 1;
+    int64 nonce = 2;
+}
+
+/**
+ * Contract state change.
+ */
+message ContractStateChange {
+    ContractID contract_id = 1;
+    repeated StorageChange storage_changes = 2;
+}
+
+/**
+ * Storage change.
+ */
+message StorageChange {
+    bytes slot = 1;
+    bytes value_read = 2;
+    bytes value_written = 3;
+}

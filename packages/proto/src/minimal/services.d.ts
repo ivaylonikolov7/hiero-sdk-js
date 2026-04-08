@@ -1,0 +1,10604 @@
+import * as $protobuf from "protobufjs";
+import Long = require("long");
+/** Namespace proto. */
+export namespace proto {
+
+    /** Properties of a Transaction. */
+    interface ITransaction {
+
+        /** Transaction signedTransactionBytes */
+        signedTransactionBytes?: (Uint8Array|null);
+    }
+
+    /** A wrapper for signed transaction bytes. */
+    class Transaction implements ITransaction {
+
+        /**
+         * Constructs a new Transaction.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITransaction);
+
+        /** Transaction signedTransactionBytes. */
+        public signedTransactionBytes: Uint8Array;
+
+        /**
+         * Creates a new Transaction instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Transaction instance
+         */
+        public static create(properties?: proto.ITransaction): proto.Transaction;
+
+        /**
+         * Encodes the specified Transaction message. Does not implicitly {@link proto.Transaction.verify|verify} messages.
+         * @param message Transaction message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITransaction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Transaction message, length delimited. Does not implicitly {@link proto.Transaction.verify|verify} messages.
+         * @param message Transaction message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITransaction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Transaction message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Transaction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Transaction;
+
+        /**
+         * Decodes a Transaction message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Transaction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Transaction;
+
+        /**
+         * Verifies a Transaction message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Transaction message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Transaction
+         */
+        public static fromObject(object: { [k: string]: any }): proto.Transaction;
+
+        /**
+         * Creates a plain object from a Transaction message. Also converts values to other types if specified.
+         * @param message Transaction
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.Transaction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Transaction to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for Transaction
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TransactionResponse. */
+    interface ITransactionResponse {
+
+        /** TransactionResponse nodeTransactionPrecheckCode */
+        nodeTransactionPrecheckCode?: (proto.ResponseCodeEnum|null);
+
+        /** TransactionResponse cost */
+        cost?: (number|Long|null);
+    }
+
+    /** A transaction response. */
+    class TransactionResponse implements ITransactionResponse {
+
+        /**
+         * Constructs a new TransactionResponse.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITransactionResponse);
+
+        /** TransactionResponse nodeTransactionPrecheckCode. */
+        public nodeTransactionPrecheckCode: proto.ResponseCodeEnum;
+
+        /** TransactionResponse cost. */
+        public cost: (number|Long);
+
+        /**
+         * Creates a new TransactionResponse instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TransactionResponse instance
+         */
+        public static create(properties?: proto.ITransactionResponse): proto.TransactionResponse;
+
+        /**
+         * Encodes the specified TransactionResponse message. Does not implicitly {@link proto.TransactionResponse.verify|verify} messages.
+         * @param message TransactionResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITransactionResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TransactionResponse message, length delimited. Does not implicitly {@link proto.TransactionResponse.verify|verify} messages.
+         * @param message TransactionResponse message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITransactionResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TransactionResponse message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TransactionResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TransactionResponse;
+
+        /**
+         * Decodes a TransactionResponse message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TransactionResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TransactionResponse;
+
+        /**
+         * Verifies a TransactionResponse message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TransactionResponse message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TransactionResponse
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TransactionResponse;
+
+        /**
+         * Creates a plain object from a TransactionResponse message. Also converts values to other types if specified.
+         * @param message TransactionResponse
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TransactionResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TransactionResponse to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TransactionResponse
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a Query. */
+    interface IQuery {
+
+        /** Query queryBytes */
+        queryBytes?: (Uint8Array|null);
+    }
+
+    /** A query wrapper. */
+    class Query implements IQuery {
+
+        /**
+         * Constructs a new Query.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IQuery);
+
+        /** Query queryBytes. */
+        public queryBytes?: (Uint8Array|null);
+
+        /** Query query. */
+        public query?: "queryBytes";
+
+        /**
+         * Creates a new Query instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Query instance
+         */
+        public static create(properties?: proto.IQuery): proto.Query;
+
+        /**
+         * Encodes the specified Query message. Does not implicitly {@link proto.Query.verify|verify} messages.
+         * @param message Query message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IQuery, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Query message, length delimited. Does not implicitly {@link proto.Query.verify|verify} messages.
+         * @param message Query message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IQuery, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Query message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Query
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Query;
+
+        /**
+         * Decodes a Query message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Query
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Query;
+
+        /**
+         * Verifies a Query message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Query message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Query
+         */
+        public static fromObject(object: { [k: string]: any }): proto.Query;
+
+        /**
+         * Creates a plain object from a Query message. Also converts values to other types if specified.
+         * @param message Query
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.Query, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Query to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for Query
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a Response. */
+    interface IResponse {
+
+        /** Response responseBytes */
+        responseBytes?: (Uint8Array|null);
+    }
+
+    /** A response wrapper. */
+    class Response implements IResponse {
+
+        /**
+         * Constructs a new Response.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IResponse);
+
+        /** Response responseBytes. */
+        public responseBytes?: (Uint8Array|null);
+
+        /** Response response. */
+        public response?: "responseBytes";
+
+        /**
+         * Creates a new Response instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Response instance
+         */
+        public static create(properties?: proto.IResponse): proto.Response;
+
+        /**
+         * Encodes the specified Response message. Does not implicitly {@link proto.Response.verify|verify} messages.
+         * @param message Response message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Response message, length delimited. Does not implicitly {@link proto.Response.verify|verify} messages.
+         * @param message Response message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Response message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Response
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Response;
+
+        /**
+         * Decodes a Response message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Response
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Response;
+
+        /**
+         * Verifies a Response message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Response message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Response
+         */
+        public static fromObject(object: { [k: string]: any }): proto.Response;
+
+        /**
+         * Creates a plain object from a Response message. Also converts values to other types if specified.
+         * @param message Response
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.Response, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Response to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for Response
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Response type. */
+    enum ResponseType {
+        ANSWER_ONLY = 0,
+        ANSWER_STATE_PROOF = 1,
+        COST_ANSWER = 2,
+        COST_ANSWER_STATE_PROOF = 3
+    }
+
+    /** Properties of a QueryHeader. */
+    interface IQueryHeader {
+
+        /** QueryHeader payment */
+        payment?: (proto.ITransaction|null);
+
+        /** QueryHeader responseType */
+        responseType?: (proto.ResponseType|null);
+    }
+
+    /** A query header. */
+    class QueryHeader implements IQueryHeader {
+
+        /**
+         * Constructs a new QueryHeader.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IQueryHeader);
+
+        /** QueryHeader payment. */
+        public payment?: (proto.ITransaction|null);
+
+        /** QueryHeader responseType. */
+        public responseType: proto.ResponseType;
+
+        /**
+         * Creates a new QueryHeader instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns QueryHeader instance
+         */
+        public static create(properties?: proto.IQueryHeader): proto.QueryHeader;
+
+        /**
+         * Encodes the specified QueryHeader message. Does not implicitly {@link proto.QueryHeader.verify|verify} messages.
+         * @param message QueryHeader message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IQueryHeader, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified QueryHeader message, length delimited. Does not implicitly {@link proto.QueryHeader.verify|verify} messages.
+         * @param message QueryHeader message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IQueryHeader, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a QueryHeader message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns QueryHeader
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.QueryHeader;
+
+        /**
+         * Decodes a QueryHeader message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns QueryHeader
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.QueryHeader;
+
+        /**
+         * Verifies a QueryHeader message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a QueryHeader message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns QueryHeader
+         */
+        public static fromObject(object: { [k: string]: any }): proto.QueryHeader;
+
+        /**
+         * Creates a plain object from a QueryHeader message. Also converts values to other types if specified.
+         * @param message QueryHeader
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.QueryHeader, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this QueryHeader to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for QueryHeader
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a ResponseHeader. */
+    interface IResponseHeader {
+
+        /** ResponseHeader nodeTransactionPrecheckCode */
+        nodeTransactionPrecheckCode?: (proto.ResponseCodeEnum|null);
+
+        /** ResponseHeader responseType */
+        responseType?: (proto.ResponseType|null);
+
+        /** ResponseHeader cost */
+        cost?: (number|Long|null);
+
+        /** ResponseHeader stateProof */
+        stateProof?: (Uint8Array|null);
+    }
+
+    /** A response header. */
+    class ResponseHeader implements IResponseHeader {
+
+        /**
+         * Constructs a new ResponseHeader.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IResponseHeader);
+
+        /** ResponseHeader nodeTransactionPrecheckCode. */
+        public nodeTransactionPrecheckCode: proto.ResponseCodeEnum;
+
+        /** ResponseHeader responseType. */
+        public responseType: proto.ResponseType;
+
+        /** ResponseHeader cost. */
+        public cost: (number|Long);
+
+        /** ResponseHeader stateProof. */
+        public stateProof: Uint8Array;
+
+        /**
+         * Creates a new ResponseHeader instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ResponseHeader instance
+         */
+        public static create(properties?: proto.IResponseHeader): proto.ResponseHeader;
+
+        /**
+         * Encodes the specified ResponseHeader message. Does not implicitly {@link proto.ResponseHeader.verify|verify} messages.
+         * @param message ResponseHeader message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IResponseHeader, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ResponseHeader message, length delimited. Does not implicitly {@link proto.ResponseHeader.verify|verify} messages.
+         * @param message ResponseHeader message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IResponseHeader, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ResponseHeader message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ResponseHeader
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.ResponseHeader;
+
+        /**
+         * Decodes a ResponseHeader message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ResponseHeader
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.ResponseHeader;
+
+        /**
+         * Verifies a ResponseHeader message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ResponseHeader message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ResponseHeader
+         */
+        public static fromObject(object: { [k: string]: any }): proto.ResponseHeader;
+
+        /**
+         * Creates a plain object from a ResponseHeader message. Also converts values to other types if specified.
+         * @param message ResponseHeader
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.ResponseHeader, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ResponseHeader to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for ResponseHeader
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a SignedTransaction. */
+    interface ISignedTransaction {
+
+        /** SignedTransaction bodyBytes */
+        bodyBytes?: (Uint8Array|null);
+
+        /** SignedTransaction sigMap */
+        sigMap?: (proto.ISignatureMap|null);
+    }
+
+    /** Signed transaction. */
+    class SignedTransaction implements ISignedTransaction {
+
+        /**
+         * Constructs a new SignedTransaction.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ISignedTransaction);
+
+        /** SignedTransaction bodyBytes. */
+        public bodyBytes: Uint8Array;
+
+        /** SignedTransaction sigMap. */
+        public sigMap?: (proto.ISignatureMap|null);
+
+        /**
+         * Creates a new SignedTransaction instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns SignedTransaction instance
+         */
+        public static create(properties?: proto.ISignedTransaction): proto.SignedTransaction;
+
+        /**
+         * Encodes the specified SignedTransaction message. Does not implicitly {@link proto.SignedTransaction.verify|verify} messages.
+         * @param message SignedTransaction message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ISignedTransaction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified SignedTransaction message, length delimited. Does not implicitly {@link proto.SignedTransaction.verify|verify} messages.
+         * @param message SignedTransaction message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ISignedTransaction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a SignedTransaction message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns SignedTransaction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.SignedTransaction;
+
+        /**
+         * Decodes a SignedTransaction message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns SignedTransaction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.SignedTransaction;
+
+        /**
+         * Verifies a SignedTransaction message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a SignedTransaction message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns SignedTransaction
+         */
+        public static fromObject(object: { [k: string]: any }): proto.SignedTransaction;
+
+        /**
+         * Creates a plain object from a SignedTransaction message. Also converts values to other types if specified.
+         * @param message SignedTransaction
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.SignedTransaction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this SignedTransaction to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for SignedTransaction
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TransactionBody. */
+    interface ITransactionBody {
+
+        /** TransactionBody transactionID */
+        transactionID?: (proto.ITransactionID|null);
+
+        /** TransactionBody nodeAccountID */
+        nodeAccountID?: (proto.IAccountID|null);
+
+        /** TransactionBody transactionFee */
+        transactionFee?: (number|Long|null);
+
+        /** TransactionBody transactionValidDuration */
+        transactionValidDuration?: (proto.IDuration|null);
+
+        /** TransactionBody generateRecord */
+        generateRecord?: (boolean|null);
+
+        /** TransactionBody memo */
+        memo?: (string|null);
+    }
+
+    /** Transaction body (minimal). */
+    class TransactionBody implements ITransactionBody {
+
+        /**
+         * Constructs a new TransactionBody.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITransactionBody);
+
+        /** TransactionBody transactionID. */
+        public transactionID?: (proto.ITransactionID|null);
+
+        /** TransactionBody nodeAccountID. */
+        public nodeAccountID?: (proto.IAccountID|null);
+
+        /** TransactionBody transactionFee. */
+        public transactionFee: (number|Long);
+
+        /** TransactionBody transactionValidDuration. */
+        public transactionValidDuration?: (proto.IDuration|null);
+
+        /** TransactionBody generateRecord. */
+        public generateRecord: boolean;
+
+        /** TransactionBody memo. */
+        public memo: string;
+
+        /**
+         * Creates a new TransactionBody instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TransactionBody instance
+         */
+        public static create(properties?: proto.ITransactionBody): proto.TransactionBody;
+
+        /**
+         * Encodes the specified TransactionBody message. Does not implicitly {@link proto.TransactionBody.verify|verify} messages.
+         * @param message TransactionBody message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITransactionBody, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TransactionBody message, length delimited. Does not implicitly {@link proto.TransactionBody.verify|verify} messages.
+         * @param message TransactionBody message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITransactionBody, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TransactionBody message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TransactionBody
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TransactionBody;
+
+        /**
+         * Decodes a TransactionBody message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TransactionBody
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TransactionBody;
+
+        /**
+         * Verifies a TransactionBody message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TransactionBody message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TransactionBody
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TransactionBody;
+
+        /**
+         * Creates a plain object from a TransactionBody message. Also converts values to other types if specified.
+         * @param message TransactionBody
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TransactionBody, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TransactionBody to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TransactionBody
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Represents a CryptoService */
+    class CryptoService extends $protobuf.rpc.Service {
+
+        /**
+         * Constructs a new CryptoService service.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         */
+        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+        /**
+         * Creates new CryptoService service using the specified rpc implementation.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         * @returns RPC service. Useful where requests and/or responses are streamed.
+         */
+        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): CryptoService;
+
+        /**
+         * Calls createAccount.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public createAccount(request: proto.ITransaction, callback: proto.CryptoService.createAccountCallback): void;
+
+        /**
+         * Calls createAccount.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public createAccount(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls updateAccount.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public updateAccount(request: proto.ITransaction, callback: proto.CryptoService.updateAccountCallback): void;
+
+        /**
+         * Calls updateAccount.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public updateAccount(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls cryptoTransfer.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public cryptoTransfer(request: proto.ITransaction, callback: proto.CryptoService.cryptoTransferCallback): void;
+
+        /**
+         * Calls cryptoTransfer.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public cryptoTransfer(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls cryptoDelete.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public cryptoDelete(request: proto.ITransaction, callback: proto.CryptoService.cryptoDeleteCallback): void;
+
+        /**
+         * Calls cryptoDelete.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public cryptoDelete(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls approveAllowances.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public approveAllowances(request: proto.ITransaction, callback: proto.CryptoService.approveAllowancesCallback): void;
+
+        /**
+         * Calls approveAllowances.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public approveAllowances(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls deleteAllowances.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public deleteAllowances(request: proto.ITransaction, callback: proto.CryptoService.deleteAllowancesCallback): void;
+
+        /**
+         * Calls deleteAllowances.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public deleteAllowances(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls addLiveHash.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public addLiveHash(request: proto.ITransaction, callback: proto.CryptoService.addLiveHashCallback): void;
+
+        /**
+         * Calls addLiveHash.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public addLiveHash(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls deleteLiveHash.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public deleteLiveHash(request: proto.ITransaction, callback: proto.CryptoService.deleteLiveHashCallback): void;
+
+        /**
+         * Calls deleteLiveHash.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public deleteLiveHash(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls getLiveHash.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getLiveHash(request: proto.IQuery, callback: proto.CryptoService.getLiveHashCallback): void;
+
+        /**
+         * Calls getLiveHash.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getLiveHash(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getAccountRecords.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getAccountRecords(request: proto.IQuery, callback: proto.CryptoService.getAccountRecordsCallback): void;
+
+        /**
+         * Calls getAccountRecords.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getAccountRecords(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls cryptoGetBalance.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public cryptoGetBalance(request: proto.IQuery, callback: proto.CryptoService.cryptoGetBalanceCallback): void;
+
+        /**
+         * Calls cryptoGetBalance.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public cryptoGetBalance(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getAccountInfo.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getAccountInfo(request: proto.IQuery, callback: proto.CryptoService.getAccountInfoCallback): void;
+
+        /**
+         * Calls getAccountInfo.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getAccountInfo(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getTransactionReceipts.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getTransactionReceipts(request: proto.IQuery, callback: proto.CryptoService.getTransactionReceiptsCallback): void;
+
+        /**
+         * Calls getTransactionReceipts.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getTransactionReceipts(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getFastTransactionRecord.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getFastTransactionRecord(request: proto.IQuery, callback: proto.CryptoService.getFastTransactionRecordCallback): void;
+
+        /**
+         * Calls getFastTransactionRecord.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getFastTransactionRecord(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getTxRecordByTxID.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getTxRecordByTxID(request: proto.IQuery, callback: proto.CryptoService.getTxRecordByTxIDCallback): void;
+
+        /**
+         * Calls getTxRecordByTxID.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getTxRecordByTxID(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getStakersByAccountID.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getStakersByAccountID(request: proto.IQuery, callback: proto.CryptoService.getStakersByAccountIDCallback): void;
+
+        /**
+         * Calls getStakersByAccountID.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getStakersByAccountID(request: proto.IQuery): Promise<proto.Response>;
+    }
+
+    namespace CryptoService {
+
+        /**
+         * Callback as used by {@link proto.CryptoService#createAccount}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type createAccountCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#updateAccount}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type updateAccountCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#cryptoTransfer}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type cryptoTransferCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#cryptoDelete}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type cryptoDeleteCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#approveAllowances}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type approveAllowancesCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#deleteAllowances}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type deleteAllowancesCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#addLiveHash}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type addLiveHashCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#deleteLiveHash}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type deleteLiveHashCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#getLiveHash}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getLiveHashCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#getAccountRecords}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getAccountRecordsCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#cryptoGetBalance}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type cryptoGetBalanceCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#getAccountInfo}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getAccountInfoCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#getTransactionReceipts}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getTransactionReceiptsCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#getFastTransactionRecord}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getFastTransactionRecordCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#getTxRecordByTxID}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getTxRecordByTxIDCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.CryptoService#getStakersByAccountID}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getStakersByAccountIDCallback = (error: (Error|null), response?: proto.Response) => void;
+    }
+
+    /** Represents a SmartContractService */
+    class SmartContractService extends $protobuf.rpc.Service {
+
+        /**
+         * Constructs a new SmartContractService service.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         */
+        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+        /**
+         * Creates new SmartContractService service using the specified rpc implementation.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         * @returns RPC service. Useful where requests and/or responses are streamed.
+         */
+        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): SmartContractService;
+
+        /**
+         * Calls createContract.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public createContract(request: proto.ITransaction, callback: proto.SmartContractService.createContractCallback): void;
+
+        /**
+         * Calls createContract.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public createContract(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls updateContract.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public updateContract(request: proto.ITransaction, callback: proto.SmartContractService.updateContractCallback): void;
+
+        /**
+         * Calls updateContract.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public updateContract(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls contractCallMethod.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public contractCallMethod(request: proto.ITransaction, callback: proto.SmartContractService.contractCallMethodCallback): void;
+
+        /**
+         * Calls contractCallMethod.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public contractCallMethod(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls getContractInfo.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getContractInfo(request: proto.IQuery, callback: proto.SmartContractService.getContractInfoCallback): void;
+
+        /**
+         * Calls getContractInfo.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getContractInfo(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls contractCallLocalMethod.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public contractCallLocalMethod(request: proto.IQuery, callback: proto.SmartContractService.contractCallLocalMethodCallback): void;
+
+        /**
+         * Calls contractCallLocalMethod.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public contractCallLocalMethod(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls ContractGetBytecode.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public contractGetBytecode(request: proto.IQuery, callback: proto.SmartContractService.ContractGetBytecodeCallback): void;
+
+        /**
+         * Calls ContractGetBytecode.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public contractGetBytecode(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getBySolidityID.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getBySolidityID(request: proto.IQuery, callback: proto.SmartContractService.getBySolidityIDCallback): void;
+
+        /**
+         * Calls getBySolidityID.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getBySolidityID(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getTxRecordByContractID.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getTxRecordByContractID(request: proto.IQuery, callback: proto.SmartContractService.getTxRecordByContractIDCallback): void;
+
+        /**
+         * Calls getTxRecordByContractID.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getTxRecordByContractID(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls deleteContract.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public deleteContract(request: proto.ITransaction, callback: proto.SmartContractService.deleteContractCallback): void;
+
+        /**
+         * Calls deleteContract.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public deleteContract(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls systemDelete.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public systemDelete(request: proto.ITransaction, callback: proto.SmartContractService.systemDeleteCallback): void;
+
+        /**
+         * Calls systemDelete.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public systemDelete(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls systemUndelete.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public systemUndelete(request: proto.ITransaction, callback: proto.SmartContractService.systemUndeleteCallback): void;
+
+        /**
+         * Calls systemUndelete.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public systemUndelete(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+    }
+
+    namespace SmartContractService {
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#createContract}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type createContractCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#updateContract}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type updateContractCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#contractCallMethod}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type contractCallMethodCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#getContractInfo}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getContractInfoCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#contractCallLocalMethod}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type contractCallLocalMethodCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#contractGetBytecode}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type ContractGetBytecodeCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#getBySolidityID}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getBySolidityIDCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#getTxRecordByContractID}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getTxRecordByContractIDCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#deleteContract}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type deleteContractCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#systemDelete}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type systemDeleteCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.SmartContractService#systemUndelete}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type systemUndeleteCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+    }
+
+    /** Represents a FileService */
+    class FileService extends $protobuf.rpc.Service {
+
+        /**
+         * Constructs a new FileService service.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         */
+        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+        /**
+         * Creates new FileService service using the specified rpc implementation.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         * @returns RPC service. Useful where requests and/or responses are streamed.
+         */
+        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): FileService;
+
+        /**
+         * Calls createFile.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public createFile(request: proto.ITransaction, callback: proto.FileService.createFileCallback): void;
+
+        /**
+         * Calls createFile.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public createFile(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls updateFile.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public updateFile(request: proto.ITransaction, callback: proto.FileService.updateFileCallback): void;
+
+        /**
+         * Calls updateFile.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public updateFile(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls deleteFile.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public deleteFile(request: proto.ITransaction, callback: proto.FileService.deleteFileCallback): void;
+
+        /**
+         * Calls deleteFile.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public deleteFile(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls appendContent.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public appendContent(request: proto.ITransaction, callback: proto.FileService.appendContentCallback): void;
+
+        /**
+         * Calls appendContent.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public appendContent(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls getFileContent.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getFileContent(request: proto.IQuery, callback: proto.FileService.getFileContentCallback): void;
+
+        /**
+         * Calls getFileContent.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getFileContent(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getFileInfo.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getFileInfo(request: proto.IQuery, callback: proto.FileService.getFileInfoCallback): void;
+
+        /**
+         * Calls getFileInfo.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getFileInfo(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls systemDelete.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public systemDelete(request: proto.ITransaction, callback: proto.FileService.systemDeleteCallback): void;
+
+        /**
+         * Calls systemDelete.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public systemDelete(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls systemUndelete.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public systemUndelete(request: proto.ITransaction, callback: proto.FileService.systemUndeleteCallback): void;
+
+        /**
+         * Calls systemUndelete.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public systemUndelete(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+    }
+
+    namespace FileService {
+
+        /**
+         * Callback as used by {@link proto.FileService#createFile}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type createFileCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.FileService#updateFile}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type updateFileCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.FileService#deleteFile}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type deleteFileCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.FileService#appendContent}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type appendContentCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.FileService#getFileContent}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getFileContentCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.FileService#getFileInfo}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getFileInfoCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.FileService#systemDelete}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type systemDeleteCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.FileService#systemUndelete}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type systemUndeleteCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+    }
+
+    /** Represents a ConsensusService */
+    class ConsensusService extends $protobuf.rpc.Service {
+
+        /**
+         * Constructs a new ConsensusService service.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         */
+        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+        /**
+         * Creates new ConsensusService service using the specified rpc implementation.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         * @returns RPC service. Useful where requests and/or responses are streamed.
+         */
+        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): ConsensusService;
+
+        /**
+         * Calls createTopic.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public createTopic(request: proto.ITransaction, callback: proto.ConsensusService.createTopicCallback): void;
+
+        /**
+         * Calls createTopic.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public createTopic(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls updateTopic.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public updateTopic(request: proto.ITransaction, callback: proto.ConsensusService.updateTopicCallback): void;
+
+        /**
+         * Calls updateTopic.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public updateTopic(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls deleteTopic.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public deleteTopic(request: proto.ITransaction, callback: proto.ConsensusService.deleteTopicCallback): void;
+
+        /**
+         * Calls deleteTopic.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public deleteTopic(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls getTopicInfo.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getTopicInfo(request: proto.IQuery, callback: proto.ConsensusService.getTopicInfoCallback): void;
+
+        /**
+         * Calls getTopicInfo.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getTopicInfo(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls submitMessage.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public submitMessage(request: proto.ITransaction, callback: proto.ConsensusService.submitMessageCallback): void;
+
+        /**
+         * Calls submitMessage.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public submitMessage(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+    }
+
+    namespace ConsensusService {
+
+        /**
+         * Callback as used by {@link proto.ConsensusService#createTopic}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type createTopicCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.ConsensusService#updateTopic}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type updateTopicCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.ConsensusService#deleteTopic}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type deleteTopicCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.ConsensusService#getTopicInfo}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getTopicInfoCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.ConsensusService#submitMessage}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type submitMessageCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+    }
+
+    /** Represents a FreezeService */
+    class FreezeService extends $protobuf.rpc.Service {
+
+        /**
+         * Constructs a new FreezeService service.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         */
+        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+        /**
+         * Creates new FreezeService service using the specified rpc implementation.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         * @returns RPC service. Useful where requests and/or responses are streamed.
+         */
+        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): FreezeService;
+
+        /**
+         * Calls freeze.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public freeze(request: proto.ITransaction, callback: proto.FreezeService.freezeCallback): void;
+
+        /**
+         * Calls freeze.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public freeze(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+    }
+
+    namespace FreezeService {
+
+        /**
+         * Callback as used by {@link proto.FreezeService#freeze}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type freezeCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+    }
+
+    /** Represents a NetworkService */
+    class NetworkService extends $protobuf.rpc.Service {
+
+        /**
+         * Constructs a new NetworkService service.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         */
+        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+        /**
+         * Creates new NetworkService service using the specified rpc implementation.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         * @returns RPC service. Useful where requests and/or responses are streamed.
+         */
+        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): NetworkService;
+
+        /**
+         * Calls getVersionInfo.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getVersionInfo(request: proto.IQuery, callback: proto.NetworkService.getVersionInfoCallback): void;
+
+        /**
+         * Calls getVersionInfo.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getVersionInfo(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getExecutionTime.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getExecutionTime(request: proto.IQuery, callback: proto.NetworkService.getExecutionTimeCallback): void;
+
+        /**
+         * Calls getExecutionTime.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getExecutionTime(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls uncheckedSubmit.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public uncheckedSubmit(request: proto.ITransaction, callback: proto.NetworkService.uncheckedSubmitCallback): void;
+
+        /**
+         * Calls uncheckedSubmit.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public uncheckedSubmit(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls getAccountDetails.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getAccountDetails(request: proto.IQuery, callback: proto.NetworkService.getAccountDetailsCallback): void;
+
+        /**
+         * Calls getAccountDetails.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getAccountDetails(request: proto.IQuery): Promise<proto.Response>;
+    }
+
+    namespace NetworkService {
+
+        /**
+         * Callback as used by {@link proto.NetworkService#getVersionInfo}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getVersionInfoCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.NetworkService#getExecutionTime}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getExecutionTimeCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.NetworkService#uncheckedSubmit}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type uncheckedSubmitCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.NetworkService#getAccountDetails}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getAccountDetailsCallback = (error: (Error|null), response?: proto.Response) => void;
+    }
+
+    /** Represents a TokenService */
+    class TokenService extends $protobuf.rpc.Service {
+
+        /**
+         * Constructs a new TokenService service.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         */
+        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+        /**
+         * Creates new TokenService service using the specified rpc implementation.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         * @returns RPC service. Useful where requests and/or responses are streamed.
+         */
+        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): TokenService;
+
+        /**
+         * Calls createToken.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public createToken(request: proto.ITransaction, callback: proto.TokenService.createTokenCallback): void;
+
+        /**
+         * Calls createToken.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public createToken(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls updateToken.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public updateToken(request: proto.ITransaction, callback: proto.TokenService.updateTokenCallback): void;
+
+        /**
+         * Calls updateToken.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public updateToken(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls mintToken.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public mintToken(request: proto.ITransaction, callback: proto.TokenService.mintTokenCallback): void;
+
+        /**
+         * Calls mintToken.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public mintToken(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls burnToken.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public burnToken(request: proto.ITransaction, callback: proto.TokenService.burnTokenCallback): void;
+
+        /**
+         * Calls burnToken.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public burnToken(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls deleteToken.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public deleteToken(request: proto.ITransaction, callback: proto.TokenService.deleteTokenCallback): void;
+
+        /**
+         * Calls deleteToken.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public deleteToken(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls wipeTokenAccount.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public wipeTokenAccount(request: proto.ITransaction, callback: proto.TokenService.wipeTokenAccountCallback): void;
+
+        /**
+         * Calls wipeTokenAccount.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public wipeTokenAccount(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls freezeTokenAccount.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public freezeTokenAccount(request: proto.ITransaction, callback: proto.TokenService.freezeTokenAccountCallback): void;
+
+        /**
+         * Calls freezeTokenAccount.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public freezeTokenAccount(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls unfreezeTokenAccount.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public unfreezeTokenAccount(request: proto.ITransaction, callback: proto.TokenService.unfreezeTokenAccountCallback): void;
+
+        /**
+         * Calls unfreezeTokenAccount.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public unfreezeTokenAccount(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls grantKycToTokenAccount.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public grantKycToTokenAccount(request: proto.ITransaction, callback: proto.TokenService.grantKycToTokenAccountCallback): void;
+
+        /**
+         * Calls grantKycToTokenAccount.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public grantKycToTokenAccount(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls revokeKycFromTokenAccount.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public revokeKycFromTokenAccount(request: proto.ITransaction, callback: proto.TokenService.revokeKycFromTokenAccountCallback): void;
+
+        /**
+         * Calls revokeKycFromTokenAccount.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public revokeKycFromTokenAccount(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls associateTokens.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public associateTokens(request: proto.ITransaction, callback: proto.TokenService.associateTokensCallback): void;
+
+        /**
+         * Calls associateTokens.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public associateTokens(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls dissociateTokens.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public dissociateTokens(request: proto.ITransaction, callback: proto.TokenService.dissociateTokensCallback): void;
+
+        /**
+         * Calls dissociateTokens.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public dissociateTokens(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls updateTokenFeeSchedule.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public updateTokenFeeSchedule(request: proto.ITransaction, callback: proto.TokenService.updateTokenFeeScheduleCallback): void;
+
+        /**
+         * Calls updateTokenFeeSchedule.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public updateTokenFeeSchedule(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls getTokenInfo.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getTokenInfo(request: proto.IQuery, callback: proto.TokenService.getTokenInfoCallback): void;
+
+        /**
+         * Calls getTokenInfo.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getTokenInfo(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getAccountNftInfos.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getAccountNftInfos(request: proto.IQuery, callback: proto.TokenService.getAccountNftInfosCallback): void;
+
+        /**
+         * Calls getAccountNftInfos.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getAccountNftInfos(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getTokenNftInfo.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getTokenNftInfo(request: proto.IQuery, callback: proto.TokenService.getTokenNftInfoCallback): void;
+
+        /**
+         * Calls getTokenNftInfo.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getTokenNftInfo(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls getTokenNftInfos.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getTokenNftInfos(request: proto.IQuery, callback: proto.TokenService.getTokenNftInfosCallback): void;
+
+        /**
+         * Calls getTokenNftInfos.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getTokenNftInfos(request: proto.IQuery): Promise<proto.Response>;
+
+        /**
+         * Calls pauseToken.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public pauseToken(request: proto.ITransaction, callback: proto.TokenService.pauseTokenCallback): void;
+
+        /**
+         * Calls pauseToken.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public pauseToken(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls unpauseToken.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public unpauseToken(request: proto.ITransaction, callback: proto.TokenService.unpauseTokenCallback): void;
+
+        /**
+         * Calls unpauseToken.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public unpauseToken(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls updateNfts.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public updateNfts(request: proto.ITransaction, callback: proto.TokenService.updateNftsCallback): void;
+
+        /**
+         * Calls updateNfts.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public updateNfts(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls rejectToken.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public rejectToken(request: proto.ITransaction, callback: proto.TokenService.rejectTokenCallback): void;
+
+        /**
+         * Calls rejectToken.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public rejectToken(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls airdropTokens.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public airdropTokens(request: proto.ITransaction, callback: proto.TokenService.airdropTokensCallback): void;
+
+        /**
+         * Calls airdropTokens.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public airdropTokens(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls cancelAirdrop.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public cancelAirdrop(request: proto.ITransaction, callback: proto.TokenService.cancelAirdropCallback): void;
+
+        /**
+         * Calls cancelAirdrop.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public cancelAirdrop(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls claimAirdrop.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public claimAirdrop(request: proto.ITransaction, callback: proto.TokenService.claimAirdropCallback): void;
+
+        /**
+         * Calls claimAirdrop.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public claimAirdrop(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+    }
+
+    namespace TokenService {
+
+        /**
+         * Callback as used by {@link proto.TokenService#createToken}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type createTokenCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#updateToken}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type updateTokenCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#mintToken}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type mintTokenCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#burnToken}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type burnTokenCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#deleteToken}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type deleteTokenCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#wipeTokenAccount}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type wipeTokenAccountCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#freezeTokenAccount}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type freezeTokenAccountCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#unfreezeTokenAccount}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type unfreezeTokenAccountCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#grantKycToTokenAccount}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type grantKycToTokenAccountCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#revokeKycFromTokenAccount}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type revokeKycFromTokenAccountCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#associateTokens}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type associateTokensCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#dissociateTokens}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type dissociateTokensCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#updateTokenFeeSchedule}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type updateTokenFeeScheduleCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#getTokenInfo}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getTokenInfoCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#getAccountNftInfos}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getAccountNftInfosCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#getTokenNftInfo}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getTokenNftInfoCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#getTokenNftInfos}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getTokenNftInfosCallback = (error: (Error|null), response?: proto.Response) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#pauseToken}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type pauseTokenCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#unpauseToken}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type unpauseTokenCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#updateNfts}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type updateNftsCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#rejectToken}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type rejectTokenCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#airdropTokens}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type airdropTokensCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#cancelAirdrop}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type cancelAirdropCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.TokenService#claimAirdrop}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type claimAirdropCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+    }
+
+    /** Represents a ScheduleService */
+    class ScheduleService extends $protobuf.rpc.Service {
+
+        /**
+         * Constructs a new ScheduleService service.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         */
+        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+        /**
+         * Creates new ScheduleService service using the specified rpc implementation.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         * @returns RPC service. Useful where requests and/or responses are streamed.
+         */
+        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): ScheduleService;
+
+        /**
+         * Calls createSchedule.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public createSchedule(request: proto.ITransaction, callback: proto.ScheduleService.createScheduleCallback): void;
+
+        /**
+         * Calls createSchedule.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public createSchedule(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls signSchedule.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public signSchedule(request: proto.ITransaction, callback: proto.ScheduleService.signScheduleCallback): void;
+
+        /**
+         * Calls signSchedule.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public signSchedule(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls deleteSchedule.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public deleteSchedule(request: proto.ITransaction, callback: proto.ScheduleService.deleteScheduleCallback): void;
+
+        /**
+         * Calls deleteSchedule.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public deleteSchedule(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls getScheduleInfo.
+         * @param request Query message or plain object
+         * @param callback Node-style callback called with the error, if any, and Response
+         */
+        public getScheduleInfo(request: proto.IQuery, callback: proto.ScheduleService.getScheduleInfoCallback): void;
+
+        /**
+         * Calls getScheduleInfo.
+         * @param request Query message or plain object
+         * @returns Promise
+         */
+        public getScheduleInfo(request: proto.IQuery): Promise<proto.Response>;
+    }
+
+    namespace ScheduleService {
+
+        /**
+         * Callback as used by {@link proto.ScheduleService#createSchedule}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type createScheduleCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.ScheduleService#signSchedule}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type signScheduleCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.ScheduleService#deleteSchedule}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type deleteScheduleCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.ScheduleService#getScheduleInfo}.
+         * @param error Error, if any
+         * @param [response] Response
+         */
+        type getScheduleInfoCallback = (error: (Error|null), response?: proto.Response) => void;
+    }
+
+    /** Represents an UtilService */
+    class UtilService extends $protobuf.rpc.Service {
+
+        /**
+         * Constructs a new UtilService service.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         */
+        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+        /**
+         * Creates new UtilService service using the specified rpc implementation.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         * @returns RPC service. Useful where requests and/or responses are streamed.
+         */
+        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): UtilService;
+
+        /**
+         * Calls prng.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public prng(request: proto.ITransaction, callback: proto.UtilService.prngCallback): void;
+
+        /**
+         * Calls prng.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public prng(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+    }
+
+    namespace UtilService {
+
+        /**
+         * Callback as used by {@link proto.UtilService#prng}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type prngCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+    }
+
+    /** Represents an AddressBookService */
+    class AddressBookService extends $protobuf.rpc.Service {
+
+        /**
+         * Constructs a new AddressBookService service.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         */
+        constructor(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean);
+
+        /**
+         * Creates new AddressBookService service using the specified rpc implementation.
+         * @param rpcImpl RPC implementation
+         * @param [requestDelimited=false] Whether requests are length-delimited
+         * @param [responseDelimited=false] Whether responses are length-delimited
+         * @returns RPC service. Useful where requests and/or responses are streamed.
+         */
+        public static create(rpcImpl: $protobuf.RPCImpl, requestDelimited?: boolean, responseDelimited?: boolean): AddressBookService;
+
+        /**
+         * Calls createNode.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public createNode(request: proto.ITransaction, callback: proto.AddressBookService.createNodeCallback): void;
+
+        /**
+         * Calls createNode.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public createNode(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls deleteNode.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public deleteNode(request: proto.ITransaction, callback: proto.AddressBookService.deleteNodeCallback): void;
+
+        /**
+         * Calls deleteNode.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public deleteNode(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+
+        /**
+         * Calls updateNode.
+         * @param request Transaction message or plain object
+         * @param callback Node-style callback called with the error, if any, and TransactionResponse
+         */
+        public updateNode(request: proto.ITransaction, callback: proto.AddressBookService.updateNodeCallback): void;
+
+        /**
+         * Calls updateNode.
+         * @param request Transaction message or plain object
+         * @returns Promise
+         */
+        public updateNode(request: proto.ITransaction): Promise<proto.TransactionResponse>;
+    }
+
+    namespace AddressBookService {
+
+        /**
+         * Callback as used by {@link proto.AddressBookService#createNode}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type createNodeCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.AddressBookService#deleteNode}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type deleteNodeCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+
+        /**
+         * Callback as used by {@link proto.AddressBookService#updateNode}.
+         * @param error Error, if any
+         * @param [response] TransactionResponse
+         */
+        type updateNodeCallback = (error: (Error|null), response?: proto.TransactionResponse) => void;
+    }
+
+    /** Properties of a ShardID. */
+    interface IShardID {
+
+        /** A whole number shard identifier. */
+        shardNum?: (number|Long|null);
+    }
+
+    /**
+     * A shard identifier.<br/>
+     * A shard is a partition of nodes running the network that processes
+     * transactions separately from other shards. Each shard is effectively an
+     * independent instance of the overall network that shares the same virtual
+     * distributed ledger, and may gossip cross-shard transactions with other
+     * shards to maintain overall correct processing of the ledger.
+     */
+    class ShardID implements IShardID {
+
+        /**
+         * Constructs a new ShardID.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IShardID);
+
+        /** A whole number shard identifier. */
+        public shardNum: (number|Long);
+
+        /**
+         * Creates a new ShardID instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ShardID instance
+         */
+        public static create(properties?: proto.IShardID): proto.ShardID;
+
+        /**
+         * Encodes the specified ShardID message. Does not implicitly {@link proto.ShardID.verify|verify} messages.
+         * @param message ShardID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IShardID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ShardID message, length delimited. Does not implicitly {@link proto.ShardID.verify|verify} messages.
+         * @param message ShardID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IShardID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ShardID message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ShardID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.ShardID;
+
+        /**
+         * Decodes a ShardID message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ShardID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.ShardID;
+
+        /**
+         * Verifies a ShardID message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ShardID message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ShardID
+         */
+        public static fromObject(object: { [k: string]: any }): proto.ShardID;
+
+        /**
+         * Creates a plain object from a ShardID message. Also converts values to other types if specified.
+         * @param message ShardID
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.ShardID, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ShardID to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for ShardID
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a RealmID. */
+    interface IRealmID {
+
+        /** A whole number shard identifier. */
+        shardNum?: (number|Long|null);
+
+        /** A whole number realm identifier. */
+        realmNum?: (number|Long|null);
+    }
+
+    /**
+     * A realm identifier.<br/>
+     * Within a given shard, every realm has a unique numeric identifier.
+     * Each account, file, and contract instance belongs to exactly one realm.
+     */
+    class RealmID implements IRealmID {
+
+        /**
+         * Constructs a new RealmID.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IRealmID);
+
+        /** A whole number shard identifier. */
+        public shardNum: (number|Long);
+
+        /** A whole number realm identifier. */
+        public realmNum: (number|Long);
+
+        /**
+         * Creates a new RealmID instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns RealmID instance
+         */
+        public static create(properties?: proto.IRealmID): proto.RealmID;
+
+        /**
+         * Encodes the specified RealmID message. Does not implicitly {@link proto.RealmID.verify|verify} messages.
+         * @param message RealmID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IRealmID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified RealmID message, length delimited. Does not implicitly {@link proto.RealmID.verify|verify} messages.
+         * @param message RealmID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IRealmID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a RealmID message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns RealmID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.RealmID;
+
+        /**
+         * Decodes a RealmID message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns RealmID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.RealmID;
+
+        /**
+         * Verifies a RealmID message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a RealmID message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns RealmID
+         */
+        public static fromObject(object: { [k: string]: any }): proto.RealmID;
+
+        /**
+         * Creates a plain object from a RealmID message. Also converts values to other types if specified.
+         * @param message RealmID
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.RealmID, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this RealmID to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for RealmID
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TokenID. */
+    interface ITokenID {
+
+        /** A whole number shard identifier. */
+        shardNum?: (number|Long|null);
+
+        /** A whole number realm identifier. */
+        realmNum?: (number|Long|null);
+
+        /** A whole number token identifier. */
+        tokenNum?: (number|Long|null);
+    }
+
+    /**
+     * Unique identifier for a token.<br/>
+     * As with all entity identifiers within the network, a token identifier
+     * consists of a combination of shard number, realm number, and entity number.
+     * Each of these numbers is unique within its scope (shard > realm > entity).
+     */
+    class TokenID implements ITokenID {
+
+        /**
+         * Constructs a new TokenID.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITokenID);
+
+        /** A whole number shard identifier. */
+        public shardNum: (number|Long);
+
+        /** A whole number realm identifier. */
+        public realmNum: (number|Long);
+
+        /** A whole number token identifier. */
+        public tokenNum: (number|Long);
+
+        /**
+         * Creates a new TokenID instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TokenID instance
+         */
+        public static create(properties?: proto.ITokenID): proto.TokenID;
+
+        /**
+         * Encodes the specified TokenID message. Does not implicitly {@link proto.TokenID.verify|verify} messages.
+         * @param message TokenID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITokenID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TokenID message, length delimited. Does not implicitly {@link proto.TokenID.verify|verify} messages.
+         * @param message TokenID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITokenID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TokenID message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TokenID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TokenID;
+
+        /**
+         * Decodes a TokenID message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TokenID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TokenID;
+
+        /**
+         * Verifies a TokenID message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TokenID message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TokenID
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TokenID;
+
+        /**
+         * Creates a plain object from a TokenID message. Also converts values to other types if specified.
+         * @param message TokenID
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TokenID, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TokenID to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TokenID
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /**
+     * A specific hash algorithm.
+     *
+     * We did not reuse Record Stream `HashAlgorithm` here because in all cases,
+     * currently, this will be `SHA2_384` and if that is the default value then
+     * we can save space by not serializing it, whereas `HASH_ALGORITHM_UNKNOWN`
+     * is the default for Record Stream `HashAlgorithm`.
+     *
+     * Note that enum values here MUST NOT match the name of any other enum value
+     * in the same `package`, as protobuf follows `C++` scope rules and all enum
+     * _names_ are treated as global constants within the `package`.
+     */
+    enum BlockHashAlgorithm {
+        SHA2_384 = 0
+    }
+
+    /** Properties of an AccountID. */
+    interface IAccountID {
+
+        /** A whole number shard identifier. */
+        shardNum?: (number|Long|null);
+
+        /** A whole number realm identifier. */
+        realmNum?: (number|Long|null);
+
+        /**
+         * A whole number account number, unique within its realm and shard.
+         * <p>
+         * For any AccountID fields in the query response, transaction records,
+         * transaction receipts, or block stream `accountNum` MUST be used.
+         */
+        accountNum?: (number|Long|null);
+
+        /**
+         * An alias value.<br/>
+         * Alias is a value used in some contexts to refer to an account when
+         * account number is not available, and may be an alias public key, or
+         * an EVM address.
+         */
+        alias?: (Uint8Array|null);
+    }
+
+    /**
+     * A unique identifier for an Hedera account.
+     *
+     * An account identifier is of the form `shard.realm.[number|alias]`.<br/>
+     * The identifier MAY use the alias form when transferring HBAR to a public key
+     * before the account for that key is created, when only the alias value is
+     * known, or in some smart contracts that use the EVM address style alias to
+     * refer to Accounts.<br/>
+     * When the account entry is completed, the alias SHALL be stored separately in
+     * the Account record, and the identifier in the Account SHALL use the
+     * `accountNum` form.
+     *
+     * ---
+     * ### Additional Notes
+     *
+     * #### Alias
+     * There is considerable complexity with `alias` (aka `evm_address`) for
+     * Accounts. Much of this comes from the existence of a "hidden" alias for
+     * almost all accounts, and the reuse of the alias field for both EVM reference
+     * and "automatic" account creation.<br/>
+     * For the purposes of this specification, we will use the following terms for
+     * clarity.
+     * - `key_alias`<br/>
+     * The account public key as a protobuf serialized message and used for
+     * auto-creation and subsequent lookup. This is only valid if the account
+     * key is a single `primitive` key, either Ed25519 or ECDSA_SECP256K1.
+     * - `evm_address`<br/>
+     * Exists for every account and is one of
+     * - `contract_address`<br/>
+     * The 20 byte EVM address prescribed by `CREATE` or `CREATE2`
+     * - `evm_key_address`<br/>
+     * An arbitrary 20 byte EVM address that, for a usable externally owned
+     * account (EOA) SHALL be the rightmost 20 bytes of the Keccak-256 hash
+     * of a ECDSA_SECP256K1 key.<br/>
+     * Such accounts may be created in one of three ways:
+     * - Sending hbar or fungible tokens to an unused
+     * ECDSA_SECP256K1 key alias.
+     * - Sending hbar or fungible tokens to an unassigned 20-byte
+     * EVM address.
+     * - Submitting a `CryptoCreate` signed with the corresponding
+     * private key.
+     * - `long_zero`<br/>
+     * A synthetic 20 byte address inferred for "normally" created accounts.
+     * It is constructed from the "standard" AccountID as follows.
+     * 1. 4 byte big-endian shard number
+     * 1. 8 byte big-endian realm number
+     * 1. 8 byte big-endian entity number<br/>
+     *
+     * The `alias` field in the `Account` message SHALL contain one of four values
+     * for any given account.
+     * - The `key_alias`, if the account was created by transferring HBAR to the
+     * `key_alias` public key value.
+     * - The `evm_key_address` if the account was created from an EVM public key
+     * - The `contract_address` if the account belongs to an EVM contract
+     * - Not-Set/null/Bytes.EMPTY (collectively `null`) if the account was
+     * created normally
+     *
+     * If the `alias` field of an `Account` is any form of `null`, then the account
+     * MAY be referred to by `alias` in an `AccountID` by using the `long_zero`
+     * address for the account.<br/>
+     * This "hidden default" alias SHALL NOT be stored, but is synthesized by the
+     * node software as needed, and may be synthesized by an EVM contract or client
+     * software as well.
+     *
+     * ---
+     *
+     * #### Alias forms
+     * An `AccountID` in a transaction MAY reference an `Account` with
+     * `shard.realm.alias`.<br/>
+     * If the account `alias` field is set for an Account, that value SHALL be the
+     * account alias.<br/>
+     * If the account `alias` field is not set for an Account, the `long_zero` alias
+     * SHALL be the account alias.
+     */
+    class AccountID implements IAccountID {
+
+        /**
+         * Constructs a new AccountID.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IAccountID);
+
+        /** A whole number shard identifier. */
+        public shardNum: (number|Long);
+
+        /** A whole number realm identifier. */
+        public realmNum: (number|Long);
+
+        /**
+         * A whole number account number, unique within its realm and shard.
+         * <p>
+         * For any AccountID fields in the query response, transaction records,
+         * transaction receipts, or block stream `accountNum` MUST be used.
+         */
+        public accountNum?: (number|Long|null);
+
+        /**
+         * An alias value.<br/>
+         * Alias is a value used in some contexts to refer to an account when
+         * account number is not available, and may be an alias public key, or
+         * an EVM address.
+         */
+        public alias?: (Uint8Array|null);
+
+        /** AccountID account. */
+        public account?: ("accountNum"|"alias");
+
+        /**
+         * Creates a new AccountID instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccountID instance
+         */
+        public static create(properties?: proto.IAccountID): proto.AccountID;
+
+        /**
+         * Encodes the specified AccountID message. Does not implicitly {@link proto.AccountID.verify|verify} messages.
+         * @param message AccountID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IAccountID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccountID message, length delimited. Does not implicitly {@link proto.AccountID.verify|verify} messages.
+         * @param message AccountID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IAccountID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccountID message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccountID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.AccountID;
+
+        /**
+         * Decodes an AccountID message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccountID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.AccountID;
+
+        /**
+         * Verifies an AccountID message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccountID message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccountID
+         */
+        public static fromObject(object: { [k: string]: any }): proto.AccountID;
+
+        /**
+         * Creates a plain object from an AccountID message. Also converts values to other types if specified.
+         * @param message AccountID
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.AccountID, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccountID to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for AccountID
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a NftID. */
+    interface INftID {
+
+        /**
+         * A token identifier.<br/>
+         * This token represents the collection containing this NFT.
+         */
+        token_ID?: (proto.ITokenID|null);
+
+        /**
+         * A unique serial number.<br/>
+         * This serial number is unique within its token type.
+         */
+        serialNumber?: (number|Long|null);
+    }
+
+    /**
+     * An identifier for a unique token (or "NFT"), used by both contract
+     * and token services.
+     */
+    class NftID implements INftID {
+
+        /**
+         * Constructs a new NftID.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.INftID);
+
+        /**
+         * A token identifier.<br/>
+         * This token represents the collection containing this NFT.
+         */
+        public token_ID?: (proto.ITokenID|null);
+
+        /**
+         * A unique serial number.<br/>
+         * This serial number is unique within its token type.
+         */
+        public serialNumber: (number|Long);
+
+        /**
+         * Creates a new NftID instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns NftID instance
+         */
+        public static create(properties?: proto.INftID): proto.NftID;
+
+        /**
+         * Encodes the specified NftID message. Does not implicitly {@link proto.NftID.verify|verify} messages.
+         * @param message NftID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.INftID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified NftID message, length delimited. Does not implicitly {@link proto.NftID.verify|verify} messages.
+         * @param message NftID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.INftID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a NftID message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns NftID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.NftID;
+
+        /**
+         * Decodes a NftID message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns NftID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.NftID;
+
+        /**
+         * Verifies a NftID message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a NftID message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns NftID
+         */
+        public static fromObject(object: { [k: string]: any }): proto.NftID;
+
+        /**
+         * Creates a plain object from a NftID message. Also converts values to other types if specified.
+         * @param message NftID
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.NftID, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this NftID to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for NftID
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a FileID. */
+    interface IFileID {
+
+        /** A whole number shard identifier. */
+        shardNum?: (number|Long|null);
+
+        /** A whole number realm identifier. */
+        realmNum?: (number|Long|null);
+
+        /** A whole number file identifier, unique within its realm and shard. */
+        fileNum?: (number|Long|null);
+    }
+
+    /** An identifier for a File within the network. */
+    class FileID implements IFileID {
+
+        /**
+         * Constructs a new FileID.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IFileID);
+
+        /** A whole number shard identifier. */
+        public shardNum: (number|Long);
+
+        /** A whole number realm identifier. */
+        public realmNum: (number|Long);
+
+        /** A whole number file identifier, unique within its realm and shard. */
+        public fileNum: (number|Long);
+
+        /**
+         * Creates a new FileID instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns FileID instance
+         */
+        public static create(properties?: proto.IFileID): proto.FileID;
+
+        /**
+         * Encodes the specified FileID message. Does not implicitly {@link proto.FileID.verify|verify} messages.
+         * @param message FileID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IFileID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified FileID message, length delimited. Does not implicitly {@link proto.FileID.verify|verify} messages.
+         * @param message FileID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IFileID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a FileID message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns FileID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.FileID;
+
+        /**
+         * Decodes a FileID message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns FileID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.FileID;
+
+        /**
+         * Verifies a FileID message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a FileID message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns FileID
+         */
+        public static fromObject(object: { [k: string]: any }): proto.FileID;
+
+        /**
+         * Creates a plain object from a FileID message. Also converts values to other types if specified.
+         * @param message FileID
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.FileID, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this FileID to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for FileID
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a ContractID. */
+    interface IContractID {
+
+        /** A whole number shard identifier. */
+        shardNum?: (number|Long|null);
+
+        /** A whole number realm identifier. */
+        realmNum?: (number|Long|null);
+
+        /** A whole number contract identifier, unique within its realm and shard. */
+        contractNum?: (number|Long|null);
+
+        /**
+         * A 20-byte EVM address of the contract to call.
+         * <p>
+         * A contract created via a HAPI `ContractCreate` call SHALL have
+         * an EVM address determined by its `shard.realm.num` identifier.<br/>
+         * This address is as follows
+         * <ol>
+         * <li>4 byte big-endian shard number</li>
+         * <li>8 byte big-endian realm number</li>
+         * <li>8 byte big-endian contract number</li>
+         * </ol>
+         * This address is not stored in state, but is computed when needed.
+         * <p>
+         * Contracts created by any other means, including a HAPI
+         * `EthereumTransaction` whose `to` address is the zero address,
+         * SHALL have the EVM address prescribed by the `CREATE` or
+         * `CREATE2` opcode, as applicable.
+         */
+        evmAddress?: (Uint8Array|null);
+    }
+
+    /** An identifier for a smart contract within the network. */
+    class ContractID implements IContractID {
+
+        /**
+         * Constructs a new ContractID.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IContractID);
+
+        /** A whole number shard identifier. */
+        public shardNum: (number|Long);
+
+        /** A whole number realm identifier. */
+        public realmNum: (number|Long);
+
+        /** A whole number contract identifier, unique within its realm and shard. */
+        public contractNum?: (number|Long|null);
+
+        /**
+         * A 20-byte EVM address of the contract to call.
+         * <p>
+         * A contract created via a HAPI `ContractCreate` call SHALL have
+         * an EVM address determined by its `shard.realm.num` identifier.<br/>
+         * This address is as follows
+         * <ol>
+         * <li>4 byte big-endian shard number</li>
+         * <li>8 byte big-endian realm number</li>
+         * <li>8 byte big-endian contract number</li>
+         * </ol>
+         * This address is not stored in state, but is computed when needed.
+         * <p>
+         * Contracts created by any other means, including a HAPI
+         * `EthereumTransaction` whose `to` address is the zero address,
+         * SHALL have the EVM address prescribed by the `CREATE` or
+         * `CREATE2` opcode, as applicable.
+         */
+        public evmAddress?: (Uint8Array|null);
+
+        /** ContractID contract. */
+        public contract?: ("contractNum"|"evmAddress");
+
+        /**
+         * Creates a new ContractID instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ContractID instance
+         */
+        public static create(properties?: proto.IContractID): proto.ContractID;
+
+        /**
+         * Encodes the specified ContractID message. Does not implicitly {@link proto.ContractID.verify|verify} messages.
+         * @param message ContractID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IContractID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ContractID message, length delimited. Does not implicitly {@link proto.ContractID.verify|verify} messages.
+         * @param message ContractID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IContractID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ContractID message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ContractID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.ContractID;
+
+        /**
+         * Decodes a ContractID message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ContractID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.ContractID;
+
+        /**
+         * Verifies a ContractID message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ContractID message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ContractID
+         */
+        public static fromObject(object: { [k: string]: any }): proto.ContractID;
+
+        /**
+         * Creates a plain object from a ContractID message. Also converts values to other types if specified.
+         * @param message ContractID
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.ContractID, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ContractID to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for ContractID
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TopicID. */
+    interface ITopicID {
+
+        /** A whole number shard identifier. */
+        shardNum?: (number|Long|null);
+
+        /** A whole number realm identifier. */
+        realmNum?: (number|Long|null);
+
+        /** A whole number topic identifier, unique within its realm and shard. */
+        topicNum?: (number|Long|null);
+    }
+
+    /**
+     * An unique identifier for a topic.<br/>
+     * Topics are part of the consensus service, messages are published to a topic.
+     */
+    class TopicID implements ITopicID {
+
+        /**
+         * Constructs a new TopicID.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITopicID);
+
+        /** A whole number shard identifier. */
+        public shardNum: (number|Long);
+
+        /** A whole number realm identifier. */
+        public realmNum: (number|Long);
+
+        /** A whole number topic identifier, unique within its realm and shard. */
+        public topicNum: (number|Long);
+
+        /**
+         * Creates a new TopicID instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TopicID instance
+         */
+        public static create(properties?: proto.ITopicID): proto.TopicID;
+
+        /**
+         * Encodes the specified TopicID message. Does not implicitly {@link proto.TopicID.verify|verify} messages.
+         * @param message TopicID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITopicID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TopicID message, length delimited. Does not implicitly {@link proto.TopicID.verify|verify} messages.
+         * @param message TopicID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITopicID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TopicID message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TopicID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TopicID;
+
+        /**
+         * Decodes a TopicID message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TopicID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TopicID;
+
+        /**
+         * Verifies a TopicID message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TopicID message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TopicID
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TopicID;
+
+        /**
+         * Creates a plain object from a TopicID message. Also converts values to other types if specified.
+         * @param message TopicID
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TopicID, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TopicID to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TopicID
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a ScheduleID. */
+    interface IScheduleID {
+
+        /** A whole number shard */
+        shardNum?: (number|Long|null);
+
+        /** A whole number realm */
+        realmNum?: (number|Long|null);
+
+        /** A whole number schedule, unique within its realm and shard */
+        scheduleNum?: (number|Long|null);
+    }
+
+    /** An unique identifier for a Schedule */
+    class ScheduleID implements IScheduleID {
+
+        /**
+         * Constructs a new ScheduleID.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IScheduleID);
+
+        /** A whole number shard */
+        public shardNum: (number|Long);
+
+        /** A whole number realm */
+        public realmNum: (number|Long);
+
+        /** A whole number schedule, unique within its realm and shard */
+        public scheduleNum: (number|Long);
+
+        /**
+         * Creates a new ScheduleID instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ScheduleID instance
+         */
+        public static create(properties?: proto.IScheduleID): proto.ScheduleID;
+
+        /**
+         * Encodes the specified ScheduleID message. Does not implicitly {@link proto.ScheduleID.verify|verify} messages.
+         * @param message ScheduleID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IScheduleID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ScheduleID message, length delimited. Does not implicitly {@link proto.ScheduleID.verify|verify} messages.
+         * @param message ScheduleID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IScheduleID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ScheduleID message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ScheduleID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.ScheduleID;
+
+        /**
+         * Decodes a ScheduleID message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ScheduleID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.ScheduleID;
+
+        /**
+         * Verifies a ScheduleID message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ScheduleID message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ScheduleID
+         */
+        public static fromObject(object: { [k: string]: any }): proto.ScheduleID;
+
+        /**
+         * Creates a plain object from a ScheduleID message. Also converts values to other types if specified.
+         * @param message ScheduleID
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.ScheduleID, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ScheduleID to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for ScheduleID
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TransactionID. */
+    interface ITransactionID {
+
+        /**
+         * A timestamp for the transaction start time.<br/>
+         * This is the earliest expected start time for this transaction.
+         * <p>
+         * This value MUST be strictly less than `consensusTimestamp` when the
+         * transaction is submitted.
+         */
+        transactionValidStart?: (proto.ITimestamp|null);
+
+        /**
+         * An Account identifier.
+         * <p>
+         * The identified account SHALL pay transaction fees for this transaction.
+         */
+        accountID?: (proto.IAccountID|null);
+
+        /**
+         * A scheduled transaction flag.<br/>
+         * If set, this transaction represents the execution of a Schedule after
+         * all necessary signatures are gathered.
+         * <p>
+         * This flag MUST NOT be set in a user-submitted transaction.
+         */
+        scheduled?: (boolean|null);
+
+        /**
+         * An identifier for an internal transaction.<br/>
+         * An internal transaction is one that was spawned as part of handling a
+         * user transaction. These internal transactions share the
+         * transactionValidStart and accountID of the user transaction, so a nonce
+         * is necessary to give them a unique TransactionID.
+         * <p>
+         * An example is when a "parent" ContractCreate or ContractCall transaction
+         * calls one or more HTS precompiled contracts; each of the "child"
+         * transactions spawned for a precompile has a transaction id with a
+         * different nonce.
+         * <p>
+         * This value MUST be unset for user-submitted transactions.
+         */
+        nonce?: (number|null);
+    }
+
+    /**
+     * A transaction identifier.<br/>
+     * This is used for retrieving receipts and records for a transaction
+     * and internally by the network for detecting when duplicate transactions are
+     * submitted.
+     *
+     * A transaction may be processed more reliably by submitting it to
+     * several nodes, each with a different node account, but all with the same
+     * TransactionID. Then, the transaction will take effect when the first of all
+     * those nodes submits the transaction and it reaches consensus. The other
+     * transactions SHALL NOT be executed (and SHALL result in a
+     * `DUPLICATE_TRANSACTION` response).<br/>
+     * Multiple submission increase reliability on the assumption that an error in,
+     * for example, network connectivity will not affect all nodes equally. Latency
+     * might be slightly lower, if one node is handling intake significantly slower
+     * than others, for example. The base transaction fee is required for each
+     * submission, however, so the total fees charged are significantly higher when
+     * using this approach.
+     *
+     * ### Requirements
+     * Each transaction identifier MUST be unique.<br/>
+     * Multiple transactions MAY be submitted with the same transaction
+     * identifier, but all except the first SHALL be rejected as duplicate
+     * transactions.<br/>
+     * An identifier MUST specify a `payer` account to be charged all fees
+     * associated with the transaction.<br/>
+     * The `payer` account MUST exist and MUST have sufficient HBAR to pay all
+     * transaction fees.<br/>
+     * An identifier MUST specify a "valid start time".<br/>
+     * The "valid start time" MUST be strictly _earlier_ than the current
+     * network consensus time when submitted.<br/>
+     * The "valid start time" MUST NOT be more than `transaction.maxValidDuration`
+     * seconds before the current network consensus time when submitted.<br/>
+     * A client-submitted transaction MUST NOT set the `scheduled` flag.
+     *
+     * ### Additional Notes
+     *
+     * Additional items applicable to Scheduled Transactions:
+     *
+     * - The ID of a Scheduled Transaction, once executed, SHALL inherit both
+     * `transactionValidStart` and `accountID` from the `ScheduleCreate`
+     * transaction that created the schedule.
+     * - The `scheduled` property SHALL be set for Scheduled Transactions.
+     */
+    class TransactionID implements ITransactionID {
+
+        /**
+         * Constructs a new TransactionID.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITransactionID);
+
+        /**
+         * A timestamp for the transaction start time.<br/>
+         * This is the earliest expected start time for this transaction.
+         * <p>
+         * This value MUST be strictly less than `consensusTimestamp` when the
+         * transaction is submitted.
+         */
+        public transactionValidStart?: (proto.ITimestamp|null);
+
+        /**
+         * An Account identifier.
+         * <p>
+         * The identified account SHALL pay transaction fees for this transaction.
+         */
+        public accountID?: (proto.IAccountID|null);
+
+        /**
+         * A scheduled transaction flag.<br/>
+         * If set, this transaction represents the execution of a Schedule after
+         * all necessary signatures are gathered.
+         * <p>
+         * This flag MUST NOT be set in a user-submitted transaction.
+         */
+        public scheduled: boolean;
+
+        /**
+         * An identifier for an internal transaction.<br/>
+         * An internal transaction is one that was spawned as part of handling a
+         * user transaction. These internal transactions share the
+         * transactionValidStart and accountID of the user transaction, so a nonce
+         * is necessary to give them a unique TransactionID.
+         * <p>
+         * An example is when a "parent" ContractCreate or ContractCall transaction
+         * calls one or more HTS precompiled contracts; each of the "child"
+         * transactions spawned for a precompile has a transaction id with a
+         * different nonce.
+         * <p>
+         * This value MUST be unset for user-submitted transactions.
+         */
+        public nonce: number;
+
+        /**
+         * Creates a new TransactionID instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TransactionID instance
+         */
+        public static create(properties?: proto.ITransactionID): proto.TransactionID;
+
+        /**
+         * Encodes the specified TransactionID message. Does not implicitly {@link proto.TransactionID.verify|verify} messages.
+         * @param message TransactionID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITransactionID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TransactionID message, length delimited. Does not implicitly {@link proto.TransactionID.verify|verify} messages.
+         * @param message TransactionID message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITransactionID, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TransactionID message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TransactionID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TransactionID;
+
+        /**
+         * Decodes a TransactionID message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TransactionID
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TransactionID;
+
+        /**
+         * Verifies a TransactionID message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TransactionID message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TransactionID
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TransactionID;
+
+        /**
+         * Creates a plain object from a TransactionID message. Also converts values to other types if specified.
+         * @param message TransactionID
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TransactionID, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TransactionID to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TransactionID
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of an AccountAmount. */
+    interface IAccountAmount {
+
+        /** An account identifier that will send or receive token(s). */
+        accountID?: (proto.IAccountID|null);
+
+        /**
+         * An amount to send (negative) or receive (positive).
+         * <p>
+         * This amount MUST be denominated in the smallest unit of the relevant
+         * token.<br/>
+         * For HBAR this SHALL be tinybar (10<sup>-8</sup> HBAR).<br/>
+         * For other fungible/common tokens this SHALL depend on the value of
+         * `decimals` for that token.
+         */
+        amount?: (number|Long|null);
+
+        /**
+         * An approved allowance flag.<br/>
+         * If true then the transfer is expected to be an approved allowance.
+         * <p>
+         * If set, `accountID` SHALL be the owner that previously approved
+         * the allowance.<br/>
+         * The default value SHALL be false (unset).
+         */
+        isApproval?: (boolean|null);
+    }
+
+    /**
+     * An account, and the amount that it sends or receives during a token transfer.
+     *
+     * This message is only relevant to fungible/common token transfers.
+     * Non-fungible/unique (NFT) token transfers MUST use the NftTransfer message.
+     */
+    class AccountAmount implements IAccountAmount {
+
+        /**
+         * Constructs a new AccountAmount.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IAccountAmount);
+
+        /** An account identifier that will send or receive token(s). */
+        public accountID?: (proto.IAccountID|null);
+
+        /**
+         * An amount to send (negative) or receive (positive).
+         * <p>
+         * This amount MUST be denominated in the smallest unit of the relevant
+         * token.<br/>
+         * For HBAR this SHALL be tinybar (10<sup>-8</sup> HBAR).<br/>
+         * For other fungible/common tokens this SHALL depend on the value of
+         * `decimals` for that token.
+         */
+        public amount: (number|Long);
+
+        /**
+         * An approved allowance flag.<br/>
+         * If true then the transfer is expected to be an approved allowance.
+         * <p>
+         * If set, `accountID` SHALL be the owner that previously approved
+         * the allowance.<br/>
+         * The default value SHALL be false (unset).
+         */
+        public isApproval: boolean;
+
+        /**
+         * Creates a new AccountAmount instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns AccountAmount instance
+         */
+        public static create(properties?: proto.IAccountAmount): proto.AccountAmount;
+
+        /**
+         * Encodes the specified AccountAmount message. Does not implicitly {@link proto.AccountAmount.verify|verify} messages.
+         * @param message AccountAmount message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IAccountAmount, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified AccountAmount message, length delimited. Does not implicitly {@link proto.AccountAmount.verify|verify} messages.
+         * @param message AccountAmount message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IAccountAmount, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an AccountAmount message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns AccountAmount
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.AccountAmount;
+
+        /**
+         * Decodes an AccountAmount message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns AccountAmount
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.AccountAmount;
+
+        /**
+         * Verifies an AccountAmount message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an AccountAmount message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns AccountAmount
+         */
+        public static fromObject(object: { [k: string]: any }): proto.AccountAmount;
+
+        /**
+         * Creates a plain object from an AccountAmount message. Also converts values to other types if specified.
+         * @param message AccountAmount
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.AccountAmount, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this AccountAmount to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for AccountAmount
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TransferList. */
+    interface ITransferList {
+
+        /**
+         * A list of AccountAmount pairs.<br/>
+         * Each entry in this list is an account and an amount to transfer
+         * into it (positive) or out of it (negative)
+         */
+        accountAmounts?: (proto.IAccountAmount[]|null);
+    }
+
+    /**
+     * A list of accounts and amounts to transfer.
+     *
+     * Each `AccountAmount` SHALL specify the account and the amount to
+     * send(negative) or receive(positive).<br/>
+     * Each `TransferList` SHALL be contained in another message that contains
+     * other details required to complete a transfer. This is typically a
+     * `CryptoTransferTransactionBody` or `TransactionRecord`.<br/>
+     * The `TransferList` SHALL only be used for HBAR transfers. Other token types
+     * MUST use the `TokenTransferList` message.
+     */
+    class TransferList implements ITransferList {
+
+        /**
+         * Constructs a new TransferList.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITransferList);
+
+        /**
+         * A list of AccountAmount pairs.<br/>
+         * Each entry in this list is an account and an amount to transfer
+         * into it (positive) or out of it (negative)
+         */
+        public accountAmounts: proto.IAccountAmount[];
+
+        /**
+         * Creates a new TransferList instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TransferList instance
+         */
+        public static create(properties?: proto.ITransferList): proto.TransferList;
+
+        /**
+         * Encodes the specified TransferList message. Does not implicitly {@link proto.TransferList.verify|verify} messages.
+         * @param message TransferList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITransferList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TransferList message, length delimited. Does not implicitly {@link proto.TransferList.verify|verify} messages.
+         * @param message TransferList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITransferList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TransferList message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TransferList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TransferList;
+
+        /**
+         * Decodes a TransferList message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TransferList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TransferList;
+
+        /**
+         * Verifies a TransferList message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TransferList message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TransferList
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TransferList;
+
+        /**
+         * Creates a plain object from a TransferList message. Also converts values to other types if specified.
+         * @param message TransferList
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TransferList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TransferList to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TransferList
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a NftTransfer. */
+    interface INftTransfer {
+
+        /** An Account identifier for the sender. */
+        senderAccountID?: (proto.IAccountID|null);
+
+        /** An Account identifier for the receiver. */
+        receiverAccountID?: (proto.IAccountID|null);
+
+        /** A serial number for the NFT to transfer. */
+        serialNumber?: (number|Long|null);
+
+        /**
+         * An approved allowance flag.<br/>
+         * If true then the transfer is expected to be an approved allowance.
+         * <p>
+         * If set, `senderAccountID` SHALL be the owner that previously approved
+         * the allowance.<br/>
+         * If set, the `senderAccountID` MUST be the "payer" account for
+         * the transaction <br/>
+         * The default value SHALL be false (unset).
+         */
+        isApproval?: (boolean|null);
+    }
+
+    /**
+     * A NFT transfer.<br/>
+     * This refers to a sender account, a receiver account, and the serial number
+     * of an NFT to transfer from sender to receiver.
+     *
+     * Each `NftTransfer` SHALL be contained in another message (typically
+     * `TokenTransferList`) that details which `Token` type applies to this NFT
+     * transfer.
+     */
+    class NftTransfer implements INftTransfer {
+
+        /**
+         * Constructs a new NftTransfer.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.INftTransfer);
+
+        /** An Account identifier for the sender. */
+        public senderAccountID?: (proto.IAccountID|null);
+
+        /** An Account identifier for the receiver. */
+        public receiverAccountID?: (proto.IAccountID|null);
+
+        /** A serial number for the NFT to transfer. */
+        public serialNumber: (number|Long);
+
+        /**
+         * An approved allowance flag.<br/>
+         * If true then the transfer is expected to be an approved allowance.
+         * <p>
+         * If set, `senderAccountID` SHALL be the owner that previously approved
+         * the allowance.<br/>
+         * If set, the `senderAccountID` MUST be the "payer" account for
+         * the transaction <br/>
+         * The default value SHALL be false (unset).
+         */
+        public isApproval: boolean;
+
+        /**
+         * Creates a new NftTransfer instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns NftTransfer instance
+         */
+        public static create(properties?: proto.INftTransfer): proto.NftTransfer;
+
+        /**
+         * Encodes the specified NftTransfer message. Does not implicitly {@link proto.NftTransfer.verify|verify} messages.
+         * @param message NftTransfer message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.INftTransfer, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified NftTransfer message, length delimited. Does not implicitly {@link proto.NftTransfer.verify|verify} messages.
+         * @param message NftTransfer message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.INftTransfer, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a NftTransfer message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns NftTransfer
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.NftTransfer;
+
+        /**
+         * Decodes a NftTransfer message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns NftTransfer
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.NftTransfer;
+
+        /**
+         * Verifies a NftTransfer message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a NftTransfer message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns NftTransfer
+         */
+        public static fromObject(object: { [k: string]: any }): proto.NftTransfer;
+
+        /**
+         * Creates a plain object from a NftTransfer message. Also converts values to other types if specified.
+         * @param message NftTransfer
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.NftTransfer, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this NftTransfer to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for NftTransfer
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TokenTransferList. */
+    interface ITokenTransferList {
+
+        /**
+         * A token identifier.<br/>
+         * This is the token to be transferred.
+         */
+        token?: (proto.ITokenID|null);
+
+        /**
+         * A list of account amounts.
+         * <p>
+         * Each entry SHALL have an account and amount.<br/>
+         * These transfers SHALL be "double-entry" style; the credits (positive
+         * amount) and debits (negative amount) MUST sum to 0, unless this
+         * transfer list is part of a `mint` or `burn` operation.<br/>
+         * This SHALL be be set for fungible/common tokens and MUST be
+         * empty otherwise.
+         */
+        transfers?: (proto.IAccountAmount[]|null);
+
+        /**
+         * A list of NftTransfers.
+         * <p>
+         * Each entry SHALL have a sender and receiver account, and the
+         * serial number of the unique token to transfer.<br/>
+         * This SHALL be be set for non-fungible/unique tokens and SHALL be
+         * empty otherwise.
+         */
+        nftTransfers?: (proto.INftTransfer[]|null);
+
+        /**
+         * An expected decimal precision.<br/>
+         * This is the number of decimals a fungible/common token type is
+         * _expected_ to have.
+         * <p>
+         * The transfer SHALL fail with response code `UNEXPECTED_TOKEN_DECIMALS`
+         * if this is set and the actual decimals specified for the `Token` differ
+         * from this value.<br/>
+         * If `nftTransfers` is set, then this value SHOULD NOT be set.
+         */
+        expectedDecimals?: (google.protobuf.IUInt32Value|null);
+    }
+
+    /**
+     * A list of transfers for a particular (non-HBAR) token type.
+     *
+     * A `TokenTransferList` applies to a single token type, but may contain many
+     * individual transfers.<br/>
+     * Each transfer of a fungible/common token MUST specify an `accountID` and
+     * `amount`. Amount SHALL be positive when the account receives tokens, and
+     * SHALL be negative when the account sends tokens. The amount SHOULD NOT be
+     * `0`.<br/>
+     * In a transfer list containing fungible/common tokens in the `transfers`
+     * list, the sum of all such transfers MUST be zero (`0`).
+     * Each transfer of a unique token SHALL specify both sender and receiver, as
+     * well as the serial number transferred.<br/>
+     * A single `TokenTransferList` MUST contain `transfers` or `nftTransfers`,
+     * but MUST NOT contain both.
+     */
+    class TokenTransferList implements ITokenTransferList {
+
+        /**
+         * Constructs a new TokenTransferList.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITokenTransferList);
+
+        /**
+         * A token identifier.<br/>
+         * This is the token to be transferred.
+         */
+        public token?: (proto.ITokenID|null);
+
+        /**
+         * A list of account amounts.
+         * <p>
+         * Each entry SHALL have an account and amount.<br/>
+         * These transfers SHALL be "double-entry" style; the credits (positive
+         * amount) and debits (negative amount) MUST sum to 0, unless this
+         * transfer list is part of a `mint` or `burn` operation.<br/>
+         * This SHALL be be set for fungible/common tokens and MUST be
+         * empty otherwise.
+         */
+        public transfers: proto.IAccountAmount[];
+
+        /**
+         * A list of NftTransfers.
+         * <p>
+         * Each entry SHALL have a sender and receiver account, and the
+         * serial number of the unique token to transfer.<br/>
+         * This SHALL be be set for non-fungible/unique tokens and SHALL be
+         * empty otherwise.
+         */
+        public nftTransfers: proto.INftTransfer[];
+
+        /**
+         * An expected decimal precision.<br/>
+         * This is the number of decimals a fungible/common token type is
+         * _expected_ to have.
+         * <p>
+         * The transfer SHALL fail with response code `UNEXPECTED_TOKEN_DECIMALS`
+         * if this is set and the actual decimals specified for the `Token` differ
+         * from this value.<br/>
+         * If `nftTransfers` is set, then this value SHOULD NOT be set.
+         */
+        public expectedDecimals?: (google.protobuf.IUInt32Value|null);
+
+        /**
+         * Creates a new TokenTransferList instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TokenTransferList instance
+         */
+        public static create(properties?: proto.ITokenTransferList): proto.TokenTransferList;
+
+        /**
+         * Encodes the specified TokenTransferList message. Does not implicitly {@link proto.TokenTransferList.verify|verify} messages.
+         * @param message TokenTransferList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITokenTransferList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TokenTransferList message, length delimited. Does not implicitly {@link proto.TokenTransferList.verify|verify} messages.
+         * @param message TokenTransferList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITokenTransferList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TokenTransferList message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TokenTransferList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TokenTransferList;
+
+        /**
+         * Decodes a TokenTransferList message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TokenTransferList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TokenTransferList;
+
+        /**
+         * Verifies a TokenTransferList message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TokenTransferList message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TokenTransferList
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TokenTransferList;
+
+        /**
+         * Creates a plain object from a TokenTransferList message. Also converts values to other types if specified.
+         * @param message TokenTransferList
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TokenTransferList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TokenTransferList to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TokenTransferList
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a Fraction. */
+    interface IFraction {
+
+        /** A fractional number's numerator. */
+        numerator?: (number|Long|null);
+
+        /**
+         * A fractional number's denominator.
+         * <p>
+         * A zero value SHALL fail with response code `FRACTION_DIVIDES_BY_ZERO`.
+         */
+        denominator?: (number|Long|null);
+    }
+
+    /**
+     * A rational number.<br/>
+     * A common use is to set the amount of a value transfer to collect as a
+     * custom fee.
+     *
+     * It is RECOMMENDED that both numerator and denominator be no larger than
+     * necessary to express the required fraction. A very large numerator, in
+     * particular, may not be reliable.
+     * Both fields are REQUIRED and SHOULD be positive integers.
+     */
+    class Fraction implements IFraction {
+
+        /**
+         * Constructs a new Fraction.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IFraction);
+
+        /** A fractional number's numerator. */
+        public numerator: (number|Long);
+
+        /**
+         * A fractional number's denominator.
+         * <p>
+         * A zero value SHALL fail with response code `FRACTION_DIVIDES_BY_ZERO`.
+         */
+        public denominator: (number|Long);
+
+        /**
+         * Creates a new Fraction instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Fraction instance
+         */
+        public static create(properties?: proto.IFraction): proto.Fraction;
+
+        /**
+         * Encodes the specified Fraction message. Does not implicitly {@link proto.Fraction.verify|verify} messages.
+         * @param message Fraction message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IFraction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Fraction message, length delimited. Does not implicitly {@link proto.Fraction.verify|verify} messages.
+         * @param message Fraction message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IFraction, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Fraction message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Fraction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Fraction;
+
+        /**
+         * Decodes a Fraction message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Fraction
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Fraction;
+
+        /**
+         * Verifies a Fraction message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Fraction message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Fraction
+         */
+        public static fromObject(object: { [k: string]: any }): proto.Fraction;
+
+        /**
+         * Creates a plain object from a Fraction message. Also converts values to other types if specified.
+         * @param message Fraction
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.Fraction, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Fraction to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for Fraction
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /**
+     * Possible Token Types (IWA Compatibility).
+     *
+     * Apart from fungible and non-fungible, Tokens can have either a common or
+     * unique representation. Furthermore, tokens can have intrinsic or referential
+     * value, and can be whole and indivisible or fractional.<br/>
+     * These distinction might seem subtle, but it is important when considering
+     * how tokens can be traced, used, transferred, and if they can have isolated
+     * unique properties.
+     *
+     * A few examples (these may not match enumerations below) using IWA taxonomy.
+     * <dl>
+     * <dt>fungible, whole, intrinsic, unique</dt>
+     * <dd>Physical fiat currency</dd>
+     * <dt>fungible, fractional, intrinsic, common</dt>
+     * <dd>bank balance fiat currency</dd>
+     * <dt>non-fungible, fractional, reference, unique</dt>
+     * <dd>"mutual" collectible/art/property ownership</dd>
+     * <dt>non-fungible, whole, intrinsic, unique</dt>
+     * <dd>Physical work of fine art</dd>
+     * <dt>non-fungible, whole, reference, unique</dt>
+     * <dd>Registered property title</dd>
+     * </dl>
+     */
+    enum TokenType {
+        FUNGIBLE_COMMON = 0,
+        NON_FUNGIBLE_UNIQUE = 1
+    }
+
+    /**
+     * A transaction sub type.<br/>
+     * This enumeration enables a set of transaction base fees to be broadly
+     * defined for a type of operation and also be modified, when necessary,
+     * based on specifics of the operation.
+     *
+     * ### Explanation
+     * The resource cost for a TokenMint operation is different between minting
+     * fungible/common and non-fungible/unique tokens. This `enum` is used to
+     * "mark" a cost as applying to one or the other.<br/>
+     * Similarly, the resource cost for a basic `tokenCreate` without a custom
+     * fee schedule may yield a _base_ fee of $1. The resource cost for a
+     * `tokenCreate` _with_ a custom fee schedule is different and may yield a
+     * _base_ fee of $2 or more.
+     */
+    enum SubType {
+        DEFAULT = 0,
+        TOKEN_FUNGIBLE_COMMON = 1,
+        TOKEN_NON_FUNGIBLE_UNIQUE = 2,
+        TOKEN_FUNGIBLE_COMMON_WITH_CUSTOM_FEES = 3,
+        TOKEN_NON_FUNGIBLE_UNIQUE_WITH_CUSTOM_FEES = 4,
+        SCHEDULE_CREATE_CONTRACT_CALL = 5,
+        TOPIC_CREATE_WITH_CUSTOM_FEES = 6,
+        SUBMIT_MESSAGE_WITH_CUSTOM_FEES = 7
+    }
+
+    /**
+     * Possible Token Supply Types (IWA Compatibility).
+     *
+     * This `enum` indicates the limit of tokens that can exist during the
+     * lifetime of a token definition. The "infinite" supply is only theoretically
+     * infinite, as it is still limited to the magnitude of a 64-bit signed
+     * integer. A "finite" supply is further limited to a value specified when
+     * the token is created (or updated, if not immutable).
+     */
+    enum TokenSupplyType {
+        INFINITE = 0,
+        FINITE = 1
+    }
+
+    /** Types of validation strategies for token keys. */
+    enum TokenKeyValidation {
+        FULL_VALIDATION = 0,
+        NO_VALIDATION = 1
+    }
+
+    /**
+     * Possible token freeze status values.
+     *
+     * This is returned by `TokenGetInfoQuery` or `CryptoGetInfoResponse`
+     * in `TokenRelationship`.
+     */
+    enum TokenFreezeStatus {
+        FreezeNotApplicable = 0,
+        Frozen = 1,
+        Unfrozen = 2
+    }
+
+    /**
+     * Possible token "KYC" status values.
+     *
+     * This is returned by `TokenGetInfoQuery` or `CryptoGetInfoResponse`
+     * in `TokenRelationship`.
+     */
+    enum TokenKycStatus {
+        KycNotApplicable = 0,
+        Granted = 1,
+        Revoked = 2
+    }
+
+    /**
+     * Possible Pause status values.
+     *
+     * This is returned by `TokenGetInfoQuery` in `TokenRelationship`.
+     */
+    enum TokenPauseStatus {
+        PauseNotApplicable = 0,
+        Paused = 1,
+        Unpaused = 2
+    }
+
+    /** Properties of a Key. */
+    interface IKey {
+
+        /**
+         * A smart contract instance that is authorized implicitly.
+         * <p>
+         * This key type SHALL require that the code in the active message frame
+         * belong to the contract with the given id.
+         */
+        contractID?: (proto.IContractID|null);
+
+        /** An array of Ed25519 public key bytes. */
+        ed25519?: (Uint8Array|null);
+
+        /**
+         * This option is not currently supported.<br/>
+         * An array of RSA-3072 public key bytes.
+         */
+        RSA_3072?: (Uint8Array|null);
+
+        /**
+         * This option is not currently supported.<br/>
+         * An array of ECDSA, using the p-384 curve, public key bytes.
+         */
+        ECDSA_384?: (Uint8Array|null);
+
+        /**
+         * A threshold, M, combined with a list of N keys, any M of which are
+         * sufficient to form a valid signature.
+         */
+        thresholdKey?: (proto.IThresholdKey|null);
+
+        /**
+         * A list of keys. This may be treated like a "N-of-N" threshold key,
+         * as a component of another key, or in some other manner as documented.
+         */
+        keyList?: (proto.IKeyList|null);
+
+        /**
+         * A set of compressed ECDSA(secp256k1) public key bytes.<br/>
+         * This is an EVM compatibility format.
+         */
+        ECDSASecp256k1?: (Uint8Array|null);
+
+        /**
+         * A smart contract that, if the recipient of the active message frame,
+         * SHALL be imputed authorization.<br/>
+         * Setting this key type is a more permissive version of setting a
+         * contractID key.
+         * <p>
+         * This key form SHALL NOT strictly require that the code being executed
+         * in the frame belong to the given contract. The code in frame MAY be
+         * running another contract via a `delegatecall`.
+         */
+        delegatableContractId?: (proto.IContractID|null);
+    }
+
+    /**
+     * A Key is an entity representing one or more cryptographic public/private key
+     * pairs and, optionally, the structure for how multiple signatures may be
+     * composed to meet complex multiple-signature authorization requirements.
+     *
+     * A Key can be a public key from either the Ed25519 or ECDSA(secp256k1)
+     * signature schemes. In the ECDSA(secp256k1) case we require the 33-byte
+     * compressed form of the public key. For simplicity, we call these
+     * cryptographic public keys `primitive` keys.<br/>
+     * If an entity has a primitive key associated to it, then the corresponding
+     * private key must sign any transaction to send tokens or perform other
+     * actions requiring authorization.
+     *
+     * A Key can also be the ID of a smart contract, which SHALL authorize that
+     * contract to execute any system contract with signing requirements that are
+     * met by the key.<br/>
+     * > Example
+     * >> If account `0.0.A` has a threshold key whose threshold is satisfied
+     * >> by a contract ID key for contract `0.0.C`, then when `0.0.C` is called,
+     * >> it is authorized to use system contracts to manage any asset owned by
+     * >> `0.0.A`. If the contract ID key is "delegatable", then `0.0.C` can even
+     * >> perform these actions when running code accessed via `DELEGATECALL`.
+     *
+     * A Key can be a "threshold key", which is a list of N keys, any M of which
+     * may sign in order for the signature to be considered valid. The value of
+     * M for a given threshold key MUST be less than or equal to N. A threshold
+     * key is sometimes called a "M-of-N" key.
+     *
+     * A Key can be a "key list" where all keys in the list must sign unless
+     * specified otherwise in the documentation for a specific transaction
+     * type (e.g. FileDeleteTransactionBody).<br/>
+     * This implies that the use of a key list is dependent on context. For
+     * example, an Hedera file that is created with a list of keys, SHALL require
+     * that all of those keys must sign a transaction to create or modify the file,
+     * but only one key from that list MUST sign a transaction to delete the file.
+     * So it is a single list that sometimes acts as a N-of-N threshold key, and
+     * sometimes acts as a 1-of-N threshold key.<br/>
+     * To reduce confusion this may cause, a key list SHALL always be considered
+     * N-of-N, unless specified otherwise in official documentation.<br/>
+     * A key list MAY have repeated primitive public keys, but the signature
+     * requirement for all keys in a repeated set SHALL be satisfied by a single
+     * valid signature. There is no mechanism to require a single key to sign a
+     * single transaction more than once.
+     *
+     * Any list or threshold key MAY have nested key lists or threshold keys.
+     * This allows, for example, the keys within a threshold signature to
+     * themselves be threshold, list, contract, or primitive keys. This nesting
+     * structure enables complex asymmetric multi-party signature requirements to
+     * be met.
+     *
+     * To ensure adequate performance and transaction security, key nesting is
+     * limited to at most fifteen(15) levels.
+     */
+    class Key implements IKey {
+
+        /**
+         * Constructs a new Key.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IKey);
+
+        /**
+         * A smart contract instance that is authorized implicitly.
+         * <p>
+         * This key type SHALL require that the code in the active message frame
+         * belong to the contract with the given id.
+         */
+        public contractID?: (proto.IContractID|null);
+
+        /** An array of Ed25519 public key bytes. */
+        public ed25519?: (Uint8Array|null);
+
+        /**
+         * This option is not currently supported.<br/>
+         * An array of RSA-3072 public key bytes.
+         */
+        public RSA_3072?: (Uint8Array|null);
+
+        /**
+         * This option is not currently supported.<br/>
+         * An array of ECDSA, using the p-384 curve, public key bytes.
+         */
+        public ECDSA_384?: (Uint8Array|null);
+
+        /**
+         * A threshold, M, combined with a list of N keys, any M of which are
+         * sufficient to form a valid signature.
+         */
+        public thresholdKey?: (proto.IThresholdKey|null);
+
+        /**
+         * A list of keys. This may be treated like a "N-of-N" threshold key,
+         * as a component of another key, or in some other manner as documented.
+         */
+        public keyList?: (proto.IKeyList|null);
+
+        /**
+         * A set of compressed ECDSA(secp256k1) public key bytes.<br/>
+         * This is an EVM compatibility format.
+         */
+        public ECDSASecp256k1?: (Uint8Array|null);
+
+        /**
+         * A smart contract that, if the recipient of the active message frame,
+         * SHALL be imputed authorization.<br/>
+         * Setting this key type is a more permissive version of setting a
+         * contractID key.
+         * <p>
+         * This key form SHALL NOT strictly require that the code being executed
+         * in the frame belong to the given contract. The code in frame MAY be
+         * running another contract via a `delegatecall`.
+         */
+        public delegatableContractId?: (proto.IContractID|null);
+
+        /** Key key. */
+        public key?: ("contractID"|"ed25519"|"RSA_3072"|"ECDSA_384"|"thresholdKey"|"keyList"|"ECDSASecp256k1"|"delegatableContractId");
+
+        /**
+         * Creates a new Key instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Key instance
+         */
+        public static create(properties?: proto.IKey): proto.Key;
+
+        /**
+         * Encodes the specified Key message. Does not implicitly {@link proto.Key.verify|verify} messages.
+         * @param message Key message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IKey, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Key message, length delimited. Does not implicitly {@link proto.Key.verify|verify} messages.
+         * @param message Key message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IKey, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Key message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Key
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Key;
+
+        /**
+         * Decodes a Key message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Key
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Key;
+
+        /**
+         * Verifies a Key message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Key message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Key
+         */
+        public static fromObject(object: { [k: string]: any }): proto.Key;
+
+        /**
+         * Creates a plain object from a Key message. Also converts values to other types if specified.
+         * @param message Key
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.Key, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Key to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for Key
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a ThresholdKey. */
+    interface IThresholdKey {
+
+        /**
+         * A transaction MUST have valid signatures from at least this number of
+         * separate keys, from the `keys` list to be authorized by this key.
+         */
+        threshold?: (number|null);
+
+        /** A list of the keys that MAY satisfy signature requirements of this key. */
+        keys?: (proto.IKeyList|null);
+    }
+
+    /**
+     * A threshold value and a list of public keys that, together, form a threshold
+     * signature requirement. Any subset of the keys in the list may satisfy the
+     * signature requirements of this type of key, provided the number of keys meets
+     * or exceeds the threshold. For example, if a particular key has a threshold of
+     * three(3) and eight(8) keys in the list, then any three(3) signatures, from
+     * the list of eight(8), is sufficient to authorize that key.
+     *
+     * For threshold purposes, all signatures from a single `primitive` key are
+     * considered a single signature, so that signature(s) from a single key SHALL
+     * NOT _directly_ meet a threshold greater than one(1).
+     *
+     * #### Note
+     * > It is possible to construct a complex key structure that _would_ enable a
+     * > single primitive key to successfully meet a threshold requirement. All
+     * > threshold keys SHOULD be carefully audited to ensure no one `primitive`
+     * > key, or smart contract, has disproportionate capability.
+     */
+    class ThresholdKey implements IThresholdKey {
+
+        /**
+         * Constructs a new ThresholdKey.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IThresholdKey);
+
+        /**
+         * A transaction MUST have valid signatures from at least this number of
+         * separate keys, from the `keys` list to be authorized by this key.
+         */
+        public threshold: number;
+
+        /** A list of the keys that MAY satisfy signature requirements of this key. */
+        public keys?: (proto.IKeyList|null);
+
+        /**
+         * Creates a new ThresholdKey instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ThresholdKey instance
+         */
+        public static create(properties?: proto.IThresholdKey): proto.ThresholdKey;
+
+        /**
+         * Encodes the specified ThresholdKey message. Does not implicitly {@link proto.ThresholdKey.verify|verify} messages.
+         * @param message ThresholdKey message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IThresholdKey, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ThresholdKey message, length delimited. Does not implicitly {@link proto.ThresholdKey.verify|verify} messages.
+         * @param message ThresholdKey message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IThresholdKey, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ThresholdKey message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ThresholdKey
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.ThresholdKey;
+
+        /**
+         * Decodes a ThresholdKey message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ThresholdKey
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.ThresholdKey;
+
+        /**
+         * Verifies a ThresholdKey message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ThresholdKey message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ThresholdKey
+         */
+        public static fromObject(object: { [k: string]: any }): proto.ThresholdKey;
+
+        /**
+         * Creates a plain object from a ThresholdKey message. Also converts values to other types if specified.
+         * @param message ThresholdKey
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.ThresholdKey, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ThresholdKey to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for ThresholdKey
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a KeyList. */
+    interface IKeyList {
+
+        /**
+         * A list of keys. All values in this list SHALL be non-null.
+         * <p>
+         */
+        keys?: (proto.IKey[]|null);
+    }
+
+    /**
+     * A list of keys.<br/>
+     * A `KeyList` requires all keys (N-of-N) to sign, unless otherwise
+     * specified in official documentation. A KeyList may contain repeated keys,
+     * but all such repeated keys are considered a single key when determining
+     * signature authorization.
+     *
+     * ### Additional Notes
+     * 1. An empty key list is the "standard" mechanism to represent an
+     * unassigned key. For example, if the `admin_key` of a token is set
+     * to the empty key list, then that token has no admin key, and
+     * functionality that requires an admin key to sign the
+     * transaction is disabled.
+     */
+    class KeyList implements IKeyList {
+
+        /**
+         * Constructs a new KeyList.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IKeyList);
+
+        /**
+         * A list of keys. All values in this list SHALL be non-null.
+         * <p>
+         */
+        public keys: proto.IKey[];
+
+        /**
+         * Creates a new KeyList instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns KeyList instance
+         */
+        public static create(properties?: proto.IKeyList): proto.KeyList;
+
+        /**
+         * Encodes the specified KeyList message. Does not implicitly {@link proto.KeyList.verify|verify} messages.
+         * @param message KeyList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IKeyList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified KeyList message, length delimited. Does not implicitly {@link proto.KeyList.verify|verify} messages.
+         * @param message KeyList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IKeyList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a KeyList message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns KeyList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.KeyList;
+
+        /**
+         * Decodes a KeyList message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns KeyList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.KeyList;
+
+        /**
+         * Verifies a KeyList message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a KeyList message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns KeyList
+         */
+        public static fromObject(object: { [k: string]: any }): proto.KeyList;
+
+        /**
+         * Creates a plain object from a KeyList message. Also converts values to other types if specified.
+         * @param message KeyList
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.KeyList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this KeyList to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for KeyList
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a Signature. */
+    interface ISignature {
+
+        /** Smart contract virtual signature (always length zero). */
+        contract?: (Uint8Array|null);
+
+        /** Ed25519 signature bytes. */
+        ed25519?: (Uint8Array|null);
+
+        /** RSA-3072 signature bytes. */
+        RSA_3072?: (Uint8Array|null);
+
+        /** ECDSA p-384 signature bytes. */
+        ECDSA_384?: (Uint8Array|null);
+
+        /**
+         * A list of signatures for a single N-of-M threshold Key. This must be
+         * a list of exactly M signatures, at least N of which are non-null.
+         */
+        thresholdSignature?: (proto.IThresholdSignature|null);
+
+        /**
+         * A list of M signatures, each corresponding to a Key in a KeyList
+         * of the same length.
+         */
+        signatureList?: (proto.ISignatureList|null);
+    }
+
+    /**
+     * This message is deprecated and MUST NOT be used to communicate with
+     * network nodes. It is retained here only for historical reasons.
+     *
+     * Client software MUST NOT include this message in any request. <br/>
+     * Compliant nodes SHALL NOT accept any request containing this message.
+     *
+     * Please use the `SignaturePair` and `SignatureMap` messages instead of
+     * this message.
+     */
+    class Signature implements ISignature {
+
+        /**
+         * Constructs a new Signature.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ISignature);
+
+        /** Smart contract virtual signature (always length zero). */
+        public contract?: (Uint8Array|null);
+
+        /** Ed25519 signature bytes. */
+        public ed25519?: (Uint8Array|null);
+
+        /** RSA-3072 signature bytes. */
+        public RSA_3072?: (Uint8Array|null);
+
+        /** ECDSA p-384 signature bytes. */
+        public ECDSA_384?: (Uint8Array|null);
+
+        /**
+         * A list of signatures for a single N-of-M threshold Key. This must be
+         * a list of exactly M signatures, at least N of which are non-null.
+         */
+        public thresholdSignature?: (proto.IThresholdSignature|null);
+
+        /**
+         * A list of M signatures, each corresponding to a Key in a KeyList
+         * of the same length.
+         */
+        public signatureList?: (proto.ISignatureList|null);
+
+        /** Signature signature. */
+        public signature?: ("contract"|"ed25519"|"RSA_3072"|"ECDSA_384"|"thresholdSignature"|"signatureList");
+
+        /**
+         * Creates a new Signature instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Signature instance
+         */
+        public static create(properties?: proto.ISignature): proto.Signature;
+
+        /**
+         * Encodes the specified Signature message. Does not implicitly {@link proto.Signature.verify|verify} messages.
+         * @param message Signature message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ISignature, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Signature message, length delimited. Does not implicitly {@link proto.Signature.verify|verify} messages.
+         * @param message Signature message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ISignature, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Signature message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Signature
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Signature;
+
+        /**
+         * Decodes a Signature message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Signature
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Signature;
+
+        /**
+         * Verifies a Signature message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Signature message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Signature
+         */
+        public static fromObject(object: { [k: string]: any }): proto.Signature;
+
+        /**
+         * Creates a plain object from a Signature message. Also converts values to other types if specified.
+         * @param message Signature
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.Signature, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Signature to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for Signature
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a ThresholdSignature. */
+    interface IThresholdSignature {
+
+        /**
+         * For an N-of-M threshold key, this is a list of M signatures, at least N
+         * of which must be non-null.
+         */
+        sigs?: (proto.ISignatureList|null);
+    }
+
+    /**
+     * This message is deprecated and MUST NOT be used to communicate with network
+     * nodes. It is retained here only for historical reasons.
+     *
+     * Client software MUST NOT include this message in any request. <br/>
+     * Compliant nodes SHALL NOT accept any request containing this message.
+     *
+     * Please use the `SignaturePair` and `SignatureMap` messages, in combination
+     * with `ThresholdKey` keys, instead of this message.
+     */
+    class ThresholdSignature implements IThresholdSignature {
+
+        /**
+         * Constructs a new ThresholdSignature.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IThresholdSignature);
+
+        /**
+         * For an N-of-M threshold key, this is a list of M signatures, at least N
+         * of which must be non-null.
+         */
+        public sigs?: (proto.ISignatureList|null);
+
+        /**
+         * Creates a new ThresholdSignature instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ThresholdSignature instance
+         */
+        public static create(properties?: proto.IThresholdSignature): proto.ThresholdSignature;
+
+        /**
+         * Encodes the specified ThresholdSignature message. Does not implicitly {@link proto.ThresholdSignature.verify|verify} messages.
+         * @param message ThresholdSignature message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IThresholdSignature, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ThresholdSignature message, length delimited. Does not implicitly {@link proto.ThresholdSignature.verify|verify} messages.
+         * @param message ThresholdSignature message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IThresholdSignature, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ThresholdSignature message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ThresholdSignature
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.ThresholdSignature;
+
+        /**
+         * Decodes a ThresholdSignature message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ThresholdSignature
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.ThresholdSignature;
+
+        /**
+         * Verifies a ThresholdSignature message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ThresholdSignature message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ThresholdSignature
+         */
+        public static fromObject(object: { [k: string]: any }): proto.ThresholdSignature;
+
+        /**
+         * Creates a plain object from a ThresholdSignature message. Also converts values to other types if specified.
+         * @param message ThresholdSignature
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.ThresholdSignature, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ThresholdSignature to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for ThresholdSignature
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a SignatureList. */
+    interface ISignatureList {
+
+        /** Each signature corresponds to a Key in the KeyList. */
+        sigs?: (proto.ISignature[]|null);
+    }
+
+    /**
+     * This message is deprecated and MUST NOT be used to communicate with network
+     * nodes. It is retained here only for historical reasons.
+     *
+     * Client software MUST NOT include this message in any request. <br/>
+     * Compliant nodes SHALL NOT accept any request containing this message.
+     *
+     * Please use the `SignaturePair` and `SignatureMap` messages instead of
+     * this message.
+     */
+    class SignatureList implements ISignatureList {
+
+        /**
+         * Constructs a new SignatureList.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ISignatureList);
+
+        /** Each signature corresponds to a Key in the KeyList. */
+        public sigs: proto.ISignature[];
+
+        /**
+         * Creates a new SignatureList instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns SignatureList instance
+         */
+        public static create(properties?: proto.ISignatureList): proto.SignatureList;
+
+        /**
+         * Encodes the specified SignatureList message. Does not implicitly {@link proto.SignatureList.verify|verify} messages.
+         * @param message SignatureList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ISignatureList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified SignatureList message, length delimited. Does not implicitly {@link proto.SignatureList.verify|verify} messages.
+         * @param message SignatureList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ISignatureList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a SignatureList message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns SignatureList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.SignatureList;
+
+        /**
+         * Decodes a SignatureList message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns SignatureList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.SignatureList;
+
+        /**
+         * Verifies a SignatureList message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a SignatureList message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns SignatureList
+         */
+        public static fromObject(object: { [k: string]: any }): proto.SignatureList;
+
+        /**
+         * Creates a plain object from a SignatureList message. Also converts values to other types if specified.
+         * @param message SignatureList
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.SignatureList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this SignatureList to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for SignatureList
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a SignaturePair. */
+    interface ISignaturePair {
+
+        /**
+         * Prefix bytes of the public key.
+         * <p>
+         * The client may use any number of bytes from zero to the whole length of
+         * the public key for pubKeyPrefix. If zero bytes are used, then it MUST be
+         * true that only one cryptographic key is required to sign the associated
+         * transaction.<br/>
+         * If the `pubKeyPrefix` is 0 bytes and more than a single cryptographic
+         * key is required to sign the transaction, the request SHALL resolve to
+         * `INVALID_SIGNATURE`.
+         * <blockquote>Important Note<blockquote>
+         * In the special case that a signature is provided to authorize a
+         * precompiled contract, the `pubKeyPrefix` MUST contain the _entire public
+         * key_.<br/>
+         * That is, if the key is an Ed25519 key, the `pubKeyPrefix` MUST be
+         * 32 bytes long and contain the full public key bytes.<br/>
+         * If the key is an ECDSA(secp256k1) key, the `pubKeyPrefix` MUST be
+         * 33 bytes long and contain the full _compressed_ form of the public key.
+         * </blockquote></blockquote>
+         * <p>
+         * <dl><dt>Purpose</dt>
+         * <dd>The `pubKeyPrefix` exists to save cost. A signed transaction with
+         * shorter prefixes will have fewer bytes, and so will have a lower
+         * transaction fee.
+         * The prefixes, however, MUST be long enough to distinguish between all
+         * of the public keys that might be signing the transaction. Therefore,
+         * software signing a transaction SHOULD evaluate which keys might possibly
+         * be required to sign a transaction, and ensure that the shortest prefix
+         * that is sufficient to unambiguously identify the correct key is used.
+         * </dd></dl>
+         */
+        pubKeyPrefix?: (Uint8Array|null);
+
+        /**
+         * A smart contract virtual signature.
+         * <p>
+         * This value MUST be length zero, if set.
+         */
+        contract?: (Uint8Array|null);
+
+        /** An Ed25519 signature. */
+        ed25519?: (Uint8Array|null);
+
+        /**
+         * This option is not supported.<br/>
+         * A RSA-3072 signature.
+         */
+        RSA_3072?: (Uint8Array|null);
+
+        /**
+         * This option is not supported.<br/>
+         * ECDSA p-384 signature.
+         */
+        ECDSA_384?: (Uint8Array|null);
+
+        /** An ECDSA(secp256k1) signature. */
+        ECDSASecp256k1?: (Uint8Array|null);
+    }
+
+    /**
+     * A public key and signature pair.<br/>
+     * Only Ed25519 and ECDSA(secp256k1) keys and signatures are currently supported
+     * as cryptographic (non-implied) signatures.
+     */
+    class SignaturePair implements ISignaturePair {
+
+        /**
+         * Constructs a new SignaturePair.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ISignaturePair);
+
+        /**
+         * Prefix bytes of the public key.
+         * <p>
+         * The client may use any number of bytes from zero to the whole length of
+         * the public key for pubKeyPrefix. If zero bytes are used, then it MUST be
+         * true that only one cryptographic key is required to sign the associated
+         * transaction.<br/>
+         * If the `pubKeyPrefix` is 0 bytes and more than a single cryptographic
+         * key is required to sign the transaction, the request SHALL resolve to
+         * `INVALID_SIGNATURE`.
+         * <blockquote>Important Note<blockquote>
+         * In the special case that a signature is provided to authorize a
+         * precompiled contract, the `pubKeyPrefix` MUST contain the _entire public
+         * key_.<br/>
+         * That is, if the key is an Ed25519 key, the `pubKeyPrefix` MUST be
+         * 32 bytes long and contain the full public key bytes.<br/>
+         * If the key is an ECDSA(secp256k1) key, the `pubKeyPrefix` MUST be
+         * 33 bytes long and contain the full _compressed_ form of the public key.
+         * </blockquote></blockquote>
+         * <p>
+         * <dl><dt>Purpose</dt>
+         * <dd>The `pubKeyPrefix` exists to save cost. A signed transaction with
+         * shorter prefixes will have fewer bytes, and so will have a lower
+         * transaction fee.
+         * The prefixes, however, MUST be long enough to distinguish between all
+         * of the public keys that might be signing the transaction. Therefore,
+         * software signing a transaction SHOULD evaluate which keys might possibly
+         * be required to sign a transaction, and ensure that the shortest prefix
+         * that is sufficient to unambiguously identify the correct key is used.
+         * </dd></dl>
+         */
+        public pubKeyPrefix: Uint8Array;
+
+        /**
+         * A smart contract virtual signature.
+         * <p>
+         * This value MUST be length zero, if set.
+         */
+        public contract?: (Uint8Array|null);
+
+        /** An Ed25519 signature. */
+        public ed25519?: (Uint8Array|null);
+
+        /**
+         * This option is not supported.<br/>
+         * A RSA-3072 signature.
+         */
+        public RSA_3072?: (Uint8Array|null);
+
+        /**
+         * This option is not supported.<br/>
+         * ECDSA p-384 signature.
+         */
+        public ECDSA_384?: (Uint8Array|null);
+
+        /** An ECDSA(secp256k1) signature. */
+        public ECDSASecp256k1?: (Uint8Array|null);
+
+        /** SignaturePair signature. */
+        public signature?: ("contract"|"ed25519"|"RSA_3072"|"ECDSA_384"|"ECDSASecp256k1");
+
+        /**
+         * Creates a new SignaturePair instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns SignaturePair instance
+         */
+        public static create(properties?: proto.ISignaturePair): proto.SignaturePair;
+
+        /**
+         * Encodes the specified SignaturePair message. Does not implicitly {@link proto.SignaturePair.verify|verify} messages.
+         * @param message SignaturePair message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ISignaturePair, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified SignaturePair message, length delimited. Does not implicitly {@link proto.SignaturePair.verify|verify} messages.
+         * @param message SignaturePair message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ISignaturePair, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a SignaturePair message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns SignaturePair
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.SignaturePair;
+
+        /**
+         * Decodes a SignaturePair message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns SignaturePair
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.SignaturePair;
+
+        /**
+         * Verifies a SignaturePair message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a SignaturePair message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns SignaturePair
+         */
+        public static fromObject(object: { [k: string]: any }): proto.SignaturePair;
+
+        /**
+         * Creates a plain object from a SignaturePair message. Also converts values to other types if specified.
+         * @param message SignaturePair
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.SignaturePair, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this SignaturePair to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for SignaturePair
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a SignatureMap. */
+    interface ISignatureMap {
+
+        /**
+         * A list of signature pairs for a specific transaction.<br/>
+         * Each signature pair represents a single cryptographic (`primitive`)
+         * public key identified by a "prefix" value and the cryptographic
+         * signature produced for that key.
+         */
+        sigPair?: (proto.ISignaturePair[]|null);
+    }
+
+    /**
+     * A set of signatures corresponding to every unique public key that
+     * signed a given transaction.
+     *
+     * If any public key matches more than one prefix in the signature map,
+     * the transaction containing that map SHALL fail immediately with the
+     * response code `KEY_PREFIX_MISMATCH`.
+     */
+    class SignatureMap implements ISignatureMap {
+
+        /**
+         * Constructs a new SignatureMap.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ISignatureMap);
+
+        /**
+         * A list of signature pairs for a specific transaction.<br/>
+         * Each signature pair represents a single cryptographic (`primitive`)
+         * public key identified by a "prefix" value and the cryptographic
+         * signature produced for that key.
+         */
+        public sigPair: proto.ISignaturePair[];
+
+        /**
+         * Creates a new SignatureMap instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns SignatureMap instance
+         */
+        public static create(properties?: proto.ISignatureMap): proto.SignatureMap;
+
+        /**
+         * Encodes the specified SignatureMap message. Does not implicitly {@link proto.SignatureMap.verify|verify} messages.
+         * @param message SignatureMap message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ISignatureMap, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified SignatureMap message, length delimited. Does not implicitly {@link proto.SignatureMap.verify|verify} messages.
+         * @param message SignatureMap message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ISignatureMap, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a SignatureMap message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns SignatureMap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.SignatureMap;
+
+        /**
+         * Decodes a SignatureMap message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns SignatureMap
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.SignatureMap;
+
+        /**
+         * Verifies a SignatureMap message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a SignatureMap message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns SignatureMap
+         */
+        public static fromObject(object: { [k: string]: any }): proto.SignatureMap;
+
+        /**
+         * Creates a plain object from a SignatureMap message. Also converts values to other types if specified.
+         * @param message SignatureMap
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.SignatureMap, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this SignatureMap to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for SignatureMap
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** The transactions and queries supported by Hedera Hashgraph. */
+    enum HederaFunctionality {
+        NONE = 0,
+        CryptoTransfer = 1,
+        CryptoUpdate = 2,
+        CryptoDelete = 3,
+        CryptoAddLiveHash = 4,
+        CryptoDeleteLiveHash = 5,
+        ContractCall = 6,
+        ContractCreate = 7,
+        ContractUpdate = 8,
+        FileCreate = 9,
+        FileAppend = 10,
+        FileUpdate = 11,
+        FileDelete = 12,
+        CryptoGetAccountBalance = 13,
+        CryptoGetAccountRecords = 14,
+        CryptoGetInfo = 15,
+        ContractCallLocal = 16,
+        ContractGetInfo = 17,
+        ContractGetBytecode = 18,
+        GetBySolidityID = 19,
+        GetByKey = 20,
+        CryptoGetLiveHash = 21,
+        CryptoGetStakers = 22,
+        FileGetContents = 23,
+        FileGetInfo = 24,
+        TransactionGetRecord = 25,
+        ContractGetRecords = 26,
+        CryptoCreate = 27,
+        SystemDelete = 28,
+        SystemUndelete = 29,
+        ContractDelete = 30,
+        Freeze = 31,
+        CreateTransactionRecord = 32,
+        CryptoAccountAutoRenew = 33,
+        ContractAutoRenew = 34,
+        GetVersionInfo = 35,
+        TransactionGetReceipt = 36,
+        ConsensusCreateTopic = 50,
+        ConsensusUpdateTopic = 51,
+        ConsensusDeleteTopic = 52,
+        ConsensusGetTopicInfo = 53,
+        ConsensusSubmitMessage = 54,
+        UncheckedSubmit = 55,
+        TokenCreate = 56,
+        TokenGetInfo = 58,
+        TokenFreezeAccount = 59,
+        TokenUnfreezeAccount = 60,
+        TokenGrantKycToAccount = 61,
+        TokenRevokeKycFromAccount = 62,
+        TokenDelete = 63,
+        TokenUpdate = 64,
+        TokenMint = 65,
+        TokenBurn = 66,
+        TokenAccountWipe = 67,
+        TokenAssociateToAccount = 68,
+        TokenDissociateFromAccount = 69,
+        ScheduleCreate = 70,
+        ScheduleDelete = 71,
+        ScheduleSign = 72,
+        ScheduleGetInfo = 73,
+        TokenGetAccountNftInfos = 74,
+        TokenGetNftInfo = 75,
+        TokenGetNftInfos = 76,
+        TokenFeeScheduleUpdate = 77,
+        NetworkGetExecutionTime = 78,
+        TokenPause = 79,
+        TokenUnpause = 80,
+        CryptoApproveAllowance = 81,
+        CryptoDeleteAllowance = 82,
+        GetAccountDetails = 83,
+        EthereumTransaction = 84,
+        NodeStakeUpdate = 85,
+        UtilPrng = 86,
+        TransactionGetFastRecord = 87,
+        TokenUpdateNfts = 88,
+        NodeCreate = 89,
+        NodeUpdate = 90,
+        NodeDelete = 91,
+        TokenReject = 92,
+        TokenAirdrop = 93,
+        TokenCancelAirdrop = 94,
+        TokenClaimAirdrop = 95,
+        StateSignatureTransaction = 100,
+        HintsKeyPublication = 101,
+        HintsPreprocessingVote = 102,
+        HintsPartialSignature = 103,
+        HistoryAssemblySignature = 104,
+        HistoryProofKeyPublication = 105,
+        HistoryProofVote = 106,
+        CrsPublication = 107,
+        AtomicBatch = 108
+    }
+
+    /** Properties of a FeeComponents. */
+    interface IFeeComponents {
+
+        /**
+         * Base: "minimum total fee".
+         * <p>
+         * The calculated fee MUST be greater than this value.
+         */
+        min?: (number|Long|null);
+
+        /**
+         * Base: "maximum total fee".
+         * <p>
+         * The calculated fee MUST be less than this value.
+         */
+        max?: (number|Long|null);
+
+        /**
+         * Base: "constant fee".<br/>
+         * A baseline constant contribution to total fee.
+         */
+        constant?: (number|Long|null);
+
+        /**
+         * Bandwidth: "bytes per transaction".<br/>
+         * The fee for bandwidth consumed by a transaction, measured in bytes
+         */
+        bpt?: (number|Long|null);
+
+        /**
+         * Signatures: "validations per transaction".<br/>
+         * The fee for signature verifications required by a transaction
+         */
+        vpt?: (number|Long|null);
+
+        /**
+         * Memory: "RAM byte-hours".<br/>
+         * The fee for RAM required to process a transaction,
+         * measured in byte-hours
+         */
+        rbh?: (number|Long|null);
+
+        /**
+         * Disk: "storage byte-hours".<br/>
+         * The fee for storage required by a transaction, measured in byte-hours
+         */
+        sbh?: (number|Long|null);
+
+        /**
+         * Compute: Ethereum term for a derivative EVM compute resource.<br/>
+         * The fee of computation for a smart contract transaction. The value of
+         * gas is set by a conversion rate, and is regularly updated to reflect
+         * reasonable and customary costs.
+         */
+        gas?: (number|Long|null);
+
+        /**
+         * Ad valorem: "transferred value".<br/>
+         * The fee for HBAR transferred by a transaction.
+         */
+        tv?: (number|Long|null);
+
+        /**
+         * Response memory: "bytes per response".<br/>
+         * The fee for data retrieved from memory to deliver a response,
+         * measured in bytes
+         */
+        bpr?: (number|Long|null);
+
+        /**
+         * Response disk: "storage bytes per response".<br/>
+         * The fee for data retrieved from disk to deliver a response,
+         * measured in bytes
+         */
+        sbpr?: (number|Long|null);
+    }
+
+    /**
+     * A set of values the nodes use in determining transaction and query fees, and
+     * constants involved in fee calculations.
+     *
+     * Nodes SHALL multiply the amount of "resources" allocated to a transaction or
+     * query by the corresponding price to calculate the appropriate fee. Units are
+     * one-thousandth of a `tinyCent`. The "resource" allocations SHALL be estimated
+     * based on transaction characteristics and current network state, and MAY be
+     * further adjusted based on network load and congestion.
+     *
+     * This SHALL be used, in different contexts, for the cost _factors_ used to
+     * calculate charged amounts, for the resource accumulation, and for actual
+     * amounts to be charged.<br/>
+     * Amounts recorded here MUST be converted to tinybar according to the
+     * current active `ExchangeRate` for the network.
+     */
+    class FeeComponents implements IFeeComponents {
+
+        /**
+         * Constructs a new FeeComponents.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IFeeComponents);
+
+        /**
+         * Base: "minimum total fee".
+         * <p>
+         * The calculated fee MUST be greater than this value.
+         */
+        public min: (number|Long);
+
+        /**
+         * Base: "maximum total fee".
+         * <p>
+         * The calculated fee MUST be less than this value.
+         */
+        public max: (number|Long);
+
+        /**
+         * Base: "constant fee".<br/>
+         * A baseline constant contribution to total fee.
+         */
+        public constant: (number|Long);
+
+        /**
+         * Bandwidth: "bytes per transaction".<br/>
+         * The fee for bandwidth consumed by a transaction, measured in bytes
+         */
+        public bpt: (number|Long);
+
+        /**
+         * Signatures: "validations per transaction".<br/>
+         * The fee for signature verifications required by a transaction
+         */
+        public vpt: (number|Long);
+
+        /**
+         * Memory: "RAM byte-hours".<br/>
+         * The fee for RAM required to process a transaction,
+         * measured in byte-hours
+         */
+        public rbh: (number|Long);
+
+        /**
+         * Disk: "storage byte-hours".<br/>
+         * The fee for storage required by a transaction, measured in byte-hours
+         */
+        public sbh: (number|Long);
+
+        /**
+         * Compute: Ethereum term for a derivative EVM compute resource.<br/>
+         * The fee of computation for a smart contract transaction. The value of
+         * gas is set by a conversion rate, and is regularly updated to reflect
+         * reasonable and customary costs.
+         */
+        public gas: (number|Long);
+
+        /**
+         * Ad valorem: "transferred value".<br/>
+         * The fee for HBAR transferred by a transaction.
+         */
+        public tv: (number|Long);
+
+        /**
+         * Response memory: "bytes per response".<br/>
+         * The fee for data retrieved from memory to deliver a response,
+         * measured in bytes
+         */
+        public bpr: (number|Long);
+
+        /**
+         * Response disk: "storage bytes per response".<br/>
+         * The fee for data retrieved from disk to deliver a response,
+         * measured in bytes
+         */
+        public sbpr: (number|Long);
+
+        /**
+         * Creates a new FeeComponents instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns FeeComponents instance
+         */
+        public static create(properties?: proto.IFeeComponents): proto.FeeComponents;
+
+        /**
+         * Encodes the specified FeeComponents message. Does not implicitly {@link proto.FeeComponents.verify|verify} messages.
+         * @param message FeeComponents message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IFeeComponents, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified FeeComponents message, length delimited. Does not implicitly {@link proto.FeeComponents.verify|verify} messages.
+         * @param message FeeComponents message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IFeeComponents, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a FeeComponents message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns FeeComponents
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.FeeComponents;
+
+        /**
+         * Decodes a FeeComponents message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns FeeComponents
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.FeeComponents;
+
+        /**
+         * Verifies a FeeComponents message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a FeeComponents message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns FeeComponents
+         */
+        public static fromObject(object: { [k: string]: any }): proto.FeeComponents;
+
+        /**
+         * Creates a plain object from a FeeComponents message. Also converts values to other types if specified.
+         * @param message FeeComponents
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.FeeComponents, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this FeeComponents to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for FeeComponents
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TransactionFeeSchedule. */
+    interface ITransactionFeeSchedule {
+
+        /**
+         * An enumeration for a particular transaction or query.<br/>
+         * The functionality type determines the base cost parameters.
+         */
+        hederaFunctionality?: (proto.HederaFunctionality|null);
+
+        /**
+         * Use `fees` instead of this field.<br/>
+         * Resource price coefficients.
+         */
+        feeData?: (proto.IFeeData|null);
+
+        /**
+         * The resource price coefficients for transaction type and any applicable
+         * subtypes.<br/>
+         * The multiple entries enable support for subtype price definitions.
+         */
+        fees?: (proto.IFeeData[]|null);
+    }
+
+    /** The fee schedule for a specific transaction or query based on the fee data. */
+    class TransactionFeeSchedule implements ITransactionFeeSchedule {
+
+        /**
+         * Constructs a new TransactionFeeSchedule.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITransactionFeeSchedule);
+
+        /**
+         * An enumeration for a particular transaction or query.<br/>
+         * The functionality type determines the base cost parameters.
+         */
+        public hederaFunctionality: proto.HederaFunctionality;
+
+        /**
+         * Use `fees` instead of this field.<br/>
+         * Resource price coefficients.
+         */
+        public feeData?: (proto.IFeeData|null);
+
+        /**
+         * The resource price coefficients for transaction type and any applicable
+         * subtypes.<br/>
+         * The multiple entries enable support for subtype price definitions.
+         */
+        public fees: proto.IFeeData[];
+
+        /**
+         * Creates a new TransactionFeeSchedule instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TransactionFeeSchedule instance
+         */
+        public static create(properties?: proto.ITransactionFeeSchedule): proto.TransactionFeeSchedule;
+
+        /**
+         * Encodes the specified TransactionFeeSchedule message. Does not implicitly {@link proto.TransactionFeeSchedule.verify|verify} messages.
+         * @param message TransactionFeeSchedule message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITransactionFeeSchedule, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TransactionFeeSchedule message, length delimited. Does not implicitly {@link proto.TransactionFeeSchedule.verify|verify} messages.
+         * @param message TransactionFeeSchedule message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITransactionFeeSchedule, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TransactionFeeSchedule message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TransactionFeeSchedule
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TransactionFeeSchedule;
+
+        /**
+         * Decodes a TransactionFeeSchedule message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TransactionFeeSchedule
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TransactionFeeSchedule;
+
+        /**
+         * Verifies a TransactionFeeSchedule message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TransactionFeeSchedule message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TransactionFeeSchedule
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TransactionFeeSchedule;
+
+        /**
+         * Creates a plain object from a TransactionFeeSchedule message. Also converts values to other types if specified.
+         * @param message TransactionFeeSchedule
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TransactionFeeSchedule, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TransactionFeeSchedule to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TransactionFeeSchedule
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a FeeData. */
+    interface IFeeData {
+
+        /** Fee components to be paid to the submitting node. */
+        nodedata?: (proto.IFeeComponents|null);
+
+        /**
+         * Fee components to be paid to the network for bringing a
+         * transaction to consensus.
+         */
+        networkdata?: (proto.IFeeComponents|null);
+
+        /**
+         * Fee components to be paid to the network for providing the immediate and
+         * ongoing services associated with executing the transaction, maintaining
+         * the network, and developing the network software.
+         */
+        servicedata?: (proto.IFeeComponents|null);
+
+        /**
+         * A sub-type distinguishing between different types of `FeeData` that may
+         * apply to the same base transaction type (associated with
+         * an `HederaFunctionality`).
+         */
+        subType?: (proto.SubType|null);
+    }
+
+    /**
+     * A total fee, in component amounts charged for a transaction.
+     *
+     * Total fees are composed of three sets of components.
+     * - Node data, components that compensate the specific node that submitted
+     * the transaction.
+     * - Network data, components that compensate the Hedera network for gossiping
+     * the transaction and determining the consensus timestamp.
+     * - Service data, components that compensate the Hedera network for the ongoing
+     * maintenance and operation of the network, as well as ongoing development
+     * of network services.
+     *
+     * Fee components are recorded in thousandths of a tiny cent, and the network
+     * exchange rate converts these to tinybar amounts, which are what the network
+     * charges for transactions and what the network reports in the record stream.
+     */
+    class FeeData implements IFeeData {
+
+        /**
+         * Constructs a new FeeData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IFeeData);
+
+        /** Fee components to be paid to the submitting node. */
+        public nodedata?: (proto.IFeeComponents|null);
+
+        /**
+         * Fee components to be paid to the network for bringing a
+         * transaction to consensus.
+         */
+        public networkdata?: (proto.IFeeComponents|null);
+
+        /**
+         * Fee components to be paid to the network for providing the immediate and
+         * ongoing services associated with executing the transaction, maintaining
+         * the network, and developing the network software.
+         */
+        public servicedata?: (proto.IFeeComponents|null);
+
+        /**
+         * A sub-type distinguishing between different types of `FeeData` that may
+         * apply to the same base transaction type (associated with
+         * an `HederaFunctionality`).
+         */
+        public subType: proto.SubType;
+
+        /**
+         * Creates a new FeeData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns FeeData instance
+         */
+        public static create(properties?: proto.IFeeData): proto.FeeData;
+
+        /**
+         * Encodes the specified FeeData message. Does not implicitly {@link proto.FeeData.verify|verify} messages.
+         * @param message FeeData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IFeeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified FeeData message, length delimited. Does not implicitly {@link proto.FeeData.verify|verify} messages.
+         * @param message FeeData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IFeeData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a FeeData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns FeeData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.FeeData;
+
+        /**
+         * Decodes a FeeData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns FeeData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.FeeData;
+
+        /**
+         * Verifies a FeeData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a FeeData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns FeeData
+         */
+        public static fromObject(object: { [k: string]: any }): proto.FeeData;
+
+        /**
+         * Creates a plain object from a FeeData message. Also converts values to other types if specified.
+         * @param message FeeData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.FeeData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this FeeData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for FeeData
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a FeeSchedule. */
+    interface IFeeSchedule {
+
+        /** Sets of fee coefficients for various transaction or query types. */
+        transactionFeeSchedule?: (proto.ITransactionFeeSchedule[]|null);
+
+        /**
+         * A time, in seconds since the `epoch`, when this fee schedule
+         * will expire.
+         * <p>
+         * For this purpose, `epoch` SHALL be the UNIX epoch
+         * with 0 at `1970-01-01T00:00:00.000Z`.
+         */
+        expiryTime?: (proto.ITimestampSeconds|null);
+    }
+
+    /**
+     * A set of fee schedules covering all transaction types and query types, along
+     * with a specific time at which this fee schedule will expire.
+     *
+     * Nodes SHALL use the most recent unexpired fee schedule to determine the fees
+     * for all transactions based on various resource components imputed to each
+     * transaction.
+     */
+    class FeeSchedule implements IFeeSchedule {
+
+        /**
+         * Constructs a new FeeSchedule.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IFeeSchedule);
+
+        /** Sets of fee coefficients for various transaction or query types. */
+        public transactionFeeSchedule: proto.ITransactionFeeSchedule[];
+
+        /**
+         * A time, in seconds since the `epoch`, when this fee schedule
+         * will expire.
+         * <p>
+         * For this purpose, `epoch` SHALL be the UNIX epoch
+         * with 0 at `1970-01-01T00:00:00.000Z`.
+         */
+        public expiryTime?: (proto.ITimestampSeconds|null);
+
+        /**
+         * Creates a new FeeSchedule instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns FeeSchedule instance
+         */
+        public static create(properties?: proto.IFeeSchedule): proto.FeeSchedule;
+
+        /**
+         * Encodes the specified FeeSchedule message. Does not implicitly {@link proto.FeeSchedule.verify|verify} messages.
+         * @param message FeeSchedule message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IFeeSchedule, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified FeeSchedule message, length delimited. Does not implicitly {@link proto.FeeSchedule.verify|verify} messages.
+         * @param message FeeSchedule message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IFeeSchedule, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a FeeSchedule message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns FeeSchedule
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.FeeSchedule;
+
+        /**
+         * Decodes a FeeSchedule message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns FeeSchedule
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.FeeSchedule;
+
+        /**
+         * Verifies a FeeSchedule message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a FeeSchedule message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns FeeSchedule
+         */
+        public static fromObject(object: { [k: string]: any }): proto.FeeSchedule;
+
+        /**
+         * Creates a plain object from a FeeSchedule message. Also converts values to other types if specified.
+         * @param message FeeSchedule
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.FeeSchedule, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this FeeSchedule to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for FeeSchedule
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a CurrentAndNextFeeSchedule. */
+    interface ICurrentAndNextFeeSchedule {
+
+        /** A current, unexpired, fee schedule. */
+        currentFeeSchedule?: (proto.IFeeSchedule|null);
+
+        /** A future fee schedule to use when the current schedule expires. */
+        nextFeeSchedule?: (proto.IFeeSchedule|null);
+    }
+
+    /**
+     * The "current" fee schedule and the "next" fee schedule.
+     *
+     * The current fee schedule is the schedule that SHALL apply to the current
+     * transaction.<br/>
+     * The next fee schedule is the schedule that SHALL apply after the current
+     * schedule expires.<br/>
+     * We store both to avoid a condition where transactions are processed very
+     * near the time when a fee schedule expires and it might be indeterminate
+     * which fees to apply. With both current and next fee schedule the network
+     * can deterministically apply the correct fee schedule based on consensus
+     * timestamp for each transaction.
+     */
+    class CurrentAndNextFeeSchedule implements ICurrentAndNextFeeSchedule {
+
+        /**
+         * Constructs a new CurrentAndNextFeeSchedule.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ICurrentAndNextFeeSchedule);
+
+        /** A current, unexpired, fee schedule. */
+        public currentFeeSchedule?: (proto.IFeeSchedule|null);
+
+        /** A future fee schedule to use when the current schedule expires. */
+        public nextFeeSchedule?: (proto.IFeeSchedule|null);
+
+        /**
+         * Creates a new CurrentAndNextFeeSchedule instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns CurrentAndNextFeeSchedule instance
+         */
+        public static create(properties?: proto.ICurrentAndNextFeeSchedule): proto.CurrentAndNextFeeSchedule;
+
+        /**
+         * Encodes the specified CurrentAndNextFeeSchedule message. Does not implicitly {@link proto.CurrentAndNextFeeSchedule.verify|verify} messages.
+         * @param message CurrentAndNextFeeSchedule message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ICurrentAndNextFeeSchedule, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified CurrentAndNextFeeSchedule message, length delimited. Does not implicitly {@link proto.CurrentAndNextFeeSchedule.verify|verify} messages.
+         * @param message CurrentAndNextFeeSchedule message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ICurrentAndNextFeeSchedule, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a CurrentAndNextFeeSchedule message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns CurrentAndNextFeeSchedule
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.CurrentAndNextFeeSchedule;
+
+        /**
+         * Decodes a CurrentAndNextFeeSchedule message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns CurrentAndNextFeeSchedule
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.CurrentAndNextFeeSchedule;
+
+        /**
+         * Verifies a CurrentAndNextFeeSchedule message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a CurrentAndNextFeeSchedule message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns CurrentAndNextFeeSchedule
+         */
+        public static fromObject(object: { [k: string]: any }): proto.CurrentAndNextFeeSchedule;
+
+        /**
+         * Creates a plain object from a CurrentAndNextFeeSchedule message. Also converts values to other types if specified.
+         * @param message CurrentAndNextFeeSchedule
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.CurrentAndNextFeeSchedule, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this CurrentAndNextFeeSchedule to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for CurrentAndNextFeeSchedule
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a ServiceEndpoint. */
+    interface IServiceEndpoint {
+
+        /**
+         * A 32-bit IPv4 address.<br/>
+         * This is the address of the endpoint, encoded in pure "big-endian"
+         * (i.e. left to right) order (e.g. `127.0.0.1` has hex bytes in the
+         * order `7F`, `00`, `00`, `01`).
+         */
+        ipAddressV4?: (Uint8Array|null);
+
+        /**
+         * A TCP port to use.
+         * <p>
+         * This value MUST be between 0 and 65535, inclusive.
+         */
+        port?: (number|null);
+
+        /**
+         * A node domain name.
+         * <p>
+         * This MUST be the fully qualified domain name of the node.<br/>
+         * This value MUST NOT exceed 253 characters.<br/>
+         * When the `domain_name` field is set, the `ipAddressV4`
+         * field MUST NOT be set.<br/>
+         * When the `ipAddressV4` field is set, the `domain_name`
+         * field MUST NOT be set.
+         */
+        domainName?: (string|null);
+    }
+
+    /**
+     * A network node endpoint.<br/>
+     * Each network node in the global address book publishes one or more endpoints
+     * which enable the nodes to communicate both with other nodes, for gossip, and
+     * with clients to receive transaction requests.
+     *
+     * This message supports IPv4 with address and TCP port,
+     * and MAY include a FQDN instead of an IP address.<br/>
+     * IPv6 is not currently supported.
+     *
+     * When the `domain_name` field is set, the `ipAddressV4` field
+     * MUST NOT be set.<br/>
+     * When the `ipAddressV4` field is set, the `domain_name` field
+     * MUST NOT be set.
+     */
+    class ServiceEndpoint implements IServiceEndpoint {
+
+        /**
+         * Constructs a new ServiceEndpoint.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IServiceEndpoint);
+
+        /**
+         * A 32-bit IPv4 address.<br/>
+         * This is the address of the endpoint, encoded in pure "big-endian"
+         * (i.e. left to right) order (e.g. `127.0.0.1` has hex bytes in the
+         * order `7F`, `00`, `00`, `01`).
+         */
+        public ipAddressV4: Uint8Array;
+
+        /**
+         * A TCP port to use.
+         * <p>
+         * This value MUST be between 0 and 65535, inclusive.
+         */
+        public port: number;
+
+        /**
+         * A node domain name.
+         * <p>
+         * This MUST be the fully qualified domain name of the node.<br/>
+         * This value MUST NOT exceed 253 characters.<br/>
+         * When the `domain_name` field is set, the `ipAddressV4`
+         * field MUST NOT be set.<br/>
+         * When the `ipAddressV4` field is set, the `domain_name`
+         * field MUST NOT be set.
+         */
+        public domainName: string;
+
+        /**
+         * Creates a new ServiceEndpoint instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ServiceEndpoint instance
+         */
+        public static create(properties?: proto.IServiceEndpoint): proto.ServiceEndpoint;
+
+        /**
+         * Encodes the specified ServiceEndpoint message. Does not implicitly {@link proto.ServiceEndpoint.verify|verify} messages.
+         * @param message ServiceEndpoint message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IServiceEndpoint, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ServiceEndpoint message, length delimited. Does not implicitly {@link proto.ServiceEndpoint.verify|verify} messages.
+         * @param message ServiceEndpoint message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IServiceEndpoint, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ServiceEndpoint message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ServiceEndpoint
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.ServiceEndpoint;
+
+        /**
+         * Decodes a ServiceEndpoint message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ServiceEndpoint
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.ServiceEndpoint;
+
+        /**
+         * Verifies a ServiceEndpoint message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ServiceEndpoint message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ServiceEndpoint
+         */
+        public static fromObject(object: { [k: string]: any }): proto.ServiceEndpoint;
+
+        /**
+         * Creates a plain object from a ServiceEndpoint message. Also converts values to other types if specified.
+         * @param message ServiceEndpoint
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.ServiceEndpoint, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ServiceEndpoint to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for ServiceEndpoint
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a NodeAddress. */
+    interface INodeAddress {
+
+        /**
+         * ServiceEndpoint is now used to retrieve a node's list of IP
+         * addresses and ports.<br/>
+         * The IP address of the Node, as a string, encoded in UTF-8.<br/>
+         * This value SHALL NOT be populated.
+         */
+        ipAddress?: (Uint8Array|null);
+
+        /**
+         * ServiceEndpoint is now used to retrieve a node's list of IP
+         * addresses and ports.<br/>
+         * The port number of the grpc server for the node.<br/>
+         * This value SHALL NOT be populated.
+         */
+        portno?: (number|null);
+
+        /**
+         * Description provides short text functionality.<br/>
+         * A short description of the node.
+         * <p>
+         * This field SHALL NOT be populated.
+         */
+        memo?: (Uint8Array|null);
+
+        /**
+         * A hexadecimal String encoding of an X509 public key.
+         * <p>
+         * This X509 RSA _public_ key SHALL be used to verify record stream files
+         * (e.g., record stream files).<br/>
+         * This field SHALL be a string of hexadecimal characters, encoded UTF-8,
+         * which, translated to binary, form the public key DER encoding.
+         */
+        RSA_PubKey?: (string|null);
+
+        /**
+         * A numeric identifier for the node.
+         * <p>
+         * This value SHALL NOT be sequential.
+         * <p>
+         * A `0.0.101` field
+         */
+        nodeId?: (number|Long|null);
+
+        /**
+         * An account to be paid the "node" portion of transaction fees.<br/>
+         * The "node" fees are paid to the node that submitted the transaction.
+         * <p>
+         * A `0.0.101` field
+         */
+        nodeAccountId?: (proto.IAccountID|null);
+
+        /**
+         * A hash of the node's TLS certificate.
+         * <p>
+         * This field SHALL be a string of hexadecimal characters, encoded UTF-8,
+         * which, translated to binary, form a SHA-384 hash of the node's TLS
+         * certificate in PEM format.
+         * This TLS certificate MUST be encoded UTF-8 and normalized according to
+         * the NFKD form prior to computing the hash value.<br/>
+         * The value of this field SHALL be used to verify the node TLS
+         * certificate when presented during protocol negotiation.
+         * <p>
+         * A `0.0.101` field
+         */
+        nodeCertHash?: (Uint8Array|null);
+
+        /**
+         * A node's service IP addresses and TCP ports.<br/>
+         * Nodes require multiple endpoints to ensure that inter-node communication
+         * (e.g. gossip) is properly separated from client communication to
+         * API endpoints.
+         * <p>
+         * A `0.0.101` field
+         */
+        serviceEndpoint?: (proto.IServiceEndpoint[]|null);
+
+        /**
+         * A short description of the node.
+         * <p>
+         * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
+         * (default 100) bytes when encoded as UTF-8.
+         */
+        description?: (string|null);
+
+        /**
+         * This is replaced by per-account stake tracking and dynamic
+         * calculation.<br/>
+         * The amount of tinybar staked to the node.<br/>
+         * This value SHOULD NOT be populated, and SHALL be ignored.
+         */
+        stake?: (number|Long|null);
+    }
+
+    /**
+     * The data about a node, including its service endpoints and the Hedera account
+     * to be paid for services provided by the node (that is, queries answered and
+     * transactions submitted).
+     *
+     * All active fields are populated in the `0.0.102` address book file.<br/>
+     * Only fields documented with "`0.0.101` field" are populated in the 0.0.101
+     * address book file.
+     *
+     * This message MAY be superseded by messages in state/addressbook/node.proto
+     * and node_get_info.proto.
+     */
+    class NodeAddress implements INodeAddress {
+
+        /**
+         * Constructs a new NodeAddress.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.INodeAddress);
+
+        /**
+         * ServiceEndpoint is now used to retrieve a node's list of IP
+         * addresses and ports.<br/>
+         * The IP address of the Node, as a string, encoded in UTF-8.<br/>
+         * This value SHALL NOT be populated.
+         */
+        public ipAddress: Uint8Array;
+
+        /**
+         * ServiceEndpoint is now used to retrieve a node's list of IP
+         * addresses and ports.<br/>
+         * The port number of the grpc server for the node.<br/>
+         * This value SHALL NOT be populated.
+         */
+        public portno: number;
+
+        /**
+         * Description provides short text functionality.<br/>
+         * A short description of the node.
+         * <p>
+         * This field SHALL NOT be populated.
+         */
+        public memo: Uint8Array;
+
+        /**
+         * A hexadecimal String encoding of an X509 public key.
+         * <p>
+         * This X509 RSA _public_ key SHALL be used to verify record stream files
+         * (e.g., record stream files).<br/>
+         * This field SHALL be a string of hexadecimal characters, encoded UTF-8,
+         * which, translated to binary, form the public key DER encoding.
+         */
+        public RSA_PubKey: string;
+
+        /**
+         * A numeric identifier for the node.
+         * <p>
+         * This value SHALL NOT be sequential.
+         * <p>
+         * A `0.0.101` field
+         */
+        public nodeId: (number|Long);
+
+        /**
+         * An account to be paid the "node" portion of transaction fees.<br/>
+         * The "node" fees are paid to the node that submitted the transaction.
+         * <p>
+         * A `0.0.101` field
+         */
+        public nodeAccountId?: (proto.IAccountID|null);
+
+        /**
+         * A hash of the node's TLS certificate.
+         * <p>
+         * This field SHALL be a string of hexadecimal characters, encoded UTF-8,
+         * which, translated to binary, form a SHA-384 hash of the node's TLS
+         * certificate in PEM format.
+         * This TLS certificate MUST be encoded UTF-8 and normalized according to
+         * the NFKD form prior to computing the hash value.<br/>
+         * The value of this field SHALL be used to verify the node TLS
+         * certificate when presented during protocol negotiation.
+         * <p>
+         * A `0.0.101` field
+         */
+        public nodeCertHash: Uint8Array;
+
+        /**
+         * A node's service IP addresses and TCP ports.<br/>
+         * Nodes require multiple endpoints to ensure that inter-node communication
+         * (e.g. gossip) is properly separated from client communication to
+         * API endpoints.
+         * <p>
+         * A `0.0.101` field
+         */
+        public serviceEndpoint: proto.IServiceEndpoint[];
+
+        /**
+         * A short description of the node.
+         * <p>
+         * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
+         * (default 100) bytes when encoded as UTF-8.
+         */
+        public description: string;
+
+        /**
+         * This is replaced by per-account stake tracking and dynamic
+         * calculation.<br/>
+         * The amount of tinybar staked to the node.<br/>
+         * This value SHOULD NOT be populated, and SHALL be ignored.
+         */
+        public stake: (number|Long);
+
+        /**
+         * Creates a new NodeAddress instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns NodeAddress instance
+         */
+        public static create(properties?: proto.INodeAddress): proto.NodeAddress;
+
+        /**
+         * Encodes the specified NodeAddress message. Does not implicitly {@link proto.NodeAddress.verify|verify} messages.
+         * @param message NodeAddress message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.INodeAddress, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified NodeAddress message, length delimited. Does not implicitly {@link proto.NodeAddress.verify|verify} messages.
+         * @param message NodeAddress message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.INodeAddress, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a NodeAddress message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns NodeAddress
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.NodeAddress;
+
+        /**
+         * Decodes a NodeAddress message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns NodeAddress
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.NodeAddress;
+
+        /**
+         * Verifies a NodeAddress message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a NodeAddress message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns NodeAddress
+         */
+        public static fromObject(object: { [k: string]: any }): proto.NodeAddress;
+
+        /**
+         * Creates a plain object from a NodeAddress message. Also converts values to other types if specified.
+         * @param message NodeAddress
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.NodeAddress, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this NodeAddress to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for NodeAddress
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a NodeAddressBook. */
+    interface INodeAddressBook {
+
+        /** Published data for all nodes in the network */
+        nodeAddress?: (proto.INodeAddress[]|null);
+    }
+
+    /**
+     * A list of nodes and their metadata that contains details of the nodes
+     * running the network.
+     *
+     * Used to parse the contents of system files `0.0.101` and `0.0.102`.
+     */
+    class NodeAddressBook implements INodeAddressBook {
+
+        /**
+         * Constructs a new NodeAddressBook.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.INodeAddressBook);
+
+        /** Published data for all nodes in the network */
+        public nodeAddress: proto.INodeAddress[];
+
+        /**
+         * Creates a new NodeAddressBook instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns NodeAddressBook instance
+         */
+        public static create(properties?: proto.INodeAddressBook): proto.NodeAddressBook;
+
+        /**
+         * Encodes the specified NodeAddressBook message. Does not implicitly {@link proto.NodeAddressBook.verify|verify} messages.
+         * @param message NodeAddressBook message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.INodeAddressBook, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified NodeAddressBook message, length delimited. Does not implicitly {@link proto.NodeAddressBook.verify|verify} messages.
+         * @param message NodeAddressBook message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.INodeAddressBook, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a NodeAddressBook message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns NodeAddressBook
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.NodeAddressBook;
+
+        /**
+         * Decodes a NodeAddressBook message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns NodeAddressBook
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.NodeAddressBook;
+
+        /**
+         * Verifies a NodeAddressBook message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a NodeAddressBook message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns NodeAddressBook
+         */
+        public static fromObject(object: { [k: string]: any }): proto.NodeAddressBook;
+
+        /**
+         * Creates a plain object from a NodeAddressBook message. Also converts values to other types if specified.
+         * @param message NodeAddressBook
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.NodeAddressBook, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this NodeAddressBook to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for NodeAddressBook
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a SemanticVersion. */
+    interface ISemanticVersion {
+
+        /**
+         * A major version.<br/>
+         * Hedera does not increment this value and retains a `0` value to
+         * indicate that API may change for any release.
+         * <p>
+         * This value SHALL increment for an incompatible API change.<br/>
+         */
+        major?: (number|null);
+
+        /**
+         * A minor version.<br/>
+         * Hedera increments this value with each release.<br/>
+         * There may be incompatible API changes in any Hedera Services release.
+         * <p>
+         * This value SHALL increment for backwards-compatible new
+         * functionality.
+         */
+        minor?: (number|null);
+
+        /**
+         * A patch version.
+         * <p>
+         * This value SHALL increment for backwards-compatible bug fixes.
+         */
+        patch?: (number|null);
+
+        /**
+         * A pre-release version.
+         * <p>
+         * This MAY be denoted by appending a hyphen and a series of dot separated
+         * identifiers per [Semver Specification](https://semver.org/#spec-item-9);
+         * given a string `0.14.0-alpha.1+21AF26D3`, this field would contain
+         * 'alpha.1'
+         */
+        pre?: (string|null);
+
+        /**
+         * A build version.
+         * <p>
+         * Build version MAY be denoted by appending a plus sign and a series of
+         * dot separated identifiers immediately following the patch or pre-release
+         * version per [Semver Specification](https://semver.org/#spec-item-10); so
+         * given a string `0.14.0-alpha.1+21AF26D3`, this field
+         * would contain '21AF26D3'
+         */
+        build?: (string|null);
+    }
+
+    /**
+     * A software version according to "[semantic versioning](https://semver.org/)"
+     * or "date versioning".
+     *
+     * Hedera currently modifies the "typical" semantic versioning somewhat, the
+     * `major` version is always `0`, and each release increments the `minor`
+     * version. The `patch` and `pre` components are used in the typical manner.
+     * The `build` component is not generally used.
+     */
+    class SemanticVersion implements ISemanticVersion {
+
+        /**
+         * Constructs a new SemanticVersion.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ISemanticVersion);
+
+        /**
+         * A major version.<br/>
+         * Hedera does not increment this value and retains a `0` value to
+         * indicate that API may change for any release.
+         * <p>
+         * This value SHALL increment for an incompatible API change.<br/>
+         */
+        public major: number;
+
+        /**
+         * A minor version.<br/>
+         * Hedera increments this value with each release.<br/>
+         * There may be incompatible API changes in any Hedera Services release.
+         * <p>
+         * This value SHALL increment for backwards-compatible new
+         * functionality.
+         */
+        public minor: number;
+
+        /**
+         * A patch version.
+         * <p>
+         * This value SHALL increment for backwards-compatible bug fixes.
+         */
+        public patch: number;
+
+        /**
+         * A pre-release version.
+         * <p>
+         * This MAY be denoted by appending a hyphen and a series of dot separated
+         * identifiers per [Semver Specification](https://semver.org/#spec-item-9);
+         * given a string `0.14.0-alpha.1+21AF26D3`, this field would contain
+         * 'alpha.1'
+         */
+        public pre: string;
+
+        /**
+         * A build version.
+         * <p>
+         * Build version MAY be denoted by appending a plus sign and a series of
+         * dot separated identifiers immediately following the patch or pre-release
+         * version per [Semver Specification](https://semver.org/#spec-item-10); so
+         * given a string `0.14.0-alpha.1+21AF26D3`, this field
+         * would contain '21AF26D3'
+         */
+        public build: string;
+
+        /**
+         * Creates a new SemanticVersion instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns SemanticVersion instance
+         */
+        public static create(properties?: proto.ISemanticVersion): proto.SemanticVersion;
+
+        /**
+         * Encodes the specified SemanticVersion message. Does not implicitly {@link proto.SemanticVersion.verify|verify} messages.
+         * @param message SemanticVersion message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ISemanticVersion, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified SemanticVersion message, length delimited. Does not implicitly {@link proto.SemanticVersion.verify|verify} messages.
+         * @param message SemanticVersion message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ISemanticVersion, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a SemanticVersion message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns SemanticVersion
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.SemanticVersion;
+
+        /**
+         * Decodes a SemanticVersion message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns SemanticVersion
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.SemanticVersion;
+
+        /**
+         * Verifies a SemanticVersion message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a SemanticVersion message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns SemanticVersion
+         */
+        public static fromObject(object: { [k: string]: any }): proto.SemanticVersion;
+
+        /**
+         * Creates a plain object from a SemanticVersion message. Also converts values to other types if specified.
+         * @param message SemanticVersion
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.SemanticVersion, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this SemanticVersion to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for SemanticVersion
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a Setting. */
+    interface ISetting {
+
+        /** A name for this setting property. */
+        name?: (string|null);
+
+        /** A value for this setting property. */
+        value?: (string|null);
+
+        /**
+         * A small quantity of data associated with this setting.
+         * <p>
+         * This SHOULD be less than 100 bytes.<br/>
+         * If the value is a string, it MUST be encoded UTF-8.
+         */
+        data?: (Uint8Array|null);
+    }
+
+    /**
+     * A single runtime configuration setting.
+     *
+     * Typically a name-value pair, this may also contain a small amount of
+     * associated data.
+     */
+    class Setting implements ISetting {
+
+        /**
+         * Constructs a new Setting.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ISetting);
+
+        /** A name for this setting property. */
+        public name: string;
+
+        /** A value for this setting property. */
+        public value: string;
+
+        /**
+         * A small quantity of data associated with this setting.
+         * <p>
+         * This SHOULD be less than 100 bytes.<br/>
+         * If the value is a string, it MUST be encoded UTF-8.
+         */
+        public data: Uint8Array;
+
+        /**
+         * Creates a new Setting instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Setting instance
+         */
+        public static create(properties?: proto.ISetting): proto.Setting;
+
+        /**
+         * Encodes the specified Setting message. Does not implicitly {@link proto.Setting.verify|verify} messages.
+         * @param message Setting message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ISetting, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Setting message, length delimited. Does not implicitly {@link proto.Setting.verify|verify} messages.
+         * @param message Setting message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ISetting, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Setting message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Setting
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Setting;
+
+        /**
+         * Decodes a Setting message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Setting
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Setting;
+
+        /**
+         * Verifies a Setting message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Setting message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Setting
+         */
+        public static fromObject(object: { [k: string]: any }): proto.Setting;
+
+        /**
+         * Creates a plain object from a Setting message. Also converts values to other types if specified.
+         * @param message Setting
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.Setting, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Setting to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for Setting
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a ServicesConfigurationList. */
+    interface IServicesConfigurationList {
+
+        /** A List of `Setting` values, typically read from application properties. */
+        nameValue?: (proto.ISetting[]|null);
+    }
+
+    /** Setting values representing a source of runtime configuration information. */
+    class ServicesConfigurationList implements IServicesConfigurationList {
+
+        /**
+         * Constructs a new ServicesConfigurationList.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IServicesConfigurationList);
+
+        /** A List of `Setting` values, typically read from application properties. */
+        public nameValue: proto.ISetting[];
+
+        /**
+         * Creates a new ServicesConfigurationList instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns ServicesConfigurationList instance
+         */
+        public static create(properties?: proto.IServicesConfigurationList): proto.ServicesConfigurationList;
+
+        /**
+         * Encodes the specified ServicesConfigurationList message. Does not implicitly {@link proto.ServicesConfigurationList.verify|verify} messages.
+         * @param message ServicesConfigurationList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IServicesConfigurationList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified ServicesConfigurationList message, length delimited. Does not implicitly {@link proto.ServicesConfigurationList.verify|verify} messages.
+         * @param message ServicesConfigurationList message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IServicesConfigurationList, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a ServicesConfigurationList message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns ServicesConfigurationList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.ServicesConfigurationList;
+
+        /**
+         * Decodes a ServicesConfigurationList message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns ServicesConfigurationList
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.ServicesConfigurationList;
+
+        /**
+         * Verifies a ServicesConfigurationList message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a ServicesConfigurationList message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns ServicesConfigurationList
+         */
+        public static fromObject(object: { [k: string]: any }): proto.ServicesConfigurationList;
+
+        /**
+         * Creates a plain object from a ServicesConfigurationList message. Also converts values to other types if specified.
+         * @param message ServicesConfigurationList
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.ServicesConfigurationList, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this ServicesConfigurationList to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for ServicesConfigurationList
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TokenRelationship. */
+    interface ITokenRelationship {
+
+        /**
+         * A token identifier.
+         * <p>
+         * This MUST match an existing token that is not deleted.
+         */
+        tokenId?: (proto.ITokenID|null);
+
+        /**
+         * A token symbol.
+         * <p>
+         * This MUST match an existing token that is not deleted.<br/>
+         * This MUST match the value for the token identified in `tokenId`.
+         */
+        symbol?: (string|null);
+
+        /**
+         * An account balance for this token.
+         * <p>
+         * For fungible/common tokens this SHALL be the balance that the
+         * account holds of that token. The value is provided as an integer amount
+         * of the smallest unit of the token (i.e. 10<sup>`-decimals`</sup> whole
+         * tokens).<br/>
+         * For non-fungible/unique tokens this SHALL be the whole number of
+         * unique tokens held by the account for this token type.
+         */
+        balance?: (number|Long|null);
+
+        /**
+         * A KYC status for the account with respect to this token.
+         * <p>
+         * This may be `KycNotApplicable`, `Granted` or `Revoked` and, if KYC is
+         * not supported for this token (e.g. the `kyc_key` of the token is not
+         * set), this SHALL be `KycNotApplicable`.
+         */
+        kycStatus?: (proto.TokenKycStatus|null);
+
+        /**
+         * A Freeze status for the account with respect to this token.
+         * <p>
+         * This value SHALL be one of `FreezeNotApplicable`, `Frozen`
+         * or `Unfrozen`.<br/>
+         * If the token cannot freeze account assets (e.g. the `freeze_key` of the
+         * token is not set), this SHALL be `FreezeNotApplicable`.
+         */
+        freezeStatus?: (proto.TokenFreezeStatus|null);
+
+        /**
+         * A maximum "precision" for this token.
+         * <p>
+         * This value MUST match the `decimals` field of the token identified in
+         * the `tokenId` field.<br/>
+         * A single whole token SHALL be divided into at most
+         * 10<sup>`decimals`</sup> sub-units.
+         */
+        decimals?: (number|null);
+
+        /**
+         * An automatic association flag.
+         * <p>
+         * This SHALL be set if the relationship was created implicitly
+         * (automatically).<br/>
+         * This SHALL be unset if the relationship was created explicitly
+         * (manually) via a `TokenAssociate` transaction.
+         */
+        automaticAssociation?: (boolean|null);
+    }
+
+    /**
+     * An Hedera Token Service token relationship. A token relationship describes
+     * the connection between an Account and a Token type, including the current
+     * account balance in that token.
+     *
+     * A `TokenRelationship` SHALL contain, for the designated token and enclosing
+     * account, The account's current balance, whether the account has KYC granted,
+     * whether the assets are frozen and whether the association was automatic.<br/>
+     * A `TokenRelationship` MAY also contain the `symbol` and `decimals` values
+     * copied from the token.<br/>
+     * `TokenRelationship` entries SHALL be valid only within the context of a
+     * `GetAccountDetails` query response, or other enclosing message, which
+     * specifies the account side of the relationship.
+     */
+    class TokenRelationship implements ITokenRelationship {
+
+        /**
+         * Constructs a new TokenRelationship.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITokenRelationship);
+
+        /**
+         * A token identifier.
+         * <p>
+         * This MUST match an existing token that is not deleted.
+         */
+        public tokenId?: (proto.ITokenID|null);
+
+        /**
+         * A token symbol.
+         * <p>
+         * This MUST match an existing token that is not deleted.<br/>
+         * This MUST match the value for the token identified in `tokenId`.
+         */
+        public symbol: string;
+
+        /**
+         * An account balance for this token.
+         * <p>
+         * For fungible/common tokens this SHALL be the balance that the
+         * account holds of that token. The value is provided as an integer amount
+         * of the smallest unit of the token (i.e. 10<sup>`-decimals`</sup> whole
+         * tokens).<br/>
+         * For non-fungible/unique tokens this SHALL be the whole number of
+         * unique tokens held by the account for this token type.
+         */
+        public balance: (number|Long);
+
+        /**
+         * A KYC status for the account with respect to this token.
+         * <p>
+         * This may be `KycNotApplicable`, `Granted` or `Revoked` and, if KYC is
+         * not supported for this token (e.g. the `kyc_key` of the token is not
+         * set), this SHALL be `KycNotApplicable`.
+         */
+        public kycStatus: proto.TokenKycStatus;
+
+        /**
+         * A Freeze status for the account with respect to this token.
+         * <p>
+         * This value SHALL be one of `FreezeNotApplicable`, `Frozen`
+         * or `Unfrozen`.<br/>
+         * If the token cannot freeze account assets (e.g. the `freeze_key` of the
+         * token is not set), this SHALL be `FreezeNotApplicable`.
+         */
+        public freezeStatus: proto.TokenFreezeStatus;
+
+        /**
+         * A maximum "precision" for this token.
+         * <p>
+         * This value MUST match the `decimals` field of the token identified in
+         * the `tokenId` field.<br/>
+         * A single whole token SHALL be divided into at most
+         * 10<sup>`decimals`</sup> sub-units.
+         */
+        public decimals: number;
+
+        /**
+         * An automatic association flag.
+         * <p>
+         * This SHALL be set if the relationship was created implicitly
+         * (automatically).<br/>
+         * This SHALL be unset if the relationship was created explicitly
+         * (manually) via a `TokenAssociate` transaction.
+         */
+        public automaticAssociation: boolean;
+
+        /**
+         * Creates a new TokenRelationship instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TokenRelationship instance
+         */
+        public static create(properties?: proto.ITokenRelationship): proto.TokenRelationship;
+
+        /**
+         * Encodes the specified TokenRelationship message. Does not implicitly {@link proto.TokenRelationship.verify|verify} messages.
+         * @param message TokenRelationship message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITokenRelationship, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TokenRelationship message, length delimited. Does not implicitly {@link proto.TokenRelationship.verify|verify} messages.
+         * @param message TokenRelationship message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITokenRelationship, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TokenRelationship message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TokenRelationship
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TokenRelationship;
+
+        /**
+         * Decodes a TokenRelationship message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TokenRelationship
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TokenRelationship;
+
+        /**
+         * Verifies a TokenRelationship message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TokenRelationship message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TokenRelationship
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TokenRelationship;
+
+        /**
+         * Creates a plain object from a TokenRelationship message. Also converts values to other types if specified.
+         * @param message TokenRelationship
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TokenRelationship, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TokenRelationship to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TokenRelationship
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TokenBalance. */
+    interface ITokenBalance {
+
+        /** A token identifier. */
+        tokenId?: (proto.ITokenID|null);
+
+        /**
+         * A number of transferable units of the identified token.
+         * <p>
+         * For fungible/common tokens this SHALL be the balance, in units of
+         * 10<sup>`-decimals`</sup> whole tokens.<br/>
+         * For non-fungible/unique tokens, this SHALL be the number of
+         * individual unique tokens in this balance.
+         */
+        balance?: (number|Long|null);
+
+        /**
+         * A number of "decimals" precision.
+         * <p>
+         * This MUST match the `decimals` value for the token identified by the
+         * `tokenId` field.
+         */
+        decimals?: (number|null);
+    }
+
+    /**
+     * A number of _transferable units_ of a specified token.
+     *
+     * The transferable unit of a token is its smallest denomination, as given by
+     * the token's `decimals` property. Each minted token contains
+     * 10<sup>`decimals`</sup> transferable units. For example, we could think of
+     * the cent as the transferable unit of the US dollar (`decimals=2`); and the
+     * tinybar as the transferable unit of HBAR (`decimals=8`).
+     *
+     * Transferable units are not directly comparable across different tokens.
+     */
+    class TokenBalance implements ITokenBalance {
+
+        /**
+         * Constructs a new TokenBalance.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITokenBalance);
+
+        /** A token identifier. */
+        public tokenId?: (proto.ITokenID|null);
+
+        /**
+         * A number of transferable units of the identified token.
+         * <p>
+         * For fungible/common tokens this SHALL be the balance, in units of
+         * 10<sup>`-decimals`</sup> whole tokens.<br/>
+         * For non-fungible/unique tokens, this SHALL be the number of
+         * individual unique tokens in this balance.
+         */
+        public balance: (number|Long);
+
+        /**
+         * A number of "decimals" precision.
+         * <p>
+         * This MUST match the `decimals` value for the token identified by the
+         * `tokenId` field.
+         */
+        public decimals: number;
+
+        /**
+         * Creates a new TokenBalance instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TokenBalance instance
+         */
+        public static create(properties?: proto.ITokenBalance): proto.TokenBalance;
+
+        /**
+         * Encodes the specified TokenBalance message. Does not implicitly {@link proto.TokenBalance.verify|verify} messages.
+         * @param message TokenBalance message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITokenBalance, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TokenBalance message, length delimited. Does not implicitly {@link proto.TokenBalance.verify|verify} messages.
+         * @param message TokenBalance message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITokenBalance, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TokenBalance message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TokenBalance
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TokenBalance;
+
+        /**
+         * Decodes a TokenBalance message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TokenBalance
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TokenBalance;
+
+        /**
+         * Verifies a TokenBalance message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TokenBalance message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TokenBalance
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TokenBalance;
+
+        /**
+         * Creates a plain object from a TokenBalance message. Also converts values to other types if specified.
+         * @param message TokenBalance
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TokenBalance, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TokenBalance to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TokenBalance
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TokenBalances. */
+    interface ITokenBalances {
+
+        /**
+         * A list of token balance values.<br/>
+         * Each entry represents a single account balance for a single token.
+         */
+        tokenBalances?: (proto.ITokenBalance[]|null);
+    }
+
+    /**
+     * A set of token balance values.
+     *
+     * Each entry describes the balance the enclosing account holds for a specific
+     * token. The balance is an amount for a fungible/common token or a count for
+     * a non-fungible/unique token.
+     */
+    class TokenBalances implements ITokenBalances {
+
+        /**
+         * Constructs a new TokenBalances.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITokenBalances);
+
+        /**
+         * A list of token balance values.<br/>
+         * Each entry represents a single account balance for a single token.
+         */
+        public tokenBalances: proto.ITokenBalance[];
+
+        /**
+         * Creates a new TokenBalances instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TokenBalances instance
+         */
+        public static create(properties?: proto.ITokenBalances): proto.TokenBalances;
+
+        /**
+         * Encodes the specified TokenBalances message. Does not implicitly {@link proto.TokenBalances.verify|verify} messages.
+         * @param message TokenBalances message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITokenBalances, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TokenBalances message, length delimited. Does not implicitly {@link proto.TokenBalances.verify|verify} messages.
+         * @param message TokenBalances message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITokenBalances, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TokenBalances message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TokenBalances
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TokenBalances;
+
+        /**
+         * Decodes a TokenBalances message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TokenBalances
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TokenBalances;
+
+        /**
+         * Verifies a TokenBalances message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TokenBalances message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TokenBalances
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TokenBalances;
+
+        /**
+         * Creates a plain object from a TokenBalances message. Also converts values to other types if specified.
+         * @param message TokenBalances
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TokenBalances, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TokenBalances to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TokenBalances
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TokenAssociation. */
+    interface ITokenAssociation {
+
+        /** A token identifier for the associated token. */
+        tokenId?: (proto.ITokenID|null);
+
+        /** An account identifier for the associated account. */
+        accountId?: (proto.IAccountID|null);
+    }
+
+    /**
+     * An association between a token and an account.
+     *
+     * An account must be associated with a token before that account can transact
+     * in (send or receive) that token.
+     */
+    class TokenAssociation implements ITokenAssociation {
+
+        /**
+         * Constructs a new TokenAssociation.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITokenAssociation);
+
+        /** A token identifier for the associated token. */
+        public tokenId?: (proto.ITokenID|null);
+
+        /** An account identifier for the associated account. */
+        public accountId?: (proto.IAccountID|null);
+
+        /**
+         * Creates a new TokenAssociation instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TokenAssociation instance
+         */
+        public static create(properties?: proto.ITokenAssociation): proto.TokenAssociation;
+
+        /**
+         * Encodes the specified TokenAssociation message. Does not implicitly {@link proto.TokenAssociation.verify|verify} messages.
+         * @param message TokenAssociation message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITokenAssociation, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TokenAssociation message, length delimited. Does not implicitly {@link proto.TokenAssociation.verify|verify} messages.
+         * @param message TokenAssociation message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITokenAssociation, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TokenAssociation message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TokenAssociation
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TokenAssociation;
+
+        /**
+         * Decodes a TokenAssociation message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TokenAssociation
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TokenAssociation;
+
+        /**
+         * Verifies a TokenAssociation message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TokenAssociation message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TokenAssociation
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TokenAssociation;
+
+        /**
+         * Creates a plain object from a TokenAssociation message. Also converts values to other types if specified.
+         * @param message TokenAssociation
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TokenAssociation, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TokenAssociation to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TokenAssociation
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a StakingInfo. */
+    interface IStakingInfo {
+
+        /**
+         * A flag indicating that the holder of this account has chosen to decline
+         * staking rewards.
+         */
+        declineReward?: (boolean|null);
+
+        /**
+         * A `Timestamp` of the start time for the latest active staking period.
+         * <p>
+         * This MUST be a period during which either the staking settings for this
+         * account or contract changed or the account or contract received staking
+         * rewards, whichever is later. Examples of a change in staking settings
+         * include starting staking or changing the staked_node_id.<br/>
+         * If this account or contract is not currently staked to a node, then this
+         * field SHALL NOT be set.
+         */
+        stakePeriodStart?: (proto.ITimestamp|null);
+
+        /**
+         * An amount, in tinybar, to be received in the next reward payout.<br/>
+         * Rewards are not paid out immediately; for efficiency reasons rewards are
+         * only paid out as part of another transaction involving that account.
+         */
+        pendingReward?: (number|Long|null);
+
+        /**
+         * A proxy-staked balance.<br/>
+         * The total HBAR balance of all accounts that delegate staking to this
+         * account or contract.
+         */
+        stakedToMe?: (number|Long|null);
+
+        /**
+         * A delegated stake.
+         * <p>
+         * This account delegates to the indicated account for staking purposes.
+         */
+        stakedAccountId?: (proto.IAccountID|null);
+
+        /**
+         * A direct stake.
+         * <p>
+         * This accounts stakes its balance to the designated node.
+         */
+        stakedNodeId?: (number|Long|null);
+    }
+
+    /**
+     * Staking information for an account or a contract.
+     *
+     * This is used for responses returned from `CryptoGetInfo` or
+     * `ContractGetInfo` queries.
+     */
+    class StakingInfo implements IStakingInfo {
+
+        /**
+         * Constructs a new StakingInfo.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IStakingInfo);
+
+        /**
+         * A flag indicating that the holder of this account has chosen to decline
+         * staking rewards.
+         */
+        public declineReward: boolean;
+
+        /**
+         * A `Timestamp` of the start time for the latest active staking period.
+         * <p>
+         * This MUST be a period during which either the staking settings for this
+         * account or contract changed or the account or contract received staking
+         * rewards, whichever is later. Examples of a change in staking settings
+         * include starting staking or changing the staked_node_id.<br/>
+         * If this account or contract is not currently staked to a node, then this
+         * field SHALL NOT be set.
+         */
+        public stakePeriodStart?: (proto.ITimestamp|null);
+
+        /**
+         * An amount, in tinybar, to be received in the next reward payout.<br/>
+         * Rewards are not paid out immediately; for efficiency reasons rewards are
+         * only paid out as part of another transaction involving that account.
+         */
+        public pendingReward: (number|Long);
+
+        /**
+         * A proxy-staked balance.<br/>
+         * The total HBAR balance of all accounts that delegate staking to this
+         * account or contract.
+         */
+        public stakedToMe: (number|Long);
+
+        /**
+         * A delegated stake.
+         * <p>
+         * This account delegates to the indicated account for staking purposes.
+         */
+        public stakedAccountId?: (proto.IAccountID|null);
+
+        /**
+         * A direct stake.
+         * <p>
+         * This accounts stakes its balance to the designated node.
+         */
+        public stakedNodeId?: (number|Long|null);
+
+        /** StakingInfo stakedId. */
+        public stakedId?: ("stakedAccountId"|"stakedNodeId");
+
+        /**
+         * Creates a new StakingInfo instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns StakingInfo instance
+         */
+        public static create(properties?: proto.IStakingInfo): proto.StakingInfo;
+
+        /**
+         * Encodes the specified StakingInfo message. Does not implicitly {@link proto.StakingInfo.verify|verify} messages.
+         * @param message StakingInfo message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IStakingInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified StakingInfo message, length delimited. Does not implicitly {@link proto.StakingInfo.verify|verify} messages.
+         * @param message StakingInfo message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IStakingInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a StakingInfo message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns StakingInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.StakingInfo;
+
+        /**
+         * Decodes a StakingInfo message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns StakingInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.StakingInfo;
+
+        /**
+         * Verifies a StakingInfo message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a StakingInfo message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns StakingInfo
+         */
+        public static fromObject(object: { [k: string]: any }): proto.StakingInfo;
+
+        /**
+         * Creates a plain object from a StakingInfo message. Also converts values to other types if specified.
+         * @param message StakingInfo
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.StakingInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this StakingInfo to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for StakingInfo
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a PendingAirdropId. */
+    interface IPendingAirdropId {
+
+        /**
+         * A sending account.
+         * <p>
+         * This is the account that initiated, and SHALL fund,
+         * this pending airdrop.<br/>
+         * This field is REQUIRED.
+         */
+        senderId?: (proto.IAccountID|null);
+
+        /**
+         * A receiving account.
+         * <p>
+         * This is the ID of the account that SHALL receive the airdrop.<br/>
+         * This field is REQUIRED.
+         */
+        receiverId?: (proto.IAccountID|null);
+
+        /**
+         * A token identifier.<br/>
+         * This is the type of token for a fungible/common token airdrop.
+         * <p>
+         * This field is REQUIRED for a fungible/common token and MUST NOT
+         * be used for a non-fungible/unique token.
+         */
+        fungibleTokenType?: (proto.ITokenID|null);
+
+        /**
+         * The id of a single NFT<br/>
+         * This is the type of token for a non-fungible/unique token airdrop
+         * and consists of a Token ID and serial number.
+         * <p>
+         * This field is REQUIRED for a non-fungible/unique token and
+         * MUST NOT be used for a fungible/common token.
+         */
+        nonFungibleToken?: (proto.INftID|null);
+    }
+
+    /**
+     * A unique, composite, identifier for a pending airdrop.
+     *
+     * Each pending airdrop SHALL be uniquely identified by
+     * a `PendingAirdropId`.<br/>
+     * A `PendingAirdropId` SHALL be recorded when created and MUST be provided in
+     * any transaction that would modify that pending airdrop
+     * (such as a `claimAirdrop` or `cancelAirdrop`).
+     */
+    class PendingAirdropId implements IPendingAirdropId {
+
+        /**
+         * Constructs a new PendingAirdropId.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IPendingAirdropId);
+
+        /**
+         * A sending account.
+         * <p>
+         * This is the account that initiated, and SHALL fund,
+         * this pending airdrop.<br/>
+         * This field is REQUIRED.
+         */
+        public senderId?: (proto.IAccountID|null);
+
+        /**
+         * A receiving account.
+         * <p>
+         * This is the ID of the account that SHALL receive the airdrop.<br/>
+         * This field is REQUIRED.
+         */
+        public receiverId?: (proto.IAccountID|null);
+
+        /**
+         * A token identifier.<br/>
+         * This is the type of token for a fungible/common token airdrop.
+         * <p>
+         * This field is REQUIRED for a fungible/common token and MUST NOT
+         * be used for a non-fungible/unique token.
+         */
+        public fungibleTokenType?: (proto.ITokenID|null);
+
+        /**
+         * The id of a single NFT<br/>
+         * This is the type of token for a non-fungible/unique token airdrop
+         * and consists of a Token ID and serial number.
+         * <p>
+         * This field is REQUIRED for a non-fungible/unique token and
+         * MUST NOT be used for a fungible/common token.
+         */
+        public nonFungibleToken?: (proto.INftID|null);
+
+        /** PendingAirdropId tokenReference. */
+        public tokenReference?: ("fungibleTokenType"|"nonFungibleToken");
+
+        /**
+         * Creates a new PendingAirdropId instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns PendingAirdropId instance
+         */
+        public static create(properties?: proto.IPendingAirdropId): proto.PendingAirdropId;
+
+        /**
+         * Encodes the specified PendingAirdropId message. Does not implicitly {@link proto.PendingAirdropId.verify|verify} messages.
+         * @param message PendingAirdropId message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IPendingAirdropId, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified PendingAirdropId message, length delimited. Does not implicitly {@link proto.PendingAirdropId.verify|verify} messages.
+         * @param message PendingAirdropId message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IPendingAirdropId, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a PendingAirdropId message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns PendingAirdropId
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.PendingAirdropId;
+
+        /**
+         * Decodes a PendingAirdropId message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns PendingAirdropId
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.PendingAirdropId;
+
+        /**
+         * Verifies a PendingAirdropId message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a PendingAirdropId message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns PendingAirdropId
+         */
+        public static fromObject(object: { [k: string]: any }): proto.PendingAirdropId;
+
+        /**
+         * Creates a plain object from a PendingAirdropId message. Also converts values to other types if specified.
+         * @param message PendingAirdropId
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.PendingAirdropId, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this PendingAirdropId to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for PendingAirdropId
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a PendingAirdropValue. */
+    interface IPendingAirdropValue {
+
+        /**
+         * An amount to transfer for fungible/common tokens.<br/>
+         * This is expressed in the smallest available units for that token
+         * (i.e. 10<sup>-`decimals`</sup> whole tokens).
+         * <p>
+         * This amount SHALL be transferred from the sender to the receiver,
+         * if claimed.<br/>
+         * If the token is a fungible/common token, this value MUST be strictly
+         * greater than `0`.<br/>
+         * If the token is a non-fungible/unique token, this message SHOULD NOT
+         * be set, and if set, this field MUST be `0`.
+         */
+        amount?: (number|Long|null);
+    }
+
+    /**
+     * A single pending airdrop value.
+     *
+     * This message SHALL record the airdrop amount for a
+     * fungible/common token.<br/>
+     * This message SHOULD be null for a non-fungible/unique token.<br/>
+     * If a non-null `PendingAirdropValue` is set for a non-fungible/unique
+     * token, the amount field MUST be `0`.
+     *
+     * It is RECOMMENDED that implementations store pending airdrop information
+     * as a key-value map from `PendingAirdropId` to `PendingAirdropValue`, with
+     * a `null` value used for non-fungible pending airdrops.
+     */
+    class PendingAirdropValue implements IPendingAirdropValue {
+
+        /**
+         * Constructs a new PendingAirdropValue.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IPendingAirdropValue);
+
+        /**
+         * An amount to transfer for fungible/common tokens.<br/>
+         * This is expressed in the smallest available units for that token
+         * (i.e. 10<sup>-`decimals`</sup> whole tokens).
+         * <p>
+         * This amount SHALL be transferred from the sender to the receiver,
+         * if claimed.<br/>
+         * If the token is a fungible/common token, this value MUST be strictly
+         * greater than `0`.<br/>
+         * If the token is a non-fungible/unique token, this message SHOULD NOT
+         * be set, and if set, this field MUST be `0`.
+         */
+        public amount: (number|Long);
+
+        /**
+         * Creates a new PendingAirdropValue instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns PendingAirdropValue instance
+         */
+        public static create(properties?: proto.IPendingAirdropValue): proto.PendingAirdropValue;
+
+        /**
+         * Encodes the specified PendingAirdropValue message. Does not implicitly {@link proto.PendingAirdropValue.verify|verify} messages.
+         * @param message PendingAirdropValue message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IPendingAirdropValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified PendingAirdropValue message, length delimited. Does not implicitly {@link proto.PendingAirdropValue.verify|verify} messages.
+         * @param message PendingAirdropValue message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IPendingAirdropValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a PendingAirdropValue message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns PendingAirdropValue
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.PendingAirdropValue;
+
+        /**
+         * Decodes a PendingAirdropValue message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns PendingAirdropValue
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.PendingAirdropValue;
+
+        /**
+         * Verifies a PendingAirdropValue message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a PendingAirdropValue message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns PendingAirdropValue
+         */
+        public static fromObject(object: { [k: string]: any }): proto.PendingAirdropValue;
+
+        /**
+         * Creates a plain object from a PendingAirdropValue message. Also converts values to other types if specified.
+         * @param message PendingAirdropValue
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.PendingAirdropValue, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this PendingAirdropValue to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for PendingAirdropValue
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a Timestamp. */
+    interface ITimestamp {
+
+        /**
+         * The number of complete seconds since the start of the epoch.
+         * <p>
+         * For this purpose, `epoch` SHALL be the UNIX epoch with 0
+         * at `1970-01-01T00:00:00.000Z`.<br/>
+         * This value MUST be greater than 0.<br/>
+         * This value SHOULD be strictly greater than `946684800`.
+         */
+        seconds?: (number|Long|null);
+
+        /**
+         * The number of nanoseconds after the start of the second referenced
+         * in `seconds`.
+         * <p>
+         * This value MUST be greater than or equal to 0.<br/>
+         * This value MUST be strictly less than 1,000,000,000.
+         */
+        nanos?: (number|null);
+    }
+
+    /**
+     * An exact date and time.<br/>
+     * This is the same data structure as the Google protobuf Timestamp.proto.
+     *
+     * #### Additional Notes
+     * Useful information is present in comments on the
+     * [Google version](https://github.com/google/protobuf/blob/master/src/google/protobuf/timestamp.proto).
+     */
+    class Timestamp implements ITimestamp {
+
+        /**
+         * Constructs a new Timestamp.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITimestamp);
+
+        /**
+         * The number of complete seconds since the start of the epoch.
+         * <p>
+         * For this purpose, `epoch` SHALL be the UNIX epoch with 0
+         * at `1970-01-01T00:00:00.000Z`.<br/>
+         * This value MUST be greater than 0.<br/>
+         * This value SHOULD be strictly greater than `946684800`.
+         */
+        public seconds: (number|Long);
+
+        /**
+         * The number of nanoseconds after the start of the second referenced
+         * in `seconds`.
+         * <p>
+         * This value MUST be greater than or equal to 0.<br/>
+         * This value MUST be strictly less than 1,000,000,000.
+         */
+        public nanos: number;
+
+        /**
+         * Creates a new Timestamp instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Timestamp instance
+         */
+        public static create(properties?: proto.ITimestamp): proto.Timestamp;
+
+        /**
+         * Encodes the specified Timestamp message. Does not implicitly {@link proto.Timestamp.verify|verify} messages.
+         * @param message Timestamp message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITimestamp, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Timestamp message, length delimited. Does not implicitly {@link proto.Timestamp.verify|verify} messages.
+         * @param message Timestamp message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITimestamp, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Timestamp message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Timestamp
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Timestamp;
+
+        /**
+         * Decodes a Timestamp message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Timestamp
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Timestamp;
+
+        /**
+         * Verifies a Timestamp message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Timestamp message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Timestamp
+         */
+        public static fromObject(object: { [k: string]: any }): proto.Timestamp;
+
+        /**
+         * Creates a plain object from a Timestamp message. Also converts values to other types if specified.
+         * @param message Timestamp
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.Timestamp, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Timestamp to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for Timestamp
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a TimestampSeconds. */
+    interface ITimestampSeconds {
+
+        /**
+         * The number of complete seconds since the start of the epoch.
+         * <p>
+         * For this purpose, `epoch` SHALL be the UNIX epoch with 0
+         * at `1970-01-01T00:00:00.000Z`.<br/>
+         * This value MUST be greater than 0.<br/>
+         * This value SHOULD be strictly greater than `946684800`.
+         */
+        seconds?: (number|Long|null);
+    }
+
+    /** An exact date and time, with a resolution of one second. */
+    class TimestampSeconds implements ITimestampSeconds {
+
+        /**
+         * Constructs a new TimestampSeconds.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.ITimestampSeconds);
+
+        /**
+         * The number of complete seconds since the start of the epoch.
+         * <p>
+         * For this purpose, `epoch` SHALL be the UNIX epoch with 0
+         * at `1970-01-01T00:00:00.000Z`.<br/>
+         * This value MUST be greater than 0.<br/>
+         * This value SHOULD be strictly greater than `946684800`.
+         */
+        public seconds: (number|Long);
+
+        /**
+         * Creates a new TimestampSeconds instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns TimestampSeconds instance
+         */
+        public static create(properties?: proto.ITimestampSeconds): proto.TimestampSeconds;
+
+        /**
+         * Encodes the specified TimestampSeconds message. Does not implicitly {@link proto.TimestampSeconds.verify|verify} messages.
+         * @param message TimestampSeconds message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.ITimestampSeconds, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified TimestampSeconds message, length delimited. Does not implicitly {@link proto.TimestampSeconds.verify|verify} messages.
+         * @param message TimestampSeconds message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.ITimestampSeconds, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a TimestampSeconds message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns TimestampSeconds
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.TimestampSeconds;
+
+        /**
+         * Decodes a TimestampSeconds message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns TimestampSeconds
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.TimestampSeconds;
+
+        /**
+         * Verifies a TimestampSeconds message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a TimestampSeconds message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns TimestampSeconds
+         */
+        public static fromObject(object: { [k: string]: any }): proto.TimestampSeconds;
+
+        /**
+         * Creates a plain object from a TimestampSeconds message. Also converts values to other types if specified.
+         * @param message TimestampSeconds
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.TimestampSeconds, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this TimestampSeconds to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for TimestampSeconds
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** Properties of a Duration. */
+    interface IDuration {
+
+        /** The number of seconds for this duration. */
+        seconds?: (number|Long|null);
+    }
+
+    /**
+     * A length of time in seconds.
+     *
+     * It is RECOMMENDED that this message be used whenever an amount of time,
+     * rather than a specific point in time, is needed.
+     */
+    class Duration implements IDuration {
+
+        /**
+         * Constructs a new Duration.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: proto.IDuration);
+
+        /** The number of seconds for this duration. */
+        public seconds: (number|Long);
+
+        /**
+         * Creates a new Duration instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Duration instance
+         */
+        public static create(properties?: proto.IDuration): proto.Duration;
+
+        /**
+         * Encodes the specified Duration message. Does not implicitly {@link proto.Duration.verify|verify} messages.
+         * @param message Duration message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: proto.IDuration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Duration message, length delimited. Does not implicitly {@link proto.Duration.verify|verify} messages.
+         * @param message Duration message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: proto.IDuration, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Duration message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Duration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Duration;
+
+        /**
+         * Decodes a Duration message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Duration
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Duration;
+
+        /**
+         * Verifies a Duration message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Duration message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Duration
+         */
+        public static fromObject(object: { [k: string]: any }): proto.Duration;
+
+        /**
+         * Creates a plain object from a Duration message. Also converts values to other types if specified.
+         * @param message Duration
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: proto.Duration, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Duration to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for Duration
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
+    /** An enumeration of possible response codes. */
+    enum ResponseCodeEnum {
+        OK = 0,
+        INVALID_TRANSACTION = 1,
+        PAYER_ACCOUNT_NOT_FOUND = 2,
+        INVALID_NODE_ACCOUNT = 3,
+        TRANSACTION_EXPIRED = 4,
+        INVALID_TRANSACTION_START = 5,
+        INVALID_TRANSACTION_DURATION = 6,
+        INVALID_SIGNATURE = 7,
+        MEMO_TOO_LONG = 8,
+        INSUFFICIENT_TX_FEE = 9,
+        INSUFFICIENT_PAYER_BALANCE = 10,
+        DUPLICATE_TRANSACTION = 11,
+        BUSY = 12,
+        NOT_SUPPORTED = 13,
+        INVALID_FILE_ID = 14,
+        INVALID_ACCOUNT_ID = 15,
+        INVALID_CONTRACT_ID = 16,
+        INVALID_TRANSACTION_ID = 17,
+        RECEIPT_NOT_FOUND = 18,
+        RECORD_NOT_FOUND = 19,
+        INVALID_SOLIDITY_ID = 20,
+        UNKNOWN = 21,
+        SUCCESS = 22,
+        FAIL_INVALID = 23,
+        FAIL_FEE = 24,
+        FAIL_BALANCE = 25,
+        KEY_REQUIRED = 26,
+        BAD_ENCODING = 27,
+        INSUFFICIENT_ACCOUNT_BALANCE = 28,
+        INVALID_SOLIDITY_ADDRESS = 29,
+        INSUFFICIENT_GAS = 30,
+        CONTRACT_SIZE_LIMIT_EXCEEDED = 31,
+        LOCAL_CALL_MODIFICATION_EXCEPTION = 32,
+        CONTRACT_REVERT_EXECUTED = 33,
+        CONTRACT_EXECUTION_EXCEPTION = 34,
+        INVALID_RECEIVING_NODE_ACCOUNT = 35,
+        MISSING_QUERY_HEADER = 36,
+        ACCOUNT_UPDATE_FAILED = 37,
+        INVALID_KEY_ENCODING = 38,
+        NULL_SOLIDITY_ADDRESS = 39,
+        CONTRACT_UPDATE_FAILED = 40,
+        INVALID_QUERY_HEADER = 41,
+        INVALID_FEE_SUBMITTED = 42,
+        INVALID_PAYER_SIGNATURE = 43,
+        KEY_NOT_PROVIDED = 44,
+        INVALID_EXPIRATION_TIME = 45,
+        NO_WACL_KEY = 46,
+        FILE_CONTENT_EMPTY = 47,
+        INVALID_ACCOUNT_AMOUNTS = 48,
+        EMPTY_TRANSACTION_BODY = 49,
+        INVALID_TRANSACTION_BODY = 50,
+        INVALID_SIGNATURE_TYPE_MISMATCHING_KEY = 51,
+        INVALID_SIGNATURE_COUNT_MISMATCHING_KEY = 52,
+        EMPTY_LIVE_HASH_BODY = 53,
+        EMPTY_LIVE_HASH = 54,
+        EMPTY_LIVE_HASH_KEYS = 55,
+        INVALID_LIVE_HASH_SIZE = 56,
+        EMPTY_QUERY_BODY = 57,
+        EMPTY_LIVE_HASH_QUERY = 58,
+        LIVE_HASH_NOT_FOUND = 59,
+        ACCOUNT_ID_DOES_NOT_EXIST = 60,
+        LIVE_HASH_ALREADY_EXISTS = 61,
+        INVALID_FILE_WACL = 62,
+        SERIALIZATION_FAILED = 63,
+        TRANSACTION_OVERSIZE = 64,
+        TRANSACTION_TOO_MANY_LAYERS = 65,
+        CONTRACT_DELETED = 66,
+        PLATFORM_NOT_ACTIVE = 67,
+        KEY_PREFIX_MISMATCH = 68,
+        PLATFORM_TRANSACTION_NOT_CREATED = 69,
+        INVALID_RENEWAL_PERIOD = 70,
+        INVALID_PAYER_ACCOUNT_ID = 71,
+        ACCOUNT_DELETED = 72,
+        FILE_DELETED = 73,
+        ACCOUNT_REPEATED_IN_ACCOUNT_AMOUNTS = 74,
+        SETTING_NEGATIVE_ACCOUNT_BALANCE = 75,
+        OBTAINER_REQUIRED = 76,
+        OBTAINER_SAME_CONTRACT_ID = 77,
+        OBTAINER_DOES_NOT_EXIST = 78,
+        MODIFYING_IMMUTABLE_CONTRACT = 79,
+        FILE_SYSTEM_EXCEPTION = 80,
+        AUTORENEW_DURATION_NOT_IN_RANGE = 81,
+        ERROR_DECODING_BYTESTRING = 82,
+        CONTRACT_FILE_EMPTY = 83,
+        CONTRACT_BYTECODE_EMPTY = 84,
+        INVALID_INITIAL_BALANCE = 85,
+        INVALID_RECEIVE_RECORD_THRESHOLD = 86,
+        INVALID_SEND_RECORD_THRESHOLD = 87,
+        ACCOUNT_IS_NOT_GENESIS_ACCOUNT = 88,
+        PAYER_ACCOUNT_UNAUTHORIZED = 89,
+        INVALID_FREEZE_TRANSACTION_BODY = 90,
+        FREEZE_TRANSACTION_BODY_NOT_FOUND = 91,
+        TRANSFER_LIST_SIZE_LIMIT_EXCEEDED = 92,
+        RESULT_SIZE_LIMIT_EXCEEDED = 93,
+        NOT_SPECIAL_ACCOUNT = 94,
+        CONTRACT_NEGATIVE_GAS = 95,
+        CONTRACT_NEGATIVE_VALUE = 96,
+        INVALID_FEE_FILE = 97,
+        INVALID_EXCHANGE_RATE_FILE = 98,
+        INSUFFICIENT_LOCAL_CALL_GAS = 99,
+        ENTITY_NOT_ALLOWED_TO_DELETE = 100,
+        AUTHORIZATION_FAILED = 101,
+        FILE_UPLOADED_PROTO_INVALID = 102,
+        FILE_UPLOADED_PROTO_NOT_SAVED_TO_DISK = 103,
+        FEE_SCHEDULE_FILE_PART_UPLOADED = 104,
+        EXCHANGE_RATE_CHANGE_LIMIT_EXCEEDED = 105,
+        MAX_CONTRACT_STORAGE_EXCEEDED = 106,
+        TRANSFER_ACCOUNT_SAME_AS_DELETE_ACCOUNT = 107,
+        TOTAL_LEDGER_BALANCE_INVALID = 108,
+        EXPIRATION_REDUCTION_NOT_ALLOWED = 110,
+        MAX_GAS_LIMIT_EXCEEDED = 111,
+        MAX_FILE_SIZE_EXCEEDED = 112,
+        RECEIVER_SIG_REQUIRED = 113,
+        INVALID_TOPIC_ID = 150,
+        INVALID_ADMIN_KEY = 155,
+        INVALID_SUBMIT_KEY = 156,
+        UNAUTHORIZED = 157,
+        INVALID_TOPIC_MESSAGE = 158,
+        INVALID_AUTORENEW_ACCOUNT = 159,
+        AUTORENEW_ACCOUNT_NOT_ALLOWED = 160,
+        TOPIC_EXPIRED = 162,
+        INVALID_CHUNK_NUMBER = 163,
+        INVALID_CHUNK_TRANSACTION_ID = 164,
+        ACCOUNT_FROZEN_FOR_TOKEN = 165,
+        TOKENS_PER_ACCOUNT_LIMIT_EXCEEDED = 166,
+        INVALID_TOKEN_ID = 167,
+        INVALID_TOKEN_DECIMALS = 168,
+        INVALID_TOKEN_INITIAL_SUPPLY = 169,
+        INVALID_TREASURY_ACCOUNT_FOR_TOKEN = 170,
+        INVALID_TOKEN_SYMBOL = 171,
+        TOKEN_HAS_NO_FREEZE_KEY = 172,
+        TRANSFERS_NOT_ZERO_SUM_FOR_TOKEN = 173,
+        MISSING_TOKEN_SYMBOL = 174,
+        TOKEN_SYMBOL_TOO_LONG = 175,
+        ACCOUNT_KYC_NOT_GRANTED_FOR_TOKEN = 176,
+        TOKEN_HAS_NO_KYC_KEY = 177,
+        INSUFFICIENT_TOKEN_BALANCE = 178,
+        TOKEN_WAS_DELETED = 179,
+        TOKEN_HAS_NO_SUPPLY_KEY = 180,
+        TOKEN_HAS_NO_WIPE_KEY = 181,
+        INVALID_TOKEN_MINT_AMOUNT = 182,
+        INVALID_TOKEN_BURN_AMOUNT = 183,
+        TOKEN_NOT_ASSOCIATED_TO_ACCOUNT = 184,
+        CANNOT_WIPE_TOKEN_TREASURY_ACCOUNT = 185,
+        INVALID_KYC_KEY = 186,
+        INVALID_WIPE_KEY = 187,
+        INVALID_FREEZE_KEY = 188,
+        INVALID_SUPPLY_KEY = 189,
+        MISSING_TOKEN_NAME = 190,
+        TOKEN_NAME_TOO_LONG = 191,
+        INVALID_WIPING_AMOUNT = 192,
+        TOKEN_IS_IMMUTABLE = 193,
+        TOKEN_ALREADY_ASSOCIATED_TO_ACCOUNT = 194,
+        TRANSACTION_REQUIRES_ZERO_TOKEN_BALANCES = 195,
+        ACCOUNT_IS_TREASURY = 196,
+        TOKEN_ID_REPEATED_IN_TOKEN_LIST = 197,
+        TOKEN_TRANSFER_LIST_SIZE_LIMIT_EXCEEDED = 198,
+        EMPTY_TOKEN_TRANSFER_BODY = 199,
+        EMPTY_TOKEN_TRANSFER_ACCOUNT_AMOUNTS = 200,
+        INVALID_SCHEDULE_ID = 201,
+        SCHEDULE_IS_IMMUTABLE = 202,
+        INVALID_SCHEDULE_PAYER_ID = 203,
+        INVALID_SCHEDULE_ACCOUNT_ID = 204,
+        NO_NEW_VALID_SIGNATURES = 205,
+        UNRESOLVABLE_REQUIRED_SIGNERS = 206,
+        SCHEDULED_TRANSACTION_NOT_IN_WHITELIST = 207,
+        SOME_SIGNATURES_WERE_INVALID = 208,
+        TRANSACTION_ID_FIELD_NOT_ALLOWED = 209,
+        IDENTICAL_SCHEDULE_ALREADY_CREATED = 210,
+        INVALID_ZERO_BYTE_IN_STRING = 211,
+        SCHEDULE_ALREADY_DELETED = 212,
+        SCHEDULE_ALREADY_EXECUTED = 213,
+        MESSAGE_SIZE_TOO_LARGE = 214,
+        OPERATION_REPEATED_IN_BUCKET_GROUPS = 215,
+        BUCKET_CAPACITY_OVERFLOW = 216,
+        NODE_CAPACITY_NOT_SUFFICIENT_FOR_OPERATION = 217,
+        BUCKET_HAS_NO_THROTTLE_GROUPS = 218,
+        THROTTLE_GROUP_HAS_ZERO_OPS_PER_SEC = 219,
+        SUCCESS_BUT_MISSING_EXPECTED_OPERATION = 220,
+        UNPARSEABLE_THROTTLE_DEFINITIONS = 221,
+        INVALID_THROTTLE_DEFINITIONS = 222,
+        ACCOUNT_EXPIRED_AND_PENDING_REMOVAL = 223,
+        INVALID_TOKEN_MAX_SUPPLY = 224,
+        INVALID_TOKEN_NFT_SERIAL_NUMBER = 225,
+        INVALID_NFT_ID = 226,
+        METADATA_TOO_LONG = 227,
+        BATCH_SIZE_LIMIT_EXCEEDED = 228,
+        INVALID_QUERY_RANGE = 229,
+        FRACTION_DIVIDES_BY_ZERO = 230,
+        INSUFFICIENT_PAYER_BALANCE_FOR_CUSTOM_FEE = 231,
+        CUSTOM_FEES_LIST_TOO_LONG = 232,
+        INVALID_CUSTOM_FEE_COLLECTOR = 233,
+        INVALID_TOKEN_ID_IN_CUSTOM_FEES = 234,
+        TOKEN_NOT_ASSOCIATED_TO_FEE_COLLECTOR = 235,
+        TOKEN_MAX_SUPPLY_REACHED = 236,
+        SENDER_DOES_NOT_OWN_NFT_SERIAL_NO = 237,
+        CUSTOM_FEE_NOT_FULLY_SPECIFIED = 238,
+        CUSTOM_FEE_MUST_BE_POSITIVE = 239,
+        TOKEN_HAS_NO_FEE_SCHEDULE_KEY = 240,
+        CUSTOM_FEE_OUTSIDE_NUMERIC_RANGE = 241,
+        ROYALTY_FRACTION_CANNOT_EXCEED_ONE = 242,
+        FRACTIONAL_FEE_MAX_AMOUNT_LESS_THAN_MIN_AMOUNT = 243,
+        CUSTOM_SCHEDULE_ALREADY_HAS_NO_FEES = 244,
+        CUSTOM_FEE_DENOMINATION_MUST_BE_FUNGIBLE_COMMON = 245,
+        CUSTOM_FRACTIONAL_FEE_ONLY_ALLOWED_FOR_FUNGIBLE_COMMON = 246,
+        INVALID_CUSTOM_FEE_SCHEDULE_KEY = 247,
+        INVALID_TOKEN_MINT_METADATA = 248,
+        INVALID_TOKEN_BURN_METADATA = 249,
+        CURRENT_TREASURY_STILL_OWNS_NFTS = 250,
+        ACCOUNT_STILL_OWNS_NFTS = 251,
+        TREASURY_MUST_OWN_BURNED_NFT = 252,
+        ACCOUNT_DOES_NOT_OWN_WIPED_NFT = 253,
+        ACCOUNT_AMOUNT_TRANSFERS_ONLY_ALLOWED_FOR_FUNGIBLE_COMMON = 254,
+        MAX_NFTS_IN_PRICE_REGIME_HAVE_BEEN_MINTED = 255,
+        PAYER_ACCOUNT_DELETED = 256,
+        CUSTOM_FEE_CHARGING_EXCEEDED_MAX_RECURSION_DEPTH = 257,
+        CUSTOM_FEE_CHARGING_EXCEEDED_MAX_ACCOUNT_AMOUNTS = 258,
+        INSUFFICIENT_SENDER_ACCOUNT_BALANCE_FOR_CUSTOM_FEE = 259,
+        SERIAL_NUMBER_LIMIT_REACHED = 260,
+        CUSTOM_ROYALTY_FEE_ONLY_ALLOWED_FOR_NON_FUNGIBLE_UNIQUE = 261,
+        NO_REMAINING_AUTOMATIC_ASSOCIATIONS = 262,
+        EXISTING_AUTOMATIC_ASSOCIATIONS_EXCEED_GIVEN_LIMIT = 263,
+        REQUESTED_NUM_AUTOMATIC_ASSOCIATIONS_EXCEEDS_ASSOCIATION_LIMIT = 264,
+        TOKEN_IS_PAUSED = 265,
+        TOKEN_HAS_NO_PAUSE_KEY = 266,
+        INVALID_PAUSE_KEY = 267,
+        FREEZE_UPDATE_FILE_DOES_NOT_EXIST = 268,
+        FREEZE_UPDATE_FILE_HASH_DOES_NOT_MATCH = 269,
+        NO_UPGRADE_HAS_BEEN_PREPARED = 270,
+        NO_FREEZE_IS_SCHEDULED = 271,
+        UPDATE_FILE_HASH_CHANGED_SINCE_PREPARE_UPGRADE = 272,
+        FREEZE_START_TIME_MUST_BE_FUTURE = 273,
+        PREPARED_UPDATE_FILE_IS_IMMUTABLE = 274,
+        FREEZE_ALREADY_SCHEDULED = 275,
+        FREEZE_UPGRADE_IN_PROGRESS = 276,
+        UPDATE_FILE_ID_DOES_NOT_MATCH_PREPARED = 277,
+        UPDATE_FILE_HASH_DOES_NOT_MATCH_PREPARED = 278,
+        CONSENSUS_GAS_EXHAUSTED = 279,
+        REVERTED_SUCCESS = 280,
+        MAX_STORAGE_IN_PRICE_REGIME_HAS_BEEN_USED = 281,
+        INVALID_ALIAS_KEY = 282,
+        UNEXPECTED_TOKEN_DECIMALS = 283,
+        INVALID_PROXY_ACCOUNT_ID = 284,
+        INVALID_TRANSFER_ACCOUNT_ID = 285,
+        INVALID_FEE_COLLECTOR_ACCOUNT_ID = 286,
+        ALIAS_IS_IMMUTABLE = 287,
+        SPENDER_ACCOUNT_SAME_AS_OWNER = 288,
+        AMOUNT_EXCEEDS_TOKEN_MAX_SUPPLY = 289,
+        NEGATIVE_ALLOWANCE_AMOUNT = 290,
+        CANNOT_APPROVE_FOR_ALL_FUNGIBLE_COMMON = 291,
+        SPENDER_DOES_NOT_HAVE_ALLOWANCE = 292,
+        AMOUNT_EXCEEDS_ALLOWANCE = 293,
+        MAX_ALLOWANCES_EXCEEDED = 294,
+        EMPTY_ALLOWANCES = 295,
+        SPENDER_ACCOUNT_REPEATED_IN_ALLOWANCES = 296,
+        REPEATED_SERIAL_NUMS_IN_NFT_ALLOWANCES = 297,
+        FUNGIBLE_TOKEN_IN_NFT_ALLOWANCES = 298,
+        NFT_IN_FUNGIBLE_TOKEN_ALLOWANCES = 299,
+        INVALID_ALLOWANCE_OWNER_ID = 300,
+        INVALID_ALLOWANCE_SPENDER_ID = 301,
+        REPEATED_ALLOWANCES_TO_DELETE = 302,
+        INVALID_DELEGATING_SPENDER = 303,
+        DELEGATING_SPENDER_CANNOT_GRANT_APPROVE_FOR_ALL = 304,
+        DELEGATING_SPENDER_DOES_NOT_HAVE_APPROVE_FOR_ALL = 305,
+        SCHEDULE_EXPIRATION_TIME_TOO_FAR_IN_FUTURE = 306,
+        SCHEDULE_EXPIRATION_TIME_MUST_BE_HIGHER_THAN_CONSENSUS_TIME = 307,
+        SCHEDULE_FUTURE_THROTTLE_EXCEEDED = 308,
+        SCHEDULE_FUTURE_GAS_LIMIT_EXCEEDED = 309,
+        INVALID_ETHEREUM_TRANSACTION = 310,
+        WRONG_CHAIN_ID = 311,
+        WRONG_NONCE = 312,
+        ACCESS_LIST_UNSUPPORTED = 313,
+        SCHEDULE_PENDING_EXPIRATION = 314,
+        CONTRACT_IS_TOKEN_TREASURY = 315,
+        CONTRACT_HAS_NON_ZERO_TOKEN_BALANCES = 316,
+        CONTRACT_EXPIRED_AND_PENDING_REMOVAL = 317,
+        CONTRACT_HAS_NO_AUTO_RENEW_ACCOUNT = 318,
+        PERMANENT_REMOVAL_REQUIRES_SYSTEM_INITIATION = 319,
+        PROXY_ACCOUNT_ID_FIELD_IS_DEPRECATED = 320,
+        SELF_STAKING_IS_NOT_ALLOWED = 321,
+        INVALID_STAKING_ID = 322,
+        STAKING_NOT_ENABLED = 323,
+        INVALID_PRNG_RANGE = 324,
+        MAX_ENTITIES_IN_PRICE_REGIME_HAVE_BEEN_CREATED = 325,
+        INVALID_FULL_PREFIX_SIGNATURE_FOR_PRECOMPILE = 326,
+        INSUFFICIENT_BALANCES_FOR_STORAGE_RENT = 327,
+        MAX_CHILD_RECORDS_EXCEEDED = 328,
+        INSUFFICIENT_BALANCES_FOR_RENEWAL_FEES = 329,
+        TRANSACTION_HAS_UNKNOWN_FIELDS = 330,
+        ACCOUNT_IS_IMMUTABLE = 331,
+        ALIAS_ALREADY_ASSIGNED = 332,
+        INVALID_METADATA_KEY = 333,
+        TOKEN_HAS_NO_METADATA_KEY = 334,
+        MISSING_TOKEN_METADATA = 335,
+        MISSING_SERIAL_NUMBERS = 336,
+        TOKEN_HAS_NO_ADMIN_KEY = 337,
+        NODE_DELETED = 338,
+        INVALID_NODE_ID = 339,
+        INVALID_GOSSIP_ENDPOINT = 340,
+        INVALID_NODE_ACCOUNT_ID = 341,
+        INVALID_NODE_DESCRIPTION = 342,
+        INVALID_SERVICE_ENDPOINT = 343,
+        INVALID_GOSSIP_CA_CERTIFICATE = 344,
+        INVALID_GRPC_CERTIFICATE = 345,
+        INVALID_MAX_AUTO_ASSOCIATIONS = 346,
+        MAX_NODES_CREATED = 347,
+        IP_FQDN_CANNOT_BE_SET_FOR_SAME_ENDPOINT = 348,
+        GOSSIP_ENDPOINT_CANNOT_HAVE_FQDN = 349,
+        FQDN_SIZE_TOO_LARGE = 350,
+        INVALID_ENDPOINT = 351,
+        GOSSIP_ENDPOINTS_EXCEEDED_LIMIT = 352,
+        TOKEN_REFERENCE_REPEATED = 353,
+        INVALID_OWNER_ID = 354,
+        TOKEN_REFERENCE_LIST_SIZE_LIMIT_EXCEEDED = 355,
+        SERVICE_ENDPOINTS_EXCEEDED_LIMIT = 356,
+        INVALID_IPV4_ADDRESS = 357,
+        EMPTY_TOKEN_REFERENCE_LIST = 358,
+        UPDATE_NODE_ACCOUNT_NOT_ALLOWED = 359,
+        TOKEN_HAS_NO_METADATA_OR_SUPPLY_KEY = 360,
+        EMPTY_PENDING_AIRDROP_ID_LIST = 361,
+        PENDING_AIRDROP_ID_REPEATED = 362,
+        PENDING_AIRDROP_ID_LIST_TOO_LONG = 363,
+        PENDING_NFT_AIRDROP_ALREADY_EXISTS = 364,
+        ACCOUNT_HAS_PENDING_AIRDROPS = 365,
+        THROTTLED_AT_CONSENSUS = 366,
+        INVALID_PENDING_AIRDROP_ID = 367,
+        TOKEN_AIRDROP_WITH_FALLBACK_ROYALTY = 368,
+        INVALID_TOKEN_IN_PENDING_AIRDROP = 369,
+        SCHEDULE_EXPIRY_IS_BUSY = 370,
+        INVALID_GRPC_CERTIFICATE_HASH = 371,
+        MISSING_EXPIRY_TIME = 372,
+        NO_SCHEDULING_ALLOWED_AFTER_SCHEDULED_RECURSION = 373,
+        RECURSIVE_SCHEDULING_LIMIT_REACHED = 374,
+        WAITING_FOR_LEDGER_ID = 375,
+        MAX_ENTRIES_FOR_FEE_EXEMPT_KEY_LIST_EXCEEDED = 376,
+        FEE_EXEMPT_KEY_LIST_CONTAINS_DUPLICATED_KEYS = 377,
+        INVALID_KEY_IN_FEE_EXEMPT_KEY_LIST = 378,
+        INVALID_FEE_SCHEDULE_KEY = 379,
+        FEE_SCHEDULE_KEY_CANNOT_BE_UPDATED = 380,
+        FEE_SCHEDULE_KEY_NOT_SET = 381,
+        MAX_CUSTOM_FEE_LIMIT_EXCEEDED = 382,
+        NO_VALID_MAX_CUSTOM_FEE = 383,
+        INVALID_MAX_CUSTOM_FEES = 384,
+        DUPLICATE_DENOMINATION_IN_MAX_CUSTOM_FEE_LIST = 385,
+        DUPLICATE_ACCOUNT_ID_IN_MAX_CUSTOM_FEE_LIST = 386,
+        MAX_CUSTOM_FEES_IS_NOT_SUPPORTED = 387,
+        BATCH_LIST_EMPTY = 388,
+        BATCH_LIST_CONTAINS_DUPLICATES = 389,
+        BATCH_TRANSACTION_IN_BLACKLIST = 390,
+        INNER_TRANSACTION_FAILED = 391,
+        MISSING_BATCH_KEY = 392,
+        BATCH_KEY_SET_ON_NON_INNER_TRANSACTION = 393,
+        INVALID_BATCH_KEY = 394,
+        SCHEDULE_EXPIRY_NOT_CONFIGURABLE = 395,
+        CREATING_SYSTEM_ENTITIES = 396,
+        THROTTLE_GROUP_LCM_OVERFLOW = 397,
+        AIRDROP_CONTAINS_MULTIPLE_SENDERS_FOR_A_TOKEN = 398,
+        GRPC_WEB_PROXY_NOT_SUPPORTED = 399,
+        NFT_TRANSFERS_ONLY_ALLOWED_FOR_NON_FUNGIBLE_UNIQUE = 400
+    }
+}
+
+/** Namespace google. */
+export namespace google {
+
+    /** Namespace protobuf. */
+    namespace protobuf {
+
+        /** Properties of a DoubleValue. */
+        interface IDoubleValue {
+
+            /** DoubleValue value */
+            value?: (number|null);
+        }
+
+        /** Represents a DoubleValue. */
+        class DoubleValue implements IDoubleValue {
+
+            /**
+             * Constructs a new DoubleValue.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IDoubleValue);
+
+            /** DoubleValue value. */
+            public value: number;
+
+            /**
+             * Creates a new DoubleValue instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns DoubleValue instance
+             */
+            public static create(properties?: google.protobuf.IDoubleValue): google.protobuf.DoubleValue;
+
+            /**
+             * Encodes the specified DoubleValue message. Does not implicitly {@link google.protobuf.DoubleValue.verify|verify} messages.
+             * @param message DoubleValue message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IDoubleValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified DoubleValue message, length delimited. Does not implicitly {@link google.protobuf.DoubleValue.verify|verify} messages.
+             * @param message DoubleValue message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IDoubleValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a DoubleValue message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns DoubleValue
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.DoubleValue;
+
+            /**
+             * Decodes a DoubleValue message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns DoubleValue
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.DoubleValue;
+
+            /**
+             * Verifies a DoubleValue message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a DoubleValue message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns DoubleValue
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.DoubleValue;
+
+            /**
+             * Creates a plain object from a DoubleValue message. Also converts values to other types if specified.
+             * @param message DoubleValue
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.DoubleValue, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this DoubleValue to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for DoubleValue
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a FloatValue. */
+        interface IFloatValue {
+
+            /** FloatValue value */
+            value?: (number|null);
+        }
+
+        /** Represents a FloatValue. */
+        class FloatValue implements IFloatValue {
+
+            /**
+             * Constructs a new FloatValue.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IFloatValue);
+
+            /** FloatValue value. */
+            public value: number;
+
+            /**
+             * Creates a new FloatValue instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns FloatValue instance
+             */
+            public static create(properties?: google.protobuf.IFloatValue): google.protobuf.FloatValue;
+
+            /**
+             * Encodes the specified FloatValue message. Does not implicitly {@link google.protobuf.FloatValue.verify|verify} messages.
+             * @param message FloatValue message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IFloatValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified FloatValue message, length delimited. Does not implicitly {@link google.protobuf.FloatValue.verify|verify} messages.
+             * @param message FloatValue message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IFloatValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a FloatValue message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns FloatValue
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.FloatValue;
+
+            /**
+             * Decodes a FloatValue message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns FloatValue
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.FloatValue;
+
+            /**
+             * Verifies a FloatValue message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a FloatValue message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns FloatValue
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.FloatValue;
+
+            /**
+             * Creates a plain object from a FloatValue message. Also converts values to other types if specified.
+             * @param message FloatValue
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.FloatValue, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this FloatValue to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for FloatValue
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of an Int64Value. */
+        interface IInt64Value {
+
+            /** Int64Value value */
+            value?: (number|Long|null);
+        }
+
+        /** Represents an Int64Value. */
+        class Int64Value implements IInt64Value {
+
+            /**
+             * Constructs a new Int64Value.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IInt64Value);
+
+            /** Int64Value value. */
+            public value: (number|Long);
+
+            /**
+             * Creates a new Int64Value instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns Int64Value instance
+             */
+            public static create(properties?: google.protobuf.IInt64Value): google.protobuf.Int64Value;
+
+            /**
+             * Encodes the specified Int64Value message. Does not implicitly {@link google.protobuf.Int64Value.verify|verify} messages.
+             * @param message Int64Value message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IInt64Value, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified Int64Value message, length delimited. Does not implicitly {@link google.protobuf.Int64Value.verify|verify} messages.
+             * @param message Int64Value message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IInt64Value, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an Int64Value message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns Int64Value
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Int64Value;
+
+            /**
+             * Decodes an Int64Value message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns Int64Value
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Int64Value;
+
+            /**
+             * Verifies an Int64Value message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an Int64Value message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns Int64Value
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.Int64Value;
+
+            /**
+             * Creates a plain object from an Int64Value message. Also converts values to other types if specified.
+             * @param message Int64Value
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.Int64Value, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this Int64Value to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for Int64Value
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a UInt64Value. */
+        interface IUInt64Value {
+
+            /** UInt64Value value */
+            value?: (number|Long|null);
+        }
+
+        /** Represents a UInt64Value. */
+        class UInt64Value implements IUInt64Value {
+
+            /**
+             * Constructs a new UInt64Value.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IUInt64Value);
+
+            /** UInt64Value value. */
+            public value: (number|Long);
+
+            /**
+             * Creates a new UInt64Value instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UInt64Value instance
+             */
+            public static create(properties?: google.protobuf.IUInt64Value): google.protobuf.UInt64Value;
+
+            /**
+             * Encodes the specified UInt64Value message. Does not implicitly {@link google.protobuf.UInt64Value.verify|verify} messages.
+             * @param message UInt64Value message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IUInt64Value, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UInt64Value message, length delimited. Does not implicitly {@link google.protobuf.UInt64Value.verify|verify} messages.
+             * @param message UInt64Value message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IUInt64Value, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UInt64Value message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns UInt64Value
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.UInt64Value;
+
+            /**
+             * Decodes a UInt64Value message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns UInt64Value
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.UInt64Value;
+
+            /**
+             * Verifies a UInt64Value message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UInt64Value message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UInt64Value
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.UInt64Value;
+
+            /**
+             * Creates a plain object from a UInt64Value message. Also converts values to other types if specified.
+             * @param message UInt64Value
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.UInt64Value, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UInt64Value to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for UInt64Value
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of an Int32Value. */
+        interface IInt32Value {
+
+            /** Int32Value value */
+            value?: (number|null);
+        }
+
+        /** Represents an Int32Value. */
+        class Int32Value implements IInt32Value {
+
+            /**
+             * Constructs a new Int32Value.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IInt32Value);
+
+            /** Int32Value value. */
+            public value: number;
+
+            /**
+             * Creates a new Int32Value instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns Int32Value instance
+             */
+            public static create(properties?: google.protobuf.IInt32Value): google.protobuf.Int32Value;
+
+            /**
+             * Encodes the specified Int32Value message. Does not implicitly {@link google.protobuf.Int32Value.verify|verify} messages.
+             * @param message Int32Value message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IInt32Value, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified Int32Value message, length delimited. Does not implicitly {@link google.protobuf.Int32Value.verify|verify} messages.
+             * @param message Int32Value message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IInt32Value, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an Int32Value message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns Int32Value
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Int32Value;
+
+            /**
+             * Decodes an Int32Value message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns Int32Value
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Int32Value;
+
+            /**
+             * Verifies an Int32Value message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an Int32Value message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns Int32Value
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.Int32Value;
+
+            /**
+             * Creates a plain object from an Int32Value message. Also converts values to other types if specified.
+             * @param message Int32Value
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.Int32Value, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this Int32Value to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for Int32Value
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a UInt32Value. */
+        interface IUInt32Value {
+
+            /** UInt32Value value */
+            value?: (number|null);
+        }
+
+        /** Represents a UInt32Value. */
+        class UInt32Value implements IUInt32Value {
+
+            /**
+             * Constructs a new UInt32Value.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IUInt32Value);
+
+            /** UInt32Value value. */
+            public value: number;
+
+            /**
+             * Creates a new UInt32Value instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UInt32Value instance
+             */
+            public static create(properties?: google.protobuf.IUInt32Value): google.protobuf.UInt32Value;
+
+            /**
+             * Encodes the specified UInt32Value message. Does not implicitly {@link google.protobuf.UInt32Value.verify|verify} messages.
+             * @param message UInt32Value message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IUInt32Value, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UInt32Value message, length delimited. Does not implicitly {@link google.protobuf.UInt32Value.verify|verify} messages.
+             * @param message UInt32Value message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IUInt32Value, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UInt32Value message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns UInt32Value
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.UInt32Value;
+
+            /**
+             * Decodes a UInt32Value message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns UInt32Value
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.UInt32Value;
+
+            /**
+             * Verifies a UInt32Value message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UInt32Value message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UInt32Value
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.UInt32Value;
+
+            /**
+             * Creates a plain object from a UInt32Value message. Also converts values to other types if specified.
+             * @param message UInt32Value
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.UInt32Value, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UInt32Value to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for UInt32Value
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a BoolValue. */
+        interface IBoolValue {
+
+            /** BoolValue value */
+            value?: (boolean|null);
+        }
+
+        /** Represents a BoolValue. */
+        class BoolValue implements IBoolValue {
+
+            /**
+             * Constructs a new BoolValue.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IBoolValue);
+
+            /** BoolValue value. */
+            public value: boolean;
+
+            /**
+             * Creates a new BoolValue instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns BoolValue instance
+             */
+            public static create(properties?: google.protobuf.IBoolValue): google.protobuf.BoolValue;
+
+            /**
+             * Encodes the specified BoolValue message. Does not implicitly {@link google.protobuf.BoolValue.verify|verify} messages.
+             * @param message BoolValue message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IBoolValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified BoolValue message, length delimited. Does not implicitly {@link google.protobuf.BoolValue.verify|verify} messages.
+             * @param message BoolValue message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IBoolValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a BoolValue message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns BoolValue
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.BoolValue;
+
+            /**
+             * Decodes a BoolValue message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns BoolValue
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.BoolValue;
+
+            /**
+             * Verifies a BoolValue message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a BoolValue message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns BoolValue
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.BoolValue;
+
+            /**
+             * Creates a plain object from a BoolValue message. Also converts values to other types if specified.
+             * @param message BoolValue
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.BoolValue, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this BoolValue to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for BoolValue
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a StringValue. */
+        interface IStringValue {
+
+            /** StringValue value */
+            value?: (string|null);
+        }
+
+        /** Represents a StringValue. */
+        class StringValue implements IStringValue {
+
+            /**
+             * Constructs a new StringValue.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IStringValue);
+
+            /** StringValue value. */
+            public value: string;
+
+            /**
+             * Creates a new StringValue instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns StringValue instance
+             */
+            public static create(properties?: google.protobuf.IStringValue): google.protobuf.StringValue;
+
+            /**
+             * Encodes the specified StringValue message. Does not implicitly {@link google.protobuf.StringValue.verify|verify} messages.
+             * @param message StringValue message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IStringValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified StringValue message, length delimited. Does not implicitly {@link google.protobuf.StringValue.verify|verify} messages.
+             * @param message StringValue message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IStringValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a StringValue message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns StringValue
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.StringValue;
+
+            /**
+             * Decodes a StringValue message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns StringValue
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.StringValue;
+
+            /**
+             * Verifies a StringValue message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a StringValue message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns StringValue
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.StringValue;
+
+            /**
+             * Creates a plain object from a StringValue message. Also converts values to other types if specified.
+             * @param message StringValue
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.StringValue, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this StringValue to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for StringValue
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+
+        /** Properties of a BytesValue. */
+        interface IBytesValue {
+
+            /** BytesValue value */
+            value?: (Uint8Array|null);
+        }
+
+        /** Represents a BytesValue. */
+        class BytesValue implements IBytesValue {
+
+            /**
+             * Constructs a new BytesValue.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: google.protobuf.IBytesValue);
+
+            /** BytesValue value. */
+            public value: Uint8Array;
+
+            /**
+             * Creates a new BytesValue instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns BytesValue instance
+             */
+            public static create(properties?: google.protobuf.IBytesValue): google.protobuf.BytesValue;
+
+            /**
+             * Encodes the specified BytesValue message. Does not implicitly {@link google.protobuf.BytesValue.verify|verify} messages.
+             * @param message BytesValue message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: google.protobuf.IBytesValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified BytesValue message, length delimited. Does not implicitly {@link google.protobuf.BytesValue.verify|verify} messages.
+             * @param message BytesValue message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: google.protobuf.IBytesValue, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a BytesValue message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns BytesValue
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.BytesValue;
+
+            /**
+             * Decodes a BytesValue message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns BytesValue
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.BytesValue;
+
+            /**
+             * Verifies a BytesValue message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a BytesValue message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns BytesValue
+             */
+            public static fromObject(object: { [k: string]: any }): google.protobuf.BytesValue;
+
+            /**
+             * Creates a plain object from a BytesValue message. Also converts values to other types if specified.
+             * @param message BytesValue
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: google.protobuf.BytesValue, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this BytesValue to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the default type url for BytesValue
+             * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns The default type url
+             */
+            public static getTypeUrl(typeUrlPrefix?: string): string;
+        }
+    }
+}

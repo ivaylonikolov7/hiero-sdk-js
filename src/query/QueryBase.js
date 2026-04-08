@@ -3,7 +3,8 @@
 import Executable from "../Executable.js";
 import Hbar from "../Hbar.js";
 import AccountId from "../account/AccountId.js";
-import * as HieroProto from "@hiero-ledger/proto";
+import { Services as HieroProto_Services } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_Services };
 import Long from "long";
 
 /**

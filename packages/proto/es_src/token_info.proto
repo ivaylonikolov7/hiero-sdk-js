@@ -1,0 +1,45 @@
+/**
+ * Token info query response types.
+ */
+syntax = "proto3";
+
+package proto;
+
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+import "timestamp.proto";
+import "duration.proto";
+import "custom_fees.proto";
+
+message TokenInfo {
+    TokenID tokenId = 1;
+    string name = 2;
+    string symbol = 3;
+    uint32 decimals = 4;
+    uint64 totalSupply = 5;
+    AccountID treasury = 6;
+    Key adminKey = 7;
+    Key kycKey = 8;
+    Key freezeKey = 9;
+    Key wipeKey = 10;
+    Key supplyKey = 11;
+    TokenFreezeStatus defaultFreezeStatus = 12;
+    TokenKycStatus defaultKycStatus = 13;
+    bool deleted = 14;
+    AccountID autoRenewAccount = 15;
+    Duration autoRenewPeriod = 16;
+    Timestamp expiry = 17;
+    string memo = 18;
+    TokenType tokenType = 19;
+    TokenSupplyType supplyType = 20;
+    int64 maxSupply = 21;
+    Key fee_schedule_key = 22;
+    repeated CustomFee custom_fees = 23;
+    Key pause_key = 24;
+    TokenPauseStatus pause_status = 25;
+    string ledger_id = 26;
+    bytes metadata = 27;
+    Key metadata_key = 28;
+}

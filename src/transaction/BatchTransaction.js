@@ -1,6 +1,6 @@
 import FreezeTransaction from "../system/FreezeTransaction.js";
 import Transaction, { TRANSACTION_REGISTRY } from "./Transaction.js";
-import { proto } from "@hiero-ledger/proto";
+import { TransactionCore as proto } from "@hiero-ledger/proto/minimal";
 
 /**
  * @namespace proto

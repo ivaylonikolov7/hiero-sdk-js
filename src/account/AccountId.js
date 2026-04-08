@@ -2,7 +2,9 @@
 
 import Long from "long";
 import * as EntityIdHelper from "../EntityIdHelper.js";
-import * as HieroProto from "@hiero-ledger/proto";
+import { EntityIds as HieroProto_EntityIds } from "@hiero-ledger/proto/minimal";
+/** @type {{ proto: typeof HieroProto_EntityIds }} */
+const HieroProto = { proto: HieroProto_EntityIds };
 import Key from "../Key.js";
 import PublicKey from "../PublicKey.js";
 import CACHE from "../Cache.js";

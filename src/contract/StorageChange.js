@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
-import * as HieroProto from "@hiero-ledger/proto";
+import { ContractTypes as HieroProto_ContractTypes } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_ContractTypes };
 
 /**
  * @deprecated - Use mirror node for contract traceability instead

@@ -1,0 +1,91 @@
+/**
+ * # Query and Response Types
+ * Core types for queries and responses.
+ */
+syntax = "proto3";
+
+package proto;
+
+// SPDX-License-Identifier: Apache-2.0
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+import "timestamp.proto";
+import "duration.proto";
+import "response_code.proto";
+
+/**
+ * The type of response requested.
+ */
+enum ResponseType {
+    ANSWER_ONLY = 0;
+    ANSWER_STATE_PROOF = 1;
+    COST_ANSWER = 2;
+    COST_ANSWER_STATE_PROOF = 3;
+}
+
+/**
+ * A transaction body (minimal version for query headers).
+ */
+message TransactionBody {
+    TransactionID transactionID = 1;
+    AccountID nodeAccountID = 2;
+    uint64 transactionFee = 3;
+    Duration transactionValidDuration = 4;
+    bool generateRecord = 5 [deprecated = true];
+    string memo = 6;
+}
+
+/**
+ * A wrapper for signed transaction bytes.
+ */
+message Transaction {
+    bytes signedTransactionBytes = 5;
+}
+
+/**
+ * Signed transaction contents.
+ */
+message SignedTransaction {
+    bytes bodyBytes = 1;
+    SignatureMap sigMap = 2;
+}
+
+/**
+ * A query header.
+ */
+message QueryHeader {
+    Transaction payment = 1;
+    ResponseType responseType = 2;
+}
+
+/**
+ * A response header.
+ */
+message ResponseHeader {
+    ResponseCodeEnum nodeTransactionPrecheckCode = 1;
+    ResponseType responseType = 2;
+    uint64 cost = 3;
+    bytes stateProof = 4;
+}
+
+/**
+ * A query request - contains all possible query types.
+ * Stripped down to just the common wrapper.
+ */
+message Query {
+    oneof query {
+        bytes genericQuery = 100;
+    }
+}
+
+/**
+ * A response - contains all possible response types.
+ * Stripped down to just the common wrapper.
+ */
+message Response {
+    oneof response {
+        bytes genericResponse = 100;
+    }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "@hashgraph/proto",
+  "name": "@hiero-ledger/proto",
   "version": "2.28.0",
   "description": "Protobufs for the Hiero SDK",
   "main": "lib/index.js",
@@ -37,7 +37,6 @@
       "require": "./lib/minimal/index.js",
       "types": "./lib/minimal/index.d.ts"
     }
-    }
   },
   "files": [
     "lib/",
@@ -51,10 +50,13 @@
     "last 1 Firefox versions"
   ],
   "dependencies": {
+    "@bufbuild/protobuf": "^2.6.0",
     "long": "5.3.1",
     "rimraf": "6.1.2"
   },
   "devDependencies": {
+    "@bufbuild/buf": "^1.50.0",
+    "@bufbuild/protoc-gen-es": "^2.6.0",
     "@babel/cli": "7.23.4",
     "@babel/core": "7.23.3",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
@@ -92,6 +94,7 @@
     "protobufjs": "8.0.0",
     "strip-ansi": "7.1.2"
   },
+  "sideEffects": false,
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

@@ -3,7 +3,8 @@
 import ObjectMap from "../ObjectMap.js";
 import TransactionId from "./TransactionId.js";
 import SignaturePairMap from "./SignaturePairMap.js";
-import * as HieroProto from "@hiero-ledger/proto";
+import { TransactionCore as HieroProto_proto } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_proto };
 
 /**
  * @augments {ObjectMap<TransactionId, SignaturePairMap>}

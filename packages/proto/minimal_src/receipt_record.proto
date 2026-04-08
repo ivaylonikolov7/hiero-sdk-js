@@ -1,0 +1,151 @@
+/**
+ * # Receipt and Record Types
+ * Minimal types for transaction receipts and records.
+ */
+syntax = "proto3";
+
+package proto;
+
+// SPDX-License-Identifier: Apache-2.0
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+import "timestamp.proto";
+import "duration.proto";
+import "response_code.proto";
+
+/**
+ * Response header.
+ */
+message ResponseHeader {
+    ResponseCodeEnum nodeTransactionPrecheckCode = 1;
+}
+
+/**
+ * A receipt for a transaction.
+ */
+message TransactionReceipt {
+    ResponseCodeEnum status = 1;
+    AccountID accountID = 2;
+    FileID fileID = 3;
+    ContractID contractID = 4;
+    ExchangeRate exchangeRate = 5;
+    TopicID topicID = 6;
+    uint64 topicSequenceNumber = 7;
+    bytes topicRunningHash = 8;
+    uint64 topicRunningHashVersion = 9;
+    TokenID tokenID = 10;
+    uint64 newTotalSupply = 11;
+    ScheduleID scheduleID = 12;
+    TransactionID scheduledTransactionID = 13;
+    repeated int64 serialNumbers = 14;
+    NodeID node_id = 15;
+}
+
+/**
+ * Node ID.
+ */
+message NodeID {
+    uint64 node_id = 1;
+}
+
+/**
+ * Exchange rate.
+ */
+message ExchangeRate {
+    int32 hbarEquiv = 1;
+    int32 centEquiv = 2;
+    TimestampSeconds expirationTime = 3;
+}
+
+/**
+ * Exchange rate set.
+ */
+message ExchangeRateSet {
+    ExchangeRate currentRate = 1;
+    ExchangeRate nextRate = 2;
+}
+
+/**
+ * A contract function result.
+ */
+message ContractFunctionResult {
+    ContractID contractID = 1;
+    bytes contractCallResult = 2;
+    string errorMessage = 3;
+    bytes bloom = 4;
+    uint64 gasUsed = 5;
+    repeated ContractLoginfo logInfo = 6;
+    bytes evm_address = 9;
+    int64 gas = 10;
+    int64 amount = 11;
+    bytes functionParameters = 12;
+    AccountID sender_id = 13;
+}
+
+/**
+ * A contract log entry.
+ */
+message ContractLoginfo {
+    ContractID contractID = 1;
+    bytes bloom = 2;
+    repeated bytes topic = 3;
+    bytes data = 4;
+}
+
+/**
+ * Assessed custom fee.
+ */
+message AssessedCustomFee {
+    int64 amount = 1;
+    TokenID token_id = 2;
+    AccountID fee_collector_account_id = 3;
+    repeated AccountID effective_payer_account_id = 4;
+}
+
+/**
+ * Transaction record.
+ */
+message TransactionRecord {
+    TransactionReceipt receipt = 1;
+    bytes transactionHash = 2;
+    Timestamp consensusTimestamp = 3;
+    TransactionID transactionID = 4;
+    string memo = 5;
+    uint64 transactionFee = 6;
+    oneof body {
+        ContractFunctionResult contractCallResult = 7;
+        ContractFunctionResult contractCreateResult = 8;
+    }
+    TransferList transferList = 10;
+    repeated TokenTransferList tokenTransferLists = 11;
+    ScheduleID scheduleRef = 12;
+    repeated AssessedCustomFee assessed_custom_fees = 13;
+    repeated TokenAssociation automatic_token_associations = 14;
+    Timestamp parent_consensus_timestamp = 15;
+    bytes alias = 16;
+    bytes ethereum_hash = 17;
+    repeated TokenTransferList paid_staking_rewards = 18;
+    bytes evm_address = 21;
+}
+
+/**
+ * Get receipt response.
+ */
+message TransactionGetReceiptResponse {
+    ResponseHeader header = 1;
+    TransactionReceipt receipt = 2;
+    repeated TransactionReceipt duplicateTransactionReceipts = 4;
+    repeated TransactionReceipt child_transaction_receipts = 5;
+}
+
+/**
+ * Get record response.
+ */
+message TransactionGetRecordResponse {
+    ResponseHeader header = 1;
+    TransactionRecord transactionRecord = 3;
+    repeated TransactionRecord duplicateTransactionRecords = 4;
+    repeated TransactionRecord child_transaction_records = 5;
+}

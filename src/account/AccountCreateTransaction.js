@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import * as HieroProto from "@hiero-ledger/proto";
+import { EntityIds as HieroProto_proto } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_proto };
 import Hbar from "../Hbar.js";
 import AccountId from "./AccountId.js";
 import Transaction, {

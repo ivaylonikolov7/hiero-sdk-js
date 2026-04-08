@@ -2,8 +2,8 @@
 
 import ContractId from "./ContractId.js";
 import Long from "long";
-import * as protos from "@hiero-ledger/proto";
-const { proto } = protos;
+import { ContractTypes as proto } from "@hiero-ledger/proto/minimal";
+const protos = { proto };
 
 /**
  * @namespace proto

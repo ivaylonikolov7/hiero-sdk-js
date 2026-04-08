@@ -6,7 +6,8 @@ import AccountId from "../account/AccountId.js";
 import ContractFunctionParameters from "./ContractFunctionParameters.js";
 import ContractFunctionResult from "./ContractFunctionResult.js";
 import Long from "long";
-import * as HieroProto from "@hiero-ledger/proto";
+import { Services as HieroProto_Services } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_Services };
 import PrecheckStatusError from "../PrecheckStatusError.js";
 import Status from "../Status.js";
 

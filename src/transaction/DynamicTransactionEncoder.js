@@ -86,13 +86,14 @@ const TRANSACTION_PROTO_MAPPING = {
 };
 
 // --- Minimal oneof discriminator helpers ---
-// These helpers avoid importing full @hashgraph/proto by peeking field tags
+// These helpers avoid importing full @hiero-ledger/proto by peeking field tags
 // of proto.TransactionBody to determine which `data` arm is present.
 
 /**
  * Known top-level non-oneof field numbers in proto.TransactionBody
  * Keep this list in sync with minimal_src definitions
  */
+// eslint-disable-next-line ie11/no-collection-args
 const NON_ONEOF_TRANSACTION_BODY_FIELDS = new Set([1, 2, 3, 4, 6, 73, 1001]);
 
 /**
@@ -105,7 +106,7 @@ const NON_ONEOF_TRANSACTION_BODY_FIELDS = new Set([1, 2, 3, 4, 6, 73, 1001]);
  */
 export function detectTransactionBodyDataFieldNumber(bodyBytes) {
     // Lazy import to avoid hard dependency unless used
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
     const { Reader } = require("protobufjs/minimal");
     const reader = Reader.create(bodyBytes);
 
@@ -204,7 +205,7 @@ export const TRANSACTION_BODY_FIELD_NUMBER_TO_CASE = {
 /**
  *
  * @param {Uint8Array} bodyBytes
- * @returns
+ * @returns {import("@hiero-ledger/proto").proto.TransactionBody}
  */
 export function decodeTransactionBodyAutoSync(bodyBytes) {
     const dataCase = detectTransactionBodyCaseFromBytes(bodyBytes);
@@ -222,19 +223,26 @@ export function decodeTransactionBodyAutoSync(bodyBytes) {
 
     try {
         // Use importSync for synchronous dynamic import
+        /** @type {{ proto: { TransactionBody: typeof import("@hiero-ledger/proto").proto.TransactionBody } }} */
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const protoModule = importSync(
-            `@hashgraph/proto/lib/minimal/${fileName}`,
+            `@hiero-ledger/proto/lib/minimal/${fileName}`,
         );
-        return protoModule.proto.TransactionBody.decode(bodyBytes);
+        return /** @type {import("@hiero-ledger/proto").proto.TransactionBody} */ (
+            protoModule.proto.TransactionBody.decode(bodyBytes)
+        );
     } catch (error) {
         console.warn(`Failed to load ${dataCase} module:`, error);
+        throw new Error(
+            `Failed to decode transaction body for type: ${dataCase}`,
+        );
     }
 }
 
 /**
  *
  * @param {Uint8Array} bodyBytes
- * @returns
+ * @returns {import("protobufjs").Writer}
  */
 export function encodeTransactionBodyAutoSync(bodyBytes) {
     const dataCase = detectTransactionBodyCaseFromBytes(bodyBytes);
@@ -252,20 +260,27 @@ export function encodeTransactionBodyAutoSync(bodyBytes) {
 
     try {
         // Use importSync for synchronous dynamic import
+        /** @type {{ proto: { TransactionBody: typeof import("@hiero-ledger/proto").proto.TransactionBody } }} */
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const protoModule = importSync(
-            `@hashgraph/proto/lib/minimal/${fileName}`,
+            `@hiero-ledger/proto/lib/minimal/${fileName}`,
         );
-        return protoModule.proto.TransactionBody.encode(bodyBytes);
+        return protoModule.proto.TransactionBody.encode(
+            /** @type {any} */ (bodyBytes),
+        );
     } catch (error) {
         console.warn(`Failed to load ${dataCase} module:`, error);
+        throw new Error(
+            `Failed to encode transaction body for type: ${dataCase}`,
+        );
     }
 }
 
 /**
  *
- * @param {import("@hashgraph/proto").proto.ITransaction} body
+ * @param {import("@hiero-ledger/proto").proto.ITransaction} body
  * @param {string} transactionDataCase
- * @returns
+ * @returns {import("protobufjs").Writer}
  */
 export function encodeTransactionDynamic(body, transactionDataCase) {
     // Get the file name from direct mapping
@@ -276,12 +291,17 @@ export function encodeTransactionDynamic(body, transactionDataCase) {
 
     try {
         // Use importSync for synchronous dynamic import
+        /** @type {{ proto: { Transaction: typeof import("@hiero-ledger/proto").proto.Transaction } }} */
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const protoModule = importSync(
-            `@hashgraph/proto/lib/minimal/${fileName}`,
+            `@hiero-ledger/proto/lib/minimal/${fileName}`,
         );
         return protoModule.proto.Transaction.encode(body);
     } catch (error) {
         console.warn(`Failed to load ${transactionDataCase} module:`, error);
+        throw new Error(
+            `Failed to encode transaction for type: ${transactionDataCase}`,
+        );
     }
 }
 
@@ -380,7 +400,7 @@ export const TRANSACTION_FIELD_NUMBER_TO_CASE = Object.fromEntries(
 
 /**
  * Encodes transaction body using field number
- * @param {any} body - The transaction body to encode
+ * @param {import("@hiero-ledger/proto").proto.ITransactionBody} body - The transaction body to encode
  * @param {number} fieldNumber - The protobuf field number
  * @returns {Uint8Array} The encoded transaction body bytes
  */
@@ -396,7 +416,7 @@ export function encodeTransactionBodyByFieldNumber(body, fieldNumber) {
 
 /**
  * Dynamically encodes a transaction body using the specific transaction proto module
- * @param {any} body - The transaction body to encode
+ * @param {import("@hiero-ledger/proto").proto.ITransactionBody} body - The transaction body to encode
  * @param {string} transactionDataCase - The transaction data case (e.g., "fileCreate")
  * @returns {Uint8Array} The encoded transaction body bytes
  */
@@ -410,8 +430,10 @@ export function encodeTransactionBodyDynamic(body, transactionDataCase) {
 
     try {
         // Use importSync for synchronous dynamic import
+        /** @type {{ proto: { TransactionBody: typeof import("@hiero-ledger/proto").proto.TransactionBody } }} */
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const protoModule = importSync(
-            `@hashgraph/proto/lib/minimal/${fileName}`,
+            `@hiero-ledger/proto/lib/minimal/${fileName}`,
         );
 
         // Use the specific transaction proto module to encode

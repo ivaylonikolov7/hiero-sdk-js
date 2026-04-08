@@ -1,0 +1,53 @@
+/**
+ * # Transaction Core Types
+ * Core transaction types for encoding/decoding transactions.
+ */
+syntax = "proto3";
+
+package proto;
+
+// SPDX-License-Identifier: Apache-2.0
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+import "timestamp.proto";
+import "duration.proto";
+
+/**
+ * A wrapper around signed transaction bytes.
+ */
+message Transaction {
+    /**
+     * A valid, serialized, `SignedTransaction` message.
+     */
+    bytes signedTransactionBytes = 5;
+}
+
+/**
+ * A combination transaction bytes and a map of signatures.
+ */
+message SignedTransaction {
+    bytes bodyBytes = 1;
+    SignatureMap sigMap = 2;
+}
+
+/**
+ * A transaction body containing common fields.
+ * Stripped-down version without the transaction-specific oneof.
+ */
+message TransactionBody {
+    TransactionID transactionID = 1;
+    AccountID nodeAccountID = 2;
+    uint64 transactionFee = 3;
+    Duration transactionValidDuration = 4;
+    bool generateRecord = 5 [deprecated = true];
+    string memo = 6;
+}
+
+/**
+ * An ordered list of transactions.
+ */
+message TransactionList {
+    repeated Transaction transaction_list = 1;
+}

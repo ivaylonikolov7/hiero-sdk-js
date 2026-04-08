@@ -1,0 +1,49 @@
+/**
+ * Miscellaneous types not covered by other proto files.
+ * Most types come from basic_types.proto; this file adds extras.
+ */
+syntax = "proto3";
+
+package proto;
+
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+
+enum FreezeType {
+    UNKNOWN_FREEZE_TYPE = 0;
+    FREEZE_ONLY = 1;
+    PREPARE_UPGRADE = 2;
+    FREEZE_UPGRADE = 3;
+    FREEZE_ABORT = 4;
+    TELEMETRY_UPGRADE = 5;
+}
+
+message HookId {
+    int64 shard_num = 1;
+    int64 realm_num = 2;
+    int64 hook_num = 3;
+}
+
+message HookEntityId {
+    int64 shard_num = 1;
+    int64 realm_num = 2;
+    int64 entity_num = 3;
+}
+
+message HookCall {
+    HookId hook_id = 1;
+    HookEntityId caller = 2;
+    HookEntityId target = 3;
+    bytes data = 4;
+    int64 gas = 5;
+}
+
+message EvmHookCall {
+    HookId hook_id = 1;
+    bytes caller_address = 2;
+    bytes target_address = 3;
+    bytes data = 4;
+    int64 gas = 5;
+}

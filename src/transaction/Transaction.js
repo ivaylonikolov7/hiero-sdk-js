@@ -11,13 +11,17 @@ import Status from "../Status.js";
 import Long from "long";
 import * as sha384 from "../cryptography/sha384.js";
 import * as hex from "../encoding/hex.js";
-import * as HieroProto from "@hashgraph/proto";
+import { TransactionCore as HieroProto_TransactionCore } from "@hiero-ledger/proto/minimal";
+/** @type {{ proto: typeof HieroProto_TransactionCore }} */
+const HieroProto = { proto: HieroProto_TransactionCore };
 
+/* eslint-disable import/no-unresolved */
 import {
     FileAppendTransaction,
     TransactionContents,
     TransactionResponse as TransactionResponseProto,
-} from "@hashgraph/proto/minimal";
+} from "@hiero-ledger/proto/minimal";
+/* eslint-enable import/no-unresolved */
 import PrecheckStatusError from "../PrecheckStatusError.js";
 import AccountId from "../account/AccountId.js";
 import PublicKey from "../PublicKey.js";
@@ -29,9 +33,7 @@ import Key from "../Key.js";
 import SignableNodeTransactionBodyBytes from "./SignableNodeTransactionBodyBytes.js";
 import {
     decodeTransactionBodyAutoSync,
-    encodeTransactionBodyAutoSync,
     encodeTransactionBodyDynamic,
-    encodeTransactionDynamic,
 } from "./DynamicTransactionEncoder.js";
 
 // Extract SignedTransaction from TransactionContentsProto
@@ -84,7 +86,7 @@ function isMultiTransactionIdType(transactionDataCase) {
 }
 
 /**
- * @type {Map<NonNullable<import("@hashgraph/proto").proto.TransactionBody["data"]>, (transactions: import("@hashgraph/proto").proto.ITransaction[], signedTransactions: import("@hashgraph/proto").proto.ISignedTransaction[], transactionIds: TransactionId[], nodeIds: AccountId[], bodies: import("@hashgraph/proto").proto.TransactionBody[]) => Transaction>}
+ * @type {Map<NonNullable<import("@hiero-ledger/proto").proto.TransactionBody["data"]>, (transactions: import("@hiero-ledger/proto").proto.ITransaction[], signedTransactions: import("@hiero-ledger/proto").proto.ISignedTransaction[], transactionIds: TransactionId[], nodeIds: AccountId[], bodies: import("@hiero-ledger/proto").proto.TransactionBody[]) => Transaction>}
  */
 export const TRANSACTION_REGISTRY = new Map();
 
@@ -92,7 +94,7 @@ export const TRANSACTION_REGISTRY = new Map();
  * Base class for all transactions that may be submitted to Hedera.
  *
  * @abstract
- * @augments {Executable<import("@hashgraph/proto").proto.ITransaction, import("@hashgraph/proto").proto.ITransactionResponse, TransactionResponse>}
+ * @augments {Executable<import("@hiero-ledger/proto").proto.ITransaction, import("@hiero-ledger/proto").proto.ITransactionResponse, TransactionResponse>}
  */
 export default class Transaction extends Executable {
     // A SDK transaction is composed of multiple, raw protobuf transactions.
@@ -114,7 +116,7 @@ export default class Transaction extends Executable {
          * where `rowLength` is `nodeAccountIds.length`
          *
          * @internal
-         * @type {List<import("@hashgraph/proto").proto.ITransaction | null>}
+         * @type {List<import("@hiero-ledger/proto").proto.ITransaction | null>}
          */
         this._transactions = new List();
 
@@ -127,7 +129,7 @@ export default class Transaction extends Executable {
          * where `rowLength` is `nodeAccountIds.length`
          *
          * @internal
-         * @type {List<import("@hashgraph/proto").proto.ISignedTransaction>}
+         * @type {List<import("@hiero-ledger/proto").proto.ISignedTransaction>}
          */
         this._signedTransactions = new List();
 
@@ -246,7 +248,7 @@ export default class Transaction extends Executable {
      * @returns {Transaction}
      */
     static fromBytes(bytes) {
-        /** @type {import("@hashgraph/proto").proto.ISignedTransaction[]} */
+        /** @type {import("@hiero-ledger/proto").proto.ISignedTransaction[]} */
         const signedTransactions = [];
 
         /** @type {TransactionId[]} */
@@ -261,7 +263,7 @@ export default class Transaction extends Executable {
         /** @type {string[]} */
         const nodeIdStrings = [];
 
-        /** @type {any[]} */
+        /** @type {import("@hiero-ledger/proto").proto.TransactionBody[]} */
         const bodies = [];
 
         const list =
@@ -316,7 +318,7 @@ export default class Transaction extends Executable {
                 if (body.transactionID != null) {
                     const transactionId = TransactionId._fromProtobuf(
                         // @ts-ignore
-                        /** @type {import("@hashgraph/proto").proto.ITransactionID} */ (
+                        /** @type {import("@hiero-ledger/proto").proto.ITransactionID} */ (
                             body.transactionID
                         ),
                     );
@@ -333,7 +335,7 @@ export default class Transaction extends Executable {
                 // Make sure the node account ID within the body is set
                 if (body.nodeAccountID != null) {
                     const nodeAccountId = AccountId._fromProtobuf(
-                        /** @type {import("@hashgraph/proto").proto.IAccountID} */ (
+                        /** @type {import("@hiero-ledger/proto").proto.IAccountID} */ (
                             body.nodeAccountID
                         ),
                     );
@@ -377,7 +379,7 @@ export default class Transaction extends Executable {
                 if (body.transactionID != null) {
                     const transactionId = TransactionId._fromProtobuf(
                         // @ts-ignore
-                        /** @type {import("@hashgraph/proto").proto.ITransactionID} */ (
+                        /** @type {import("@hiero-ledger/proto").proto.ITransactionID} */ (
                             body.transactionID
                         ),
                     );
@@ -395,7 +397,7 @@ export default class Transaction extends Executable {
                 if (body.nodeAccountID != null) {
                     const nodeAccountId = AccountId._fromProtobuf(
                         // @ts-ignore
-                        /** @type {import("@hashgraph/proto").proto.IAccountID} */ (
+                        /** @type {import("@hiero-ledger/proto").proto.IAccountID} */ (
                             body.nodeAccountID
                         ),
                     );
@@ -628,8 +630,8 @@ export default class Transaction extends Executable {
      *
      * @template {Transaction} TransactionT
      * @param {TransactionT} transaction
-     * @param {import("@hashgraph/proto").proto.ITransaction[]} transactions
-     * @param {import("@hashgraph/proto").proto.ISignedTransaction[]} signedTransactions
+     * @param {import("@hiero-ledger/proto").proto.ITransaction[]} transactions
+     * @param {import("@hiero-ledger/proto").proto.ISignedTransaction[]} signedTransactions
      * @param {TransactionId[]} transactionIds
      * @param {AccountId[]} nodeIds
      * @param {any[]} bodies
@@ -643,13 +645,19 @@ export default class Transaction extends Executable {
         nodeIds,
         bodies,
     ) {
+        /** @type {import("@hiero-ledger/proto").proto.ITransactionBody} */
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const body = bodies[0];
+        /* eslint-disable @typescript-eslint/no-unsafe-argument */
         Transaction._validateTransactionBodies(
             transaction._getTransactionDataCase(),
             transactionIds,
             nodeIds,
-            bodies,
+            /** @type {import("@hiero-ledger/proto").proto.ITransactionBody[]} */ (
+                bodies
+            ),
         );
+        /* eslint-enable @typescript-eslint/no-unsafe-argument */
 
         // Remove node account IDs of 0
         // _IIRC_ this was initial due to some funny behavior with `ScheduleCreateTransaction`
@@ -689,9 +697,10 @@ export default class Transaction extends Executable {
                 : null;
         transaction._customFeeLimits =
             body.maxCustomFees != null
-                ? body.maxCustomFees?.map((/** @type {any} */ fee) =>
-                      // @ts-ignore
-                      CustomFeeLimit._fromProtobuf(fee),
+                ? body.maxCustomFees?.map(
+                      (
+                          /** @type {import("@hiero-ledger/proto").proto.ICustomFeeLimit} */ fee,
+                      ) => CustomFeeLimit._fromProtobuf(fee),
                   )
                 : [];
         transaction._batchKey =
@@ -1797,7 +1806,7 @@ export default class Transaction extends Executable {
         // Construct and encode the transaction list
         return HieroProto.proto.TransactionList.encode({
             transactionList:
-                /** @type {import("@hashgraph/proto").proto.ITransaction[]} */ (
+                /** @type {import("@hiero-ledger/proto").proto.ITransaction[]} */ (
                     this._transactions.list
                 ),
         }).finish();
@@ -1830,7 +1839,7 @@ export default class Transaction extends Executable {
         // Construct and encode the transaction list
         return HieroProto.proto.TransactionList.encode({
             transactionList:
-                /** @type {import("@hashgraph/proto").proto.ITransaction[]} */ (
+                /** @type {import("@hiero-ledger/proto").proto.ITransaction[]} */ (
                     this._transactions.list
                 ),
         }).finish();
@@ -1856,7 +1865,7 @@ export default class Transaction extends Executable {
 
         return sha384.digest(
             /** @type {Uint8Array} */ (
-                /** @type {import("@hashgraph/proto").proto.ITransaction} */ (
+                /** @type {import("@hiero-ledger/proto").proto.ITransaction} */ (
                     this._transactions.get(0)
                 ).signedTransactionBytes
             ),
@@ -1978,7 +1987,7 @@ export default class Transaction extends Executable {
      *
      * @override
      * @internal
-     * @returns {Promise<import("@hashgraph/proto").proto.ITransaction>}
+     * @returns {Promise<import("@hiero-ledger/proto").proto.ITransaction>}
      */
     async _makeRequestAsync() {
         // The index for the transaction
@@ -1990,7 +1999,7 @@ export default class Transaction extends Executable {
         // and return the result, without signing
         if (!this._signOnDemand && !this._isThrottled) {
             this._buildTransaction(index);
-            return /** @type {import("@hashgraph/proto").proto.ITransaction} */ (
+            return /** @type {import("@hiero-ledger/proto").proto.ITransaction} */ (
                 this._transactions.get(index)
             );
         }
@@ -2003,7 +2012,7 @@ export default class Transaction extends Executable {
      * Sign a `proto.SignedTransaction` with all the keys
      *
      * @private
-     * @returns {Promise<import("@hashgraph/proto").proto.ISignedTransaction>}
+     * @returns {Promise<import("@hiero-ledger/proto").proto.ISignedTransaction>}
      */
     async _signTransaction() {
         const signedTransaction = this._makeSignedTransaction(
@@ -2133,7 +2142,7 @@ export default class Transaction extends Executable {
      * `this._transactionIds.index`
      *
      * @private
-     * @returns {Promise<import("@hashgraph/proto").proto.ITransaction>}
+     * @returns {Promise<import("@hiero-ledger/proto").proto.ITransaction>}
      */
     async _buildTransactionAsync() {
         return {
@@ -2149,8 +2158,8 @@ export default class Transaction extends Executable {
      *
      * @override
      * @internal
-     * @param {import("@hashgraph/proto").proto.ITransaction} request
-     * @param {import("@hashgraph/proto").proto.ITransactionResponse} response
+     * @param {import("@hiero-ledger/proto").proto.ITransaction} request
+     * @param {import("@hiero-ledger/proto").proto.ITransactionResponse} response
      * @returns {[Status, ExecutionState]}
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -2205,8 +2214,8 @@ export default class Transaction extends Executable {
      *
      * @override
      * @internal
-     * @param {import("@hashgraph/proto").proto.ITransaction} request
-     * @param {import("@hashgraph/proto").proto.ITransactionResponse} response
+     * @param {import("@hiero-ledger/proto").proto.ITransaction} request
+     * @param {import("@hiero-ledger/proto").proto.ITransactionResponse} response
      * @param {AccountId} nodeId
      * @returns {Error}
      */
@@ -2240,9 +2249,9 @@ export default class Transaction extends Executable {
      *
      * @override
      * @protected
-     * @param {import("@hashgraph/proto").proto.ITransactionResponse} response
+     * @param {import("@hiero-ledger/proto").proto.ITransactionResponse} response
      * @param {AccountId} nodeId
-     * @param {import("@hashgraph/proto").proto.ITransaction} request
+     * @param {import("@hiero-ledger/proto").proto.ITransaction} request
      * @returns {Promise<TransactionResponse>}
      */
     // @ts-ignore
@@ -2283,7 +2292,7 @@ export default class Transaction extends Executable {
      *
      * @internal
      * @param {?AccountId} nodeId
-     * @returns {import("@hashgraph/proto").proto.ISignedTransaction}
+     * @returns {import("@hiero-ledger/proto").proto.ISignedTransaction}
      */
     _makeSignedTransaction(nodeId) {
         const body = this._makeTransactionBody(nodeId);
@@ -2324,7 +2333,7 @@ export default class Transaction extends Executable {
      *
      * @private
      * @param {?AccountId} nodeId
-     * @returns {import("@hashgraph/proto").proto.ITransactionBody}
+     * @returns {import("@hiero-ledger/proto").proto.ITransactionBody}
      */
     _makeTransactionBody(nodeId) {
         return {
@@ -2363,7 +2372,7 @@ export default class Transaction extends Executable {
      *
      * @abstract
      * @protected
-     * @returns {NonNullable<import("@hashgraph/proto").proto.TransactionBody["data"]>}
+     * @returns {NonNullable<import("@hiero-ledger/proto").proto.TransactionBody["data"]>}
      */
     _getTransactionDataCase() {
         throw new Error("not implemented");
@@ -2374,7 +2383,7 @@ export default class Transaction extends Executable {
      * FIXME: Should really call this `makeScheduledTransactionBody` to be consistent
      *
      * @internal
-     * @returns {import("@hashgraph/proto").proto.ISchedulableTransactionBody}
+     * @returns {import("@hiero-ledger/proto").proto.ISchedulableTransactionBody}
      */
     _getScheduledTransactionBody() {
         return {
@@ -2467,7 +2476,7 @@ export default class Transaction extends Executable {
     }
 
     /**
-     * @param {import("@hashgraph/proto").proto.Transaction} request
+     * @param {import("@hiero-ledger/proto").proto.Transaction} request
      * @returns {Uint8Array}
      */
     _requestToBytes(request) {
@@ -2475,19 +2484,19 @@ export default class Transaction extends Executable {
     }
 
     /**
-     * @param {import("@hashgraph/proto").proto.TransactionResponse} response
+     * @param {import("@hiero-ledger/proto").proto.TransactionResponse} response
      * @returns {Uint8Array}
      */
     _responseToBytes(response) {
         return TransactionResponseProto.proto.TransactionResponse.encode(
-            response,
+            /** @type {any} */ (response),
         ).finish();
     }
 
     /**
      * Removes all signatures from a transaction and collects the removed signatures.
      *
-     * @param {import("@hashgraph/proto").proto.ISignedTransaction} transaction - The transaction object to process.
+     * @param {import("@hiero-ledger/proto").proto.ISignedTransaction} transaction - The transaction object to process.
      * @param {string} publicKeyHex - The hexadecimal representation of the public key.
      * @returns {Uint8Array[]} An array of removed signatures.
      */
@@ -2521,7 +2530,7 @@ export default class Transaction extends Executable {
     /**
      * Determines whether a signature should be removed based on the provided public key.
      *
-     * @param {import("@hashgraph/proto").proto.ISignaturePair} sigPair - The signature pair object that contains
+     * @param {import("@hiero-ledger/proto").proto.ISignaturePair} sigPair - The signature pair object that contains
      *        the public key prefix and signature to be evaluated.
      * @param {string} publicKeyHex - The hexadecimal representation of the public key to compare against.
      * @returns {boolean} `true` if the public key prefix in the signature pair matches the provided public key,

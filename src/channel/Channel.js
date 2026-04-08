@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
-import * as HieroProto from "@hiero-ledger/proto";
+import { Services as proto } from "@hiero-ledger/proto/minimal";
 import * as utf8 from "../encoding/utf8.js";
 import { DEFAULT_GRPC_DEADLINE } from "../constants/ClientConstants.js";
 
-const { proto } = HieroProto;
+const HieroProto = { proto };
 
 /**
  * @internal

@@ -1,0 +1,15 @@
+/**
+ * Fee and exchange rate types.
+ * ExchangeRate/ExchangeRateSet are in receipt_record.proto.
+ * FeeSchedule/FeeData/FeeComponents/TransactionFeeSchedule are in basic_types.proto.
+ * This file re-exports via the wrapper for SDK compatibility.
+ */
+syntax = "proto3";
+
+package proto;
+
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+import "receipt_record.proto";

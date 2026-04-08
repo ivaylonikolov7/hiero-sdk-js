@@ -1,0 +1,59 @@
+/**
+ * Crypto account info and balance query response types.
+ */
+syntax = "proto3";
+
+package proto;
+
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+import "timestamp.proto";
+import "duration.proto";
+import "response_code.proto";
+import "common.proto";
+
+message LiveHash {
+    AccountID accountId = 1;
+    bytes hash = 2;
+    KeyList keys = 3;
+    Duration duration = 4;
+}
+
+message CryptoGetInfoResponse {
+    ResponseHeader header = 1;
+
+    message AccountInfo {
+        AccountID accountID = 1;
+        string contractAccountID = 2;
+        bool deleted = 3;
+        AccountID proxyAccountID = 4 [deprecated = true];
+        int64 proxyReceived = 6;
+        Key key = 7;
+        uint64 balance = 8;
+        uint64 generateSendRecordThreshold = 9 [deprecated = true];
+        uint64 generateReceiveRecordThreshold = 10 [deprecated = true];
+        bool receiverSigRequired = 11;
+        Timestamp expirationTime = 12;
+        Duration autoRenewPeriod = 13;
+        repeated LiveHash liveHashes = 14;
+        repeated TokenRelationship tokenRelationships = 15;
+        string memo = 16;
+        int64 ownedNfts = 17;
+        int32 max_automatic_token_associations = 18;
+        bytes alias = 19;
+        string ledger_id = 20;
+        repeated TokenBalance ethereum_nonce = 21;
+        StakingInfo staking_info = 22;
+    }
+
+    AccountInfo accountInfo = 2;
+}
+
+message CryptoGetAccountBalanceResponse {
+    ResponseHeader header = 1;
+    AccountID accountID = 2;
+    uint64 balance = 3;
+    repeated TokenBalance tokenBalances = 4;
+}

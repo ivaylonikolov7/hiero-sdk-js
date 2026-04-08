@@ -5,7 +5,8 @@ import Timestamp from "../Timestamp.js";
 import Long from "long";
 import KeyList from "../KeyList.js";
 import LedgerId from "../LedgerId.js";
-import * as HieroProto from "@hiero-ledger/proto";
+import { FileInfo as HieroProto_proto } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_proto };
 
 const { proto } = HieroProto;
 

@@ -1,7 +1,7 @@
 {
   "version": "v1",
   "packages": {
-    "@hashgraph/proto": {
+    "@hiero-ledger/proto": {
       "signature": "aa10f436476b569417a088cc4ef4229f",
       "file": true
     },

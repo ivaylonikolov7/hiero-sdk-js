@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
-import * as HieroProto from "@hiero-ledger/proto";
+import { FeeTypes as HieroProto_proto } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_proto };
 import RequestType from "./RequestType.js";
 import FeeData from "./FeeData.js";
 

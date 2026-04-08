@@ -1,0 +1,36 @@
+/**
+ * Consensus topic info query response types.
+ */
+syntax = "proto3";
+
+package proto;
+
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+import "timestamp.proto";
+import "duration.proto";
+import "response_code.proto";
+import "custom_fees.proto";
+import "common.proto";
+
+message ConsensusTopicInfo {
+    string memo = 1;
+    bytes runningHash = 2;
+    uint64 sequenceNumber = 3;
+    Timestamp expirationTime = 4;
+    Key adminKey = 5;
+    Key submitKey = 6;
+    Duration autoRenewPeriod = 7;
+    AccountID autoRenewAccount = 8;
+    string ledger_id = 9;
+    repeated FixedCustomFee custom_fees = 10;
+    KeyList fee_exempt_key_list = 11;
+}
+
+message ConsensusGetTopicInfoResponse {
+    ResponseHeader header = 1;
+    TopicID topicID = 2;
+    ConsensusTopicInfo topicInfo = 3;
+}

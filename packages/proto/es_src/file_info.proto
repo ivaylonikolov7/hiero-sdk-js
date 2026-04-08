@@ -1,0 +1,41 @@
+/**
+ * File info query response types.
+ */
+syntax = "proto3";
+
+package proto;
+
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+import "timestamp.proto";
+import "response_code.proto";
+import "common.proto";
+
+message FileGetInfoResponse {
+    ResponseHeader header = 1;
+
+    message FileInfo {
+        FileID fileID = 1;
+        int64 size = 2;
+        Timestamp expirationTime = 3;
+        bool deleted = 4;
+        KeyList keys = 5;
+        string memo = 6;
+        string ledger_id = 7;
+    }
+
+    FileInfo fileInfo = 2;
+}
+
+message FileGetContentsResponse {
+    ResponseHeader header = 1;
+
+    message FileContents {
+        FileID fileID = 1;
+        bytes contents = 2;
+    }
+
+    FileContents fileContents = 2;
+}

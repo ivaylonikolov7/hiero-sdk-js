@@ -2,7 +2,8 @@
 
 import AccountId from "../account/AccountId.js";
 import Timestamp from "../Timestamp.js";
-import * as HieroProto from "@hiero-ledger/proto";
+import { EntityIds as HieroProto_proto } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_proto };
 import Long from "long";
 import CACHE from "../Cache.js";
 

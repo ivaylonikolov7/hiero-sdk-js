@@ -1,0 +1,205 @@
+/**
+ * # Service Definitions
+ * Minimal gRPC service definitions for Hedera.
+ */
+syntax = "proto3";
+
+package proto;
+
+// SPDX-License-Identifier: Apache-2.0
+option java_package = "com.hederahashgraph.api.proto.java";
+option java_multiple_files = true;
+
+import "basic_types.proto";
+import "timestamp.proto";
+import "duration.proto";
+import "response_code.proto";
+
+/**
+ * A wrapper for signed transaction bytes.
+ */
+message Transaction {
+    bytes signedTransactionBytes = 5;
+}
+
+/**
+ * A transaction response.
+ */
+message TransactionResponse {
+    ResponseCodeEnum nodeTransactionPrecheckCode = 1;
+    uint64 cost = 2;
+}
+
+/**
+ * A query wrapper.
+ */
+message Query {
+    oneof query {
+        bytes queryBytes = 100;
+    }
+}
+
+/**
+ * A response wrapper.
+ */
+message Response {
+    oneof response {
+        bytes responseBytes = 100;
+    }
+}
+
+/**
+ * Response type.
+ */
+enum ResponseType {
+    ANSWER_ONLY = 0;
+    ANSWER_STATE_PROOF = 1;
+    COST_ANSWER = 2;
+    COST_ANSWER_STATE_PROOF = 3;
+}
+
+/**
+ * A query header.
+ */
+message QueryHeader {
+    Transaction payment = 1;
+    ResponseType responseType = 2;
+}
+
+/**
+ * A response header.
+ */
+message ResponseHeader {
+    ResponseCodeEnum nodeTransactionPrecheckCode = 1;
+    ResponseType responseType = 2;
+    uint64 cost = 3;
+    bytes stateProof = 4;
+}
+
+/**
+ * Signed transaction.
+ */
+message SignedTransaction {
+    bytes bodyBytes = 1;
+    SignatureMap sigMap = 2;
+}
+
+/**
+ * Transaction body (minimal).
+ */
+message TransactionBody {
+    TransactionID transactionID = 1;
+    AccountID nodeAccountID = 2;
+    uint64 transactionFee = 3;
+    Duration transactionValidDuration = 4;
+    bool generateRecord = 5 [deprecated = true];
+    string memo = 6;
+}
+
+// gRPC service definitions
+service CryptoService {
+    rpc createAccount (Transaction) returns (TransactionResponse);
+    rpc updateAccount (Transaction) returns (TransactionResponse);
+    rpc cryptoTransfer (Transaction) returns (TransactionResponse);
+    rpc cryptoDelete (Transaction) returns (TransactionResponse);
+    rpc approveAllowances (Transaction) returns (TransactionResponse);
+    rpc deleteAllowances (Transaction) returns (TransactionResponse);
+    rpc addLiveHash (Transaction) returns (TransactionResponse);
+    rpc deleteLiveHash (Transaction) returns (TransactionResponse);
+    rpc getLiveHash (Query) returns (Response);
+    rpc getAccountRecords (Query) returns (Response);
+    rpc cryptoGetBalance (Query) returns (Response);
+    rpc getAccountInfo (Query) returns (Response);
+    rpc getTransactionReceipts (Query) returns (Response);
+    rpc getFastTransactionRecord (Query) returns (Response);
+    rpc getTxRecordByTxID (Query) returns (Response);
+    rpc getStakersByAccountID (Query) returns (Response);
+}
+
+service SmartContractService {
+    rpc createContract (Transaction) returns (TransactionResponse);
+    rpc updateContract (Transaction) returns (TransactionResponse);
+    rpc contractCallMethod (Transaction) returns (TransactionResponse);
+    rpc getContractInfo (Query) returns (Response);
+    rpc contractCallLocalMethod (Query) returns (Response);
+    rpc ContractGetBytecode (Query) returns (Response);
+    rpc getBySolidityID (Query) returns (Response);
+    rpc getTxRecordByContractID (Query) returns (Response);
+    rpc deleteContract (Transaction) returns (TransactionResponse);
+    rpc systemDelete (Transaction) returns (TransactionResponse);
+    rpc systemUndelete (Transaction) returns (TransactionResponse);
+}
+
+service FileService {
+    rpc createFile (Transaction) returns (TransactionResponse);
+    rpc updateFile (Transaction) returns (TransactionResponse);
+    rpc deleteFile (Transaction) returns (TransactionResponse);
+    rpc appendContent (Transaction) returns (TransactionResponse);
+    rpc getFileContent (Query) returns (Response);
+    rpc getFileInfo (Query) returns (Response);
+    rpc systemDelete (Transaction) returns (TransactionResponse);
+    rpc systemUndelete (Transaction) returns (TransactionResponse);
+}
+
+service ConsensusService {
+    rpc createTopic (Transaction) returns (TransactionResponse);
+    rpc updateTopic (Transaction) returns (TransactionResponse);
+    rpc deleteTopic (Transaction) returns (TransactionResponse);
+    rpc getTopicInfo (Query) returns (Response);
+    rpc submitMessage (Transaction) returns (TransactionResponse);
+}
+
+service FreezeService {
+    rpc freeze (Transaction) returns (TransactionResponse);
+}
+
+service NetworkService {
+    rpc getVersionInfo (Query) returns (Response);
+    rpc getExecutionTime (Query) returns (Response);
+    rpc uncheckedSubmit (Transaction) returns (TransactionResponse);
+    rpc getAccountDetails (Query) returns (Response);
+}
+
+service TokenService {
+    rpc createToken (Transaction) returns (TransactionResponse);
+    rpc updateToken (Transaction) returns (TransactionResponse);
+    rpc mintToken (Transaction) returns (TransactionResponse);
+    rpc burnToken (Transaction) returns (TransactionResponse);
+    rpc deleteToken (Transaction) returns (TransactionResponse);
+    rpc wipeTokenAccount (Transaction) returns (TransactionResponse);
+    rpc freezeTokenAccount (Transaction) returns (TransactionResponse);
+    rpc unfreezeTokenAccount (Transaction) returns (TransactionResponse);
+    rpc grantKycToTokenAccount (Transaction) returns (TransactionResponse);
+    rpc revokeKycFromTokenAccount (Transaction) returns (TransactionResponse);
+    rpc associateTokens (Transaction) returns (TransactionResponse);
+    rpc dissociateTokens (Transaction) returns (TransactionResponse);
+    rpc updateTokenFeeSchedule (Transaction) returns (TransactionResponse);
+    rpc getTokenInfo (Query) returns (Response);
+    rpc getAccountNftInfos (Query) returns (Response);
+    rpc getTokenNftInfo (Query) returns (Response);
+    rpc getTokenNftInfos (Query) returns (Response);
+    rpc pauseToken (Transaction) returns (TransactionResponse);
+    rpc unpauseToken (Transaction) returns (TransactionResponse);
+    rpc updateNfts (Transaction) returns (TransactionResponse);
+    rpc rejectToken (Transaction) returns (TransactionResponse);
+    rpc airdropTokens (Transaction) returns (TransactionResponse);
+    rpc cancelAirdrop (Transaction) returns (TransactionResponse);
+    rpc claimAirdrop (Transaction) returns (TransactionResponse);
+}
+
+service ScheduleService {
+    rpc createSchedule (Transaction) returns (TransactionResponse);
+    rpc signSchedule (Transaction) returns (TransactionResponse);
+    rpc deleteSchedule (Transaction) returns (TransactionResponse);
+    rpc getScheduleInfo (Query) returns (Response);
+}
+
+service UtilService {
+    rpc prng (Transaction) returns (TransactionResponse);
+}
+
+service AddressBookService {
+    rpc createNode (Transaction) returns (TransactionResponse);
+    rpc deleteNode (Transaction) returns (TransactionResponse);
+    rpc updateNode (Transaction) returns (TransactionResponse);
+}

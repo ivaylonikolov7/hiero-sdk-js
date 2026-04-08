@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import * as EntityIdHelper from "../EntityIdHelper.js";
-import * as HieroProto from "@hiero-ledger/proto";
+import { EntityIds as HieroProto_proto } from "@hiero-ledger/proto/minimal";
+const HieroProto = { proto: HieroProto_proto };
 import Long from "long";
 import EvmAddress from "../EvmAddress.js";
 import * as util from "../util.js";

@@ -43,7 +43,7 @@
         "sdk",
         "transactions"
     ],
-    "sideEffects": true,
+    "sideEffects": false,
     "files": [
         "lib/",
         "src/",
@@ -62,8 +62,8 @@
     "dependencies": {
         "ethers": "6.16.0",
         "@grpc/grpc-js": "1.12.6",
-        "@hashgraph/cryptography": "file:.yalc/@hashgraph/cryptography",
-        "@hashgraph/proto": "file:.yalc/@hashgraph/proto",
+        "@hiero-ledger/cryptography": "workspace:*",
+        "@hiero-ledger/proto": "workspace:*",
         "ansi-regex": "6.2.2",
         "ansi-styles": "6.2.3",
         "bignumber.js": "10.0.2",

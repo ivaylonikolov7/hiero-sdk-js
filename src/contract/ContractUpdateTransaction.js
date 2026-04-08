@@ -10,7 +10,8 @@ import Duration from "../Duration.js";
 import Timestamp from "../Timestamp.js";
 import Key from "../Key.js";
 import Long from "long";
-import * as Proto from "@hiero-ledger/proto";
+import { EntityIds as Proto_proto } from "@hiero-ledger/proto/minimal";
+const Proto = { proto: Proto_proto };
 
 /**
  * @namespace proto
